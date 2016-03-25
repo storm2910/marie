@@ -1,0 +1,42 @@
+{
+  "name": "marie",
+  "version": "0.0.1",
+  "description": "A Modern Nodejs Application Boilerplate Tool",
+  "main": "index.js",
+  "bin": {
+    "marie": "bin/marie"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dark Codes <teddy.moussignac@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cli-color": "^1.1.0",
+    "coffee-script": "^1.10.0",
+    "fs-extra": "^0.26.6",
+    "prompt": "^1.0.0"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://storm2910@bitbucket.org/storm2910/marie.git"
+  },
+  "keywords": [
+    "sails",
+    "gulp",
+    "developement",
+    "boilerplate",
+    "express",
+    "stylus",
+    "coffe-script",
+    "importer",
+    "include",
+    "compile",
+    "mongo",
+    "socket"
+  ],
+  "homepage": "https://bitbucket.org/storm2910/marie#readme"
+}
