@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://storm2910@bitbucket.org/storm2910/marie.git"
+    "url": "https://github.com/storm2910/marie.git"
   },
   "keywords": [
     "sails",
@@ -38,5 +38,5 @@
     "mongo",
     "socket"
   ],
-  "homepage": "https://bitbucket.org/storm2910/marie#readme"
+  "homepage": "https://github.com/storm2910/marie"
 }
