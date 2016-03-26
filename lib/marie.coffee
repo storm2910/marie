@@ -226,7 +226,7 @@ class Marie
 
 
 	configureDB: ->
-		ui.warn 'Choose your Database.'
+		ui.warn 'Choose your Storage.'
 		prompt.start()
 		input = ' Mongo/Disk'
 		ui.line()
@@ -262,27 +262,35 @@ class Marie
 		input = [' uri']
 		prompt.get input, (err, result) =>
 			ui.line()
-			cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
-			if result[input].length > 0
-				@mongoType = @mongoTypes.URL
-				uconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.URL}.js", @UTF8
-				cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
-				cconfig = cconfig.replace /\$MONGO\.URL/gi, result[input]
-				@setupDBWithConfig 'Remote MongoDB', cconfig
+			if result[input].length > 0 
+				@configureRemoteMongoDBWithURI result[input]
 			else
-				@mongoType = @mongoTypes.REMOTE
-				inputs = [' host', ' port', ' user', ' password', ' database']
-				prompt.get inputs, (err, result) =>
-					ui.line()
-					sconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.REMOTE}.js", @UTF8
-					cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
-					cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
-					cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
-					cconfig = cconfig.replace /\$MONGO\.USER/gi, result[' user'] if result[' user']? 
-					cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, result[' password'] if result[' password']? 
-					cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
-					@setupDBWithConfig 'Remote MongoDB', cconfig
+				@configureRemoteMongoDBWithConfig() 
 
+
+	configureRemoteMongoDBWithConfig: ->
+		@mongoType = @mongoTypes.REMOTE
+		inputs = [' host', ' port', ' user', ' password', ' database']
+		prompt.get inputs, (err, result) =>
+			ui.line()
+			sconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.REMOTE}.js", @UTF8
+			cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
+			cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
+			cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
+			cconfig = cconfig.replace /\$MONGO\.USER/gi, result[' user'] if result[' user']? 
+			cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, result[' password'] if result[' password']? 
+			cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
+			@setupDBWithConfig 'Remote MongoDB', cconfig
+
+
+	configureRemoteMongoDBWithURI: (uri) ->
+		@mongoType = @mongoTypes.URL
+		uconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.URL}.js", @UTF8
+		cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
+		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
+		@setupDBWithConfig 'Remote MongoDB', cconfig
 
 
 	setupDBWithConfig: (db, cconfig) ->
