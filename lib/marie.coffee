@@ -120,74 +120,80 @@ class Marie
 
 
 	configureTasManager: ->
-		@installPackages ['grunt-includes']
-		fs.copySync @configPath('/tasks/compileAssets.js'), @appPath('/tasks/register/compileAssets.js'), { clobber: true }
-		fs.copySync @configPath('/tasks/syncAssets.js'), @appPath('/tasks/register/syncAssets.js'), { clobber: true }
-		fs.copySync @configPath('/tasks/includes.js'), @appPath('/tasks/config/includes.js'), { clobber: true }
-		@configureCoffeeScript()
+		ui.write 'Configuring Grunt...'
+		@install 'grunt-includes', '--save-dev', =>
+			fs.copySync @configPath('/tasks/compileAssets.js'), @appPath('/tasks/register/compileAssets.js'), { clobber: true }
+			fs.copySync @configPath('/tasks/syncAssets.js'), @appPath('/tasks/register/syncAssets.js'), { clobber: true }
+			fs.copySync @configPath('/tasks/includes.js'), @appPath('/tasks/config/includes.js'), { clobber: true }
+			ui.ok 'Grunt configuration done.'
+			@configureCoffeeScript()
 
 
 	configureCoffeeScript: ->
-		pkgs = ['coffee-script', 'sails-generate-controller-coffee', 'sails-generate-model-coffee']
-		@installPackages pkgs
-		fs.copySync @configPath('/tasks/coffee.js'), @appPath('/tasks/config/coffee.js'), { clobber: true }
-		fs.writeFileSync @appPath('/assets/js/app.coffee'), ''
-		ui.ok 'CoffeeScript configuration done.'
-		@configureJade()
+		ui.write 'Configuring CoffeeScript...'
+		@install 'coffee-script', '--save-dev', =>
+			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
+			@installPackages pkgs
+			fs.copySync @configPath('/tasks/coffee.js'), @appPath('/tasks/config/coffee.js'), { clobber: true }
+			fs.writeFileSync @appPath('/assets/js/app.coffee'), ''
+			ui.ok 'CoffeeScript configuration done.'
+			@configureJade()
 
 
 	configureJade: ->
-		@templateEnegine = @templates.JADE
-		pkgs = ['jade']
-		@installPackages pkgs
-		viewSrc = @appPath '/config/views.js'
-		stream = fs.readFileSync viewSrc, @UTF8
-		stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
-		fs.writeFileSync viewSrc, stream
-		
-		dirs = ['/views/modules', '/views/partials', '/views/layouts']
-		for dir in dirs then fs.mkdirSync @appPath dir
-		
-		files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
-		fs.unlinkSync @appPath "/#{file}.ejs" for file in files
-		files.splice files.indexOf('views/layout'), 1
-		partial = 'views/partial'
-		files.push partial 
-		for file in files
-			sfile = @configPath "/templates/#{file}.jade"
-			dfile = @appPath(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
-			fs.copySync sfile, dfile
+		ui.write 'Configuring Jade...'
+		@install 'jade', '--save-dev', =>
+			@templateEnegine = @templates.JADE
+			viewSrc = @appPath '/config/views.js'
+			stream = fs.readFileSync viewSrc, @UTF8
+			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
+			fs.writeFileSync viewSrc, stream
+			
+			dirs = ['/views/modules', '/views/partials', '/views/layouts']
+			for dir in dirs then fs.mkdirSync @appPath dir
+			
+			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
+			fs.unlinkSync @appPath "/#{file}.ejs" for file in files
+			files.splice files.indexOf('views/layout'), 1
+			partial = 'views/partial'
+			files.push partial 
+			for file in files
+				sfile = @configPath "/templates/#{file}.jade"
+				dfile = @appPath(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
+				fs.copySync sfile, dfile
 
-		masterPath = @configPath '/templates/views/master.jade'
-		masterData = fs.readFileSync masterPath, @UTF8
-		masterData = masterData.replace /\$APP_NAME/gi, @app
-		fs.writeFileSync @appPath('/views/layouts/master.jade'), masterData
-		ui.ok 'Jade configuration done.'
-		@configureStylus()
+			masterPath = @configPath '/templates/views/master.jade'
+			masterData = fs.readFileSync masterPath, @UTF8
+			masterData = masterData.replace /\$APP_NAME/gi, @app
+			fs.writeFileSync @appPath('/views/layouts/master.jade'), masterData
+			ui.ok 'Jade configuration done.'
+			@configureStylus()
 
 
 	configureStylus: ->
-		@cssProcessor = @processors.STYLUS
-		pkgs = ['stylus', 'grunt-contrib-stylus']
-		@installPackages pkgs
-		stream = fs.readFileSync @appPath('/tasks/config/less.js'), @UTF8
-		stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
-		fs.writeFileSync @appPath('/tasks/config/stylus.js'), stream
-		configs = [
-			'/tasks/register/compileAssets'
-			'/tasks/register/syncAssets'
-			'/tasks/config/sync'
-			'/tasks/config/copy'
-		]
-		for config in configs
-			stream = fs.readFileSync @appPath("#{config}.js"), @UTF8
-			if config.match /register/
-				stream = stream.replace(/less:dev/gi, 'stylus:dev')
-			else
-				stream = stream.replace(/less/gi, 'stylus')
-			fs.writeFileSync @appPath("#{config}.js"), stream
-		ui.ok 'Stylus configuration done.'
-		@configureStyleFramework()
+		ui.write 'Configuring Stylus...'
+		@install 'stylus', '--save-dev', =>
+			@cssProcessor = @processors.STYLUS
+			pkgs = ['grunt-contrib-stylus']
+			@installPackages pkgs
+			stream = fs.readFileSync @appPath('/tasks/config/less.js'), @UTF8
+			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
+			fs.writeFileSync @appPath('/tasks/config/stylus.js'), stream
+			configs = [
+				'/tasks/register/compileAssets'
+				'/tasks/register/syncAssets'
+				'/tasks/config/sync'
+				'/tasks/config/copy'
+			]
+			for config in configs
+				stream = fs.readFileSync @appPath("#{config}.js"), @UTF8
+				if config.match /register/
+					stream = stream.replace(/less:dev/gi, 'stylus:dev')
+				else
+					stream = stream.replace(/less/gi, 'stylus')
+				fs.writeFileSync @appPath("#{config}.js"), stream
+			ui.ok 'Stylus configuration done.'
+			@configureStyleFramework()
 
 
 	configureStyleFramework: ->
@@ -246,10 +252,9 @@ class Marie
 		ui.line()
 		prompt.get input, (err, result) =>
 			ui.line()
-			process.stdout.write 'Please wait...'
+			ui.write 'Please wait...'
 			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
-				process.stdout.clearLine()
-				process.stdout.cursorTo 0
+				ui.clear()
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
 
 
@@ -262,7 +267,7 @@ class Marie
 
 
 	configureRemoteMongoDB: ->
-		input = [' uri']
+		input = [' mongodb uri']
 		prompt.get input, (err, result) =>
 			ui.line()
 			if result[input].length > 0 

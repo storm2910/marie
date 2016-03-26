@@ -2,12 +2,14 @@ clc = require 'cli-color'
 
 class UI
 	@xpixels
-	caret: '\u02c3 '
+	caret: '\u2192 '
+	check: '\u221A '
+	bullet: '\u262F '
 	dash: '\u0335'
 
 
 	constructor: ->
-		@xpixels = 8 * 12
+		@xpixels = 104
 
 
 	warn: (msg) ->
@@ -19,7 +21,7 @@ class UI
 
 
 	ok: (msg) ->
-		@log 'ok', msg
+		@log 'ok', msg, @check
 
 
 	error: (msg) ->
@@ -29,14 +31,23 @@ class UI
 	msg: (msg, theme) ->
 		console.log clc.white "#{@caret}" + clc[theme] msg
 
+	write: (msg) ->
+		process.stdout.write clc.blackBright "#{@bullet}" + clc.blackBright msg
 
-	log: (key, msg) ->
+
+	clear: ->
+		process.stdout.clearLine()
+		process.stdout.cursorTo 0
+
+
+	log: (key, msg, symbol) ->
 		_clc =
 			warn: clc.yellowBright
 			notice: clc.white
 			ok: clc.greenBright
 			error: clc.redBright
-		console.log clc.white "#{@caret}" + _clc[key] msg
+		@clear()
+		console.log clc.white "#{symbol or @caret}" + _clc[key] msg
 
 
 	line: ->
