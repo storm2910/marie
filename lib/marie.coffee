@@ -3,7 +3,8 @@ fs = require 'fs-extra'
 path = require 'path'
 prompt = require 'prompt'
 exe = require('child_process').execFile
-ui = require './ui'
+ui = require './marie.ui'
+mapp = require './marie.app'
 
 class Marie
 	@args
@@ -115,10 +116,11 @@ class Marie
 						@configureSails()
 			else
 				process.chdir @dir
-				exe 'sails', ['generate', 'api', 'admin', '--coffee'], (error, stdout, stderr) =>
-					if error then @throwError()
-					ui.ok 'Sails configuration done.'
-					@configureTasManager()
+				@configureTasManager()
+				# exe 'sails', ['generate', 'api', 'admin', '--coffee'], (error, stdout, stderr) =>
+				# 	if error then @throwError()
+				# 	ui.ok 'Sails configuration done.'
+				# 	@configureTasManager()
 
 
 	configureTasManager: ->
@@ -238,6 +240,7 @@ class Marie
 
 
 	configureNativeDB: ->
+		@mongoType = 'localDisk'
 		@setupDBWithConfig 'The local disk'
 
 
@@ -290,7 +293,25 @@ class Marie
 			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @mongoType)
 			fs.writeFileSync ddest, dconfig
 		ui.ok "Done. #{db} will be used for data storage."
-		@exit()
+		@configureAPIs()
+
+
+	configureAPIs: ->
+		ui.warn 'Configure APIs'
+		ui.notice 'Example: user, article, comment'
+		prompt.start()
+		input = ' APIs:'
+		ui.line()
+		prompt.get [input], (err, result) =>
+			ui.line()
+			res = if result[input].length > 0 then result[input] else null
+			if not not res
+				apis = res.split ','
+				@installApis apis
+				ui.ok "APIs configuration done."
+				@save()
+			else
+				@save()
 
 
 	throwError: (error) ->
@@ -330,19 +351,40 @@ class Marie
 		for pkg in pkgs then @uninstall pkg, @stdoutCallBack
 
 
+	installApi: (api) ->
+		api = api.toLowerCase().replace /\s/, ''
+		exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
+
+
+	installApis: (apis)->
+		for api in apis then @installApi api
+
+
 	stdoutCallBack: (error, stdout, stderr) =>
 		if error then @throwError()
 
 
-	exit: ->
+	save: ->
 		@endTime = new Date 
+
+		app = new mapp {
+			name: @app
+			path: @dir
+			created: @endTime
+			status: 0
+			template: @templateEnegine
+			cssProcessor: @cssProcessor
+			frontEndFramework: @frontEndFramework
+			storage: @mongoType
+		}
+
 		total = (@endTime - @startTime) / 1000
 		if total < 60 
 			@initTime = "#{Math.round(total)} seconds" 
 		else
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.ok "#{@app} is ready"
-		ui.notice "Path: #{@dir}"
+		ui.ok "#{app.name} is ready"
+		ui.notice "Path: #{app.path}"
 		ui.notice "Started: #{@startTime}"
 		ui.notice "Ended: #{@endTime}"
 		ui.notice "Total Time: #{@initTime}"
