@@ -73,7 +73,6 @@ class Marie
 			fs.stat @dir, (err, stats) =>
 				if err then @configureSails() else ui.warn 'App already exists.'
 		else
-			console.log ''
 			ui.warn 'Enter app name.'
 			prompt.start()
 			ui.line()
