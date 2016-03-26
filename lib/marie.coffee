@@ -6,9 +6,11 @@ exe = require('child_process').execFile
 ui = require './ui'
 
 class Marie
+	@args
 	@app
 	@dir
 	@root
+	@commands
 	@startTime
 	@endTime
 	@initTime
@@ -33,21 +35,43 @@ class Marie
 		LOCAL: 'localMongodbServer'
 		REMOTE: 'someMongodbServer'
 		URL: 'someMongodbServerWithURL'
-
+	
 
 	constructor: ->
 		@startTime = new Date 
 		@root = process.cwd()
 		prompt.message = null
-		@parseArgs()
+		@configureCommands()
+		@configureArgs()
 
 
-	parseArgs: ->
-		args = process.argv
-		len = args.length
+	configureCommands: ->
+		@commands =
+			'new': @add
+			'update': @update
+			'list': @list
+			'remove': @remove
+			'start': @start
+			'stop': @start
+
+
+	configureArgs: ->
+		@args = process.argv
+		len = @args.length
 		if len >= 3
-			@app = args[args.length-1]
-			@configure()
+			cmd = @args[2]
+			if @commands[cmd]? then @commands[cmd](@args[3]) else @add cmd
+		else
+			@add null
+
+
+	add: (app) =>
+		if not not app
+			@app = app
+			ui.header 'Generating', @app
+			@dir = @rootPath "/#{@app}"
+			fs.stat @dir, (err, stats) =>
+				if err then @configureSails() else ui.warn 'App already exists.'
 		else
 			console.log ''
 			ui.warn 'Enter app name.'
@@ -57,15 +81,23 @@ class Marie
 				if error 
 					ui.error 'An error occured.'
 				else
-					@app = result.name
-					@configure()
+					@add result.name
 
 
-	configure: ->
-		ui.header 'Generating', @app
-		@dir = @rootPath "/#{@app}"
-		fs.stat @dir, (err, stats) =>
-			if err then @configureSails() else ui.warn 'App already exists.'
+	update: (app) =>
+		ui.warn 'update command'
+
+	list: (app) =>
+		ui.warn 'list command'
+
+	remove: (app) =>
+		ui.warn 'remove command'
+
+	start: (app) =>
+		ui.warn 'start command'
+
+	stop: (app) =>
+		ui.warn 'stop command'
 
 
 	configureSails: ->
