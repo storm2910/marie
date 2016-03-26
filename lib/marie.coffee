@@ -69,7 +69,7 @@ class Marie
 	add: (app) =>
 		if not not app
 			@app = app
-			ui.header 'Generating', @app
+			ui.header 'Creating', @app
 			@dir = @rootPath "/#{@app}"
 			fs.stat @dir, (err, stats) =>
 				if err then @configureSails() else ui.warn 'App already exists.'
@@ -318,7 +318,7 @@ class Marie
 
 
 	configureAPIs: ->
-		ui.warn 'Configure APIs'
+		ui.warn 'Configure APIs.'
 		prompt.start()
 		input = ' APIs'
 		ui.line()
