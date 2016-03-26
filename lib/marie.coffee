@@ -246,7 +246,10 @@ class Marie
 		ui.line()
 		prompt.get input, (err, result) =>
 			ui.line()
+			process.stdout.write 'Please wait...'
 			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
+				process.stdout.clearLine()
+				process.stdout.cursorTo 0
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
 
 
