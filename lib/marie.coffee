@@ -233,7 +233,7 @@ class Marie
 
 
 	configureDB: ->
-		ui.warn 'Choose your Storage.'
+		ui.warn 'Choose your database.'
 		prompt.start()
 		input = ' Mongo/Disk'
 		ui.line()
@@ -248,12 +248,12 @@ class Marie
 
 
 	configureMongoDB: ->
-		ui.warn 'Setup MongoDB connection.'
+		ui.warn 'Configure MongoDB database.'
 		input = [' local/remote']
 		ui.line()
 		prompt.get input, (err, result) =>
 			ui.line()
-			ui.write 'Please wait...'
+			ui.write "Configuring MongoDB..."
 			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
 				ui.clear()
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
@@ -314,7 +314,7 @@ class Marie
 			dconfig = fs.readFileSync ddest, @UTF8
 			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @mongoType)
 			fs.writeFileSync ddest, dconfig
-		ui.ok "Done. #{db} will be used for data storage."
+		ui.ok "#{db} database configuration done."
 		@configureAPIs()
 
 
@@ -404,9 +404,7 @@ class Marie
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
 		ui.ok "#{app.name} is ready"
 		ui.notice "Path: #{app.path}"
-		ui.notice "Started: #{@startTime}"
-		ui.notice "Ended: #{@endTime}"
-		ui.notice "Total Time: #{@initTime}"
+		ui.notice "Creation Time: #{@initTime}"
 
 
 # export class
