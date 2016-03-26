@@ -87,14 +87,18 @@ class Marie
 	update: (app) =>
 		ui.warn 'update command'
 
+
 	list: (app) =>
 		ui.warn 'list command'
+
 
 	remove: (app) =>
 		ui.warn 'remove command'
 
+
 	start: (app) =>
 		ui.warn 'start command'
+
 
 	stop: (app) =>
 		ui.warn 'stop command'
