@@ -105,9 +105,9 @@ class Marie
 
 
 	configureSails: ->
+		ui.write 'Configuring Sails...'
 		exe 'sails', ['generate', 'new', @app], (error, stdout, stderr) =>
 			if error
-				ui.warn 'Configuring Sails...'
 				exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
 					if error 
 						ui.error 'An error occured.'
@@ -115,6 +115,7 @@ class Marie
 					else
 						@configureSails()
 			else
+				ui.ok 'Sails configuration done.'
 				process.chdir @dir
 				@configureTasManager()
 

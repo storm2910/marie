@@ -32,6 +32,7 @@ class UI
 		console.log clc.white "#{@caret}" + clc[theme] msg
 
 	write: (msg) ->
+		@clear()
 		process.stdout.write clc.blackBright "#{@bullet}" + clc.blackBright msg
 
 
