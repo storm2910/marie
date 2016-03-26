@@ -117,10 +117,6 @@ class Marie
 			else
 				process.chdir @dir
 				@configureTasManager()
-				# exe 'sails', ['generate', 'api', 'admin', '--coffee'], (error, stdout, stderr) =>
-				# 	if error then @throwError()
-				# 	ui.ok 'Sails configuration done.'
-				# 	@configureTasManager()
 
 
 	configureTasManager: ->
@@ -246,38 +242,47 @@ class Marie
 
 	configureMongoDB: ->
 		ui.warn 'Setup MongoDB connection.'
-		ui.msg 'Leave all blank to use local mongodb. If any.', 'blackBright'
+		input = [' local/remote']
 		ui.line()
-		inputs = [' host', ' port', ' user', ' password', ' database', ' url']
-		prompt.get inputs, (err, result) =>
+		prompt.get input, (err, result) =>
 			ui.line()
-			ui.warn 'Configuring database...'
 			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
-				cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
-				if result[' url'].length > 3
-					@mongoType = @mongoTypes.URL
-					uconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.URL}.js", @UTF8
-					cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
-					cconfig = cconfig.replace /\$MONGO\.URL/gi, result[' url']
-				else
-					list = inputs.slice 0, inputs.length-1
-					remote = true
-					for input in list
-						remote = false if result[input].length <= 2
-					if not not remote 
-						@mongoType = @mongoTypes.REMOTE
-						sconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.REMOTE}.js", @UTF8
-						cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
-						cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
-						cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
-						cconfig = cconfig.replace /\$MONGO\.USER/gi, result[' user'] if result[' user']? 
-						cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, result[' password'] if result[' password']? 
-						cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
-					else
-						@mongoType = @mongoTypes.LOCAL
-						lconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.LOCAL}.js", @UTF8
-						cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
-				@setupDBWithConfig 'MongoDB', cconfig
+				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
+
+
+	configureLocalMongoDB: ->
+		@mongoType = @mongoTypes.LOCAL
+		lconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.LOCAL}.js", @UTF8
+		cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
+		@setupDBWithConfig 'Local MongoDB', cconfig
+
+
+	configureRemoteMongoDB: ->
+		input = [' uri']
+		prompt.get input, (err, result) =>
+			ui.line()
+			cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+			if result[input].length > 0
+				@mongoType = @mongoTypes.URL
+				uconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.URL}.js", @UTF8
+				cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
+				cconfig = cconfig.replace /\$MONGO\.URL/gi, result[input]
+				@setupDBWithConfig 'Remote MongoDB', cconfig
+			else
+				@mongoType = @mongoTypes.REMOTE
+				inputs = [' host', ' port', ' user', ' password', ' database']
+				prompt.get inputs, (err, result) =>
+					ui.line()
+					sconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.REMOTE}.js", @UTF8
+					cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
+					cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
+					cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
+					cconfig = cconfig.replace /\$MONGO\.USER/gi, result[' user'] if result[' user']? 
+					cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, result[' password'] if result[' password']? 
+					cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
+					@setupDBWithConfig 'Remote MongoDB', cconfig
+
 
 
 	setupDBWithConfig: (db, cconfig) ->
@@ -298,9 +303,8 @@ class Marie
 
 	configureAPIs: ->
 		ui.warn 'Configure APIs'
-		ui.notice 'Example: user, article, comment'
 		prompt.start()
-		input = ' APIs:'
+		input = ' APIs'
 		ui.line()
 		prompt.get [input], (err, result) =>
 			ui.line()
@@ -366,7 +370,6 @@ class Marie
 
 	save: ->
 		@endTime = new Date 
-
 		app = new mapp {
 			name: @app
 			path: @dir
@@ -377,7 +380,6 @@ class Marie
 			frontEndFramework: @frontEndFramework
 			storage: @mongoType
 		}
-
 		total = (@endTime - @startTime) / 1000
 		if total < 60 
 			@initTime = "#{Math.round(total)} seconds" 

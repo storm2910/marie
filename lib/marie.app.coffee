@@ -8,6 +8,7 @@ class App
 	@status
 	@created
 	@lastActive
+	@PID
 
 
 	constructor: (props) ->
