@@ -1,6 +1,7 @@
 path = require 'path'
 sqlite3 = require('sqlite3').verbose()
-db = new sqlite3.Database path.join(__dirname.replace('/marie/lib', '/marie/config')), '/marie.sqlite'
+db_path = path.join __dirname.replace('/marie/lib', '/marie/config'), '/marie.sqlite'
+db = new sqlite3.Database db_path
 
 class App
 	@name
