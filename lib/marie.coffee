@@ -84,18 +84,17 @@ class Marie
 					@add result.name
 
 
-	update: (app) =>
-		ui.warn 'update command'
-
-
 	list: (app) =>
 		App.find @args[3], (err, row) =>
 			if err then @throwError err
-			if row then console.log row
+			if row
+				if not not @args[4] then ui.notice row[@args[4]] else console.log row
 
 
 	remove: (app) =>
-		ui.warn 'remove command'
+		App.remove @args[3], (err, success) ->
+			if err then @throwError err
+			if success then ui.ok success
 
 
 	start: (app) =>
@@ -407,5 +406,5 @@ class Marie
 		ui.notice "Creation Time: #{@initTime}"
 
 
-# export class
+# export marie module
 module.exports = new Marie 

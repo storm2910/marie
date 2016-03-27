@@ -10,7 +10,7 @@ class App
 	@name
 	@path
 	@cssProcessor
-	@frontEndFramework
+	@frontEndFramework 
 	@storage
 	@templateEnegine
 	@live
@@ -28,29 +28,40 @@ class App
 		db.serialize =>
 			fs.stat db_path, (err, stats) ->
 				if err
-					db.run 'create table app(name varchar(255) primary key not null, path varchar(255), cssProcessor varchar(255), frontEndFramework varchar(255), storage varchar(255), templateEnegine varchar(255), live bool, created varchar(255), lastActive varchar(255), pid smallint)'
+					db.run 'CREATE TABLE app(name varchar(255) primary key not null, path varchar(255), cssProcessor varchar(255), frontEndFramework varchar(255), storage varchar(255), templateEnegine varchar(255), live bool, created varchar(255), lastActive varchar(255), pid smallint)'
 
 
 	save: ->
 		db.serialize =>
-			stmt = db.prepare "INSERT INTO app (name, path, cssProcessor, frontEndFramework, storage, templateEnegine, live, created, lastActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" 
+			stmt = db.prepare 'INSERT INTO app (name, path, cssProcessor, frontEndFramework, storage, templateEnegine, live, created, lastActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)' 
 			stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive
 			stmt.finalize()
-		db.close()
-		ui.notice "#{@name} was successfully created."
+		ui.ok "#{@name} was successfully created."
 
 
-	@find: (name, cb)->
+	@find: (name, cb) ->
 		if not not name
-			db.each "SELECT * FROM app WHERE name = ?", name, (err, row) ->
+			db.each 'SELECT * FROM app WHERE name = ?', name, (err, row) ->
 				cb err, row
 		else
-			db.all "SELECT * FROM app", (err, row) ->
+			db.all 'SELECT * FROM app', (err, row) ->
 				cb err, row
-		db.close()
 
 
-	@remove: ->
+	@remove:(name, cb) ->
+		db.serialize =>
+			@find name, (err, row) =>
+				if err then cb err, row
+				if row
+					path = row['path']
+					cb err, path
+					db.run 'DELETE FROM app WHERE name = ?', name, (err, success) ->
+						if not err
+							fs.removeSync path
+							cb null, "#{name} was successfully removed."
+						else
+							cb "#{name} was not removed.", null
 
 
+# export app module
 module.exports = App

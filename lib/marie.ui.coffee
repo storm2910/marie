@@ -63,5 +63,5 @@ class UI
 		@line()
 
 
-# export class
+# export ui module
 module.exports = new UI 
