@@ -402,8 +402,7 @@ class Marie
 			@initTime = "#{Math.round(total)} seconds" 
 		else
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.ok "#{app.name} is ready"
-		ui.notice "Path: #{app.path}"
+		ui.notice "Path: #{@dir}"
 		ui.notice "Creation Time: #{@initTime}"
 
 
