@@ -5,6 +5,7 @@ prompt = require 'prompt'
 exe = require('child_process').execFile
 spawn = require('child_process').spawn
 spawnSync = require('child_process').spawnSync
+App = require './marie.app'
 
 class Marie
 	@arg
@@ -38,7 +39,7 @@ class Marie
 		URL: 'someMongodbServerWithURL'
 	
 	ui: require './marie.ui'
-	App: require './marie.app'
+	App: App
 
 	constructor: ->
 		@startTime = new Date 
@@ -93,7 +94,9 @@ class Marie
 			if app
 				if not not @args[4] then @ui.notice app[@args[4]] else console.log app
 
+
 	live: =>
+
 
 	remove: =>
 		@App.remove @args[3], (err, success) =>
@@ -430,7 +433,6 @@ class Marie
 		api = api.toLowerCase().replace /\s/, ''
 		exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
 
-
 	installApis: (apis)->
 		for api in apis then @installApi api
 
@@ -439,25 +441,25 @@ class Marie
 		if error then @throwError()
 
 
-	save: =>
+	save: ->
 		@endTime = new Date 
 		app = new @App {
 			name: @arg
 			path: @dir
 			created: @endTime.getTime()
-			live: 0
+			live: false
 			templateEnegine: @templateEnegine
 			cssProcessor: @cssProcessor
 			frontEndFramework: @frontEndFramework
 			storage: @mongoType
-			lastActive: null
+			lastActive: ''
 			pid: 0
 		}
-		app.save ->
-			if err
-				@throwError err
+
+		app.store (err, succ) =>
+			if err then @throwError err
 			else
-				@ui.ok "#{@name} was successfully saved."
+				@ui.ok "#{app.name} was successfully added."
 
 		total = (@endTime - @startTime) / 1000
 		if total < 60 
