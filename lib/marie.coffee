@@ -3,12 +3,11 @@ fs = require 'fs-extra'
 path = require 'path'
 prompt = require 'prompt'
 exe = require('child_process').execFile
-ui = require './marie.ui'
-App = require './marie.app'
+spawn = require('child_process').spawn
 
 class Marie
+	@arg
 	@args
-	@app
 	@dir
 	@root
 	@commands
@@ -37,6 +36,8 @@ class Marie
 		REMOTE: 'someMongodbServer'
 		URL: 'someMongodbServerWithURL'
 	
+	ui: require './marie.ui'
+	App: require './marie.app'
 
 	constructor: ->
 		@startTime = new Date 
@@ -66,84 +67,108 @@ class Marie
 			@add null
 
 
-	add: (app) =>
-		if not not app
-			@app = app
-			ui.header 'Creating', @app
-			@dir = @rootPath "/#{@app}"
+	add: (arg) =>
+		if not not arg
+			@arg = arg
+			@ui.header 'Creating', @arg
+			@dir = @rootPath "/#{@arg}"
 			fs.stat @dir, (err, stats) =>
-				if err then @configureSails() else ui.warn 'App already exists.'
+				if err then @configureSails() else @ui.warn 'App already exists.'
 		else
-			ui.warn 'Enter app name.'
+			@ui.warn 'Enter app name.'
 			prompt.start()
-			ui.line()
+			@ui.line()
 			prompt.get ['name'], (error, result) =>
 				if error 
-					ui.error 'An error occured.'
+					@ui.error 'An error occured.'
 				else
 					@add result.name
 
 
-	list: (app) =>
-		App.find @args[3], (err, row) =>
+	list: =>
+		@App.find @args[3], (err, app) =>
+			if err then @throwError err
+			if app
+				if not not @args[4] then @ui.notice app[@args[4]] else console.log app
+
+
+	remove: =>
+		@App.remove @args[3], (err, success) =>
+			if err then @throwError err
+			if success then @ui.ok success
+
+
+	start: =>
+		@ui.warn 'start'
+		if not not @args[3]
+			@App.find @args[3], (err, app) =>
+				if err then @throwError err
+				if app
+					run = "#{app.path}/app.js"
+					out = fs.openSync @configPath('/.log'), 'a'
+					err = fs.openSync @configPath('/.log'), 'a'
+					start = spawn 'node', [run], {
+						detached: false
+						stdio: ['ignore', out, err]
+					}
+					app.live = true
+					app.lastActive = new Date().getTime()
+					app.pid = start.pid
+					app.save()
+					@ui.ok "#{app.name} started."
+					@ui.notice "url: http://localhost:1337"
+					@ui.notice "path: #{app.path}"
+		else
+			@ui.error 'argument missing.'
+
+
+	stop: =>
+		@App.find @args[3], (err, row) =>
 			if err then @throwError err
 			if row
-				if not not @args[4] then ui.notice row[@args[4]] else console.log row
-
-
-	remove: (app) =>
-		App.remove @args[3], (err, success) ->
-			if err then @throwError err
-			if success then ui.ok success
-
-
-	start: (app) =>
-		ui.warn 'start command'
-
-
-	stop: (app) =>
-		ui.warn 'stop command'
+				if not not @args[4] then @ui.notice row[@args[4]] else console.log row
+		@ui.warn 'stop command'
 
 
 	configureSails: ->
-		ui.write 'Configuring Sails...'
-		exe 'sails', ['generate', 'new', @app], (error, stdout, stderr) =>
+		@ui.write 'Configuring Sails...'
+		exe 'sails', ['generate', 'new', @arg], (error, stdout, stderr) =>
 			if error
 				exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
 					if error 
-						ui.error 'An error occured.'
-						ui.notice "Run `sudo npm install sails -g` then try again."
+						@ui.error 'An error occured.'
+						@ui.notice "Run `sudo npm install sails -g` then try again."
 					else
 						@configureSails()
 			else
-				ui.ok 'Sails configuration done.'
+				@ui.ok 'Sails configuration done.'
 				process.chdir @dir
 				@configureTasManager()
 
 
 	configureTasManager: ->
-		ui.write 'Configuring Grunt...'
+		@ui.write 'Configuring Grunt...'
 		@install 'grunt-includes', '--save-dev', =>
 			fs.copySync @configPath('/tasks/compileAssets.js'), @appPath('/tasks/register/compileAssets.js'), { clobber: true }
 			fs.copySync @configPath('/tasks/syncAssets.js'), @appPath('/tasks/register/syncAssets.js'), { clobber: true }
 			fs.copySync @configPath('/tasks/includes.js'), @appPath('/tasks/config/includes.js'), { clobber: true }
-			ui.ok 'Grunt configuration done.'
+			@ui.ok 'Grunt configuration done.'
 			@configureCoffeeScript()
 
 
 	configureCoffeeScript: ->
-		ui.write 'Configuring CoffeeScript...'
+		@ui.write 'Configuring CoffeeScript...'
 		@install 'coffee-script', '--save-dev', =>
 			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
 			@installPackages pkgs
 			fs.copySync @configPath('/tasks/coffee.js'), @appPath('/tasks/config/coffee.js'), { clobber: true }
 			fs.writeFileSync @appPath('/assets/js/app.coffee'), ''
-			ui.ok 'CoffeeScript configuration done.'
+			@ui.ok 'CoffeeScript configuration done.'
 			@configureJade()
 
 
 	configureJade: ->
-		ui.write 'Configuring Jade...'
+		@ui.write 'Configuring Jade...'
 		@install 'jade', '--save-dev', =>
 			@templateEnegine = @templates.JADE
 			viewSrc = @appPath '/config/views.js'
@@ -166,14 +191,14 @@ class Marie
 
 			masterPath = @configPath '/templates/views/master.jade'
 			masterData = fs.readFileSync masterPath, @UTF8
-			masterData = masterData.replace /\$APP_NAME/gi, @app
+			masterData = masterData.replace /\$APP_NAME/gi, @arg
 			fs.writeFileSync @appPath('/views/layouts/master.jade'), masterData
-			ui.ok 'Jade configuration done.'
+			@ui.ok 'Jade configuration done.'
 			@configureStylus()
 
 
 	configureStylus: ->
-		ui.write 'Configuring Stylus...'
+		@ui.write 'Configuring Stylus...'
 		@install 'stylus', '--save-dev', =>
 			@cssProcessor = @processors.STYLUS
 			pkgs = ['grunt-contrib-stylus']
@@ -194,17 +219,17 @@ class Marie
 				else
 					stream = stream.replace(/less/gi, 'stylus')
 				fs.writeFileSync @appPath("#{config}.js"), stream
-			ui.ok 'Stylus configuration done.'
+			@ui.ok 'Stylus configuration done.'
 			@configureStyleFramework()
 
 
 	configureStyleFramework: ->
-		ui.warn 'Choose your style framework.'
+		@ui.warn 'Choose your style framework.'
 		prompt.start()
-		ui.line()
+		@ui.line()
 		input = ' Foundation/Bootstrap/None'
 		prompt.get [input], (err, result) =>
-			ui.line()
+			@ui.line()
 			if result[input].match(/^f/i)
 				@configureFrontend @frameworks.FOUNDATION
 			else if result[input].match(/^b/i)
@@ -229,17 +254,17 @@ class Marie
 		fs.removeSync @appPath('/assets/styles/importer.less')
 		fs.writeFileSync @appPath("/assets/styles/bundles/default#{ext}"), styles
 		fs.writeFileSync @appPath("/assets/styles/bundles/admin#{ext}"), styles
-		ui.ok 'Frontend configuration done.'
+		@ui.ok 'Frontend configuration done.'
 		@configureDB()
 
 
 	configureDB: ->
-		ui.warn 'Choose your database.'
+		@ui.warn 'Choose your database.'
 		prompt.start()
 		input = ' Mongo/Disk'
-		ui.line()
+		@ui.line()
 		prompt.get [input], (err, result) =>
-			ui.line()
+			@ui.line()
 			if result[input].match(/^m/i) then @configureMongoDB() else @configureNativeDB()
 
 
@@ -249,14 +274,14 @@ class Marie
 
 
 	configureMongoDB: ->
-		ui.warn 'Configure MongoDB database.'
+		@ui.warn 'Configure MongoDB database.'
 		input = [' local/remote']
-		ui.line()
+		@ui.line()
 		prompt.get input, (err, result) =>
-			ui.line()
-			ui.write "Configuring MongoDB..."
+			@ui.line()
+			@ui.write "Configuring MongoDB..."
 			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
-				ui.clear()
+				@ui.clear()
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
 
 
@@ -271,7 +296,7 @@ class Marie
 	configureRemoteMongoDB: ->
 		input = [' mongodb uri']
 		prompt.get input, (err, result) =>
-			ui.line()
+			@ui.line()
 			if result[input].length > 0 
 				@configureRemoteMongoDBWithURI result[input]
 			else
@@ -282,7 +307,7 @@ class Marie
 		@mongoType = @mongoTypes.REMOTE
 		inputs = [' host', ' port', ' user', ' password', ' database']
 		prompt.get inputs, (err, result) =>
-			ui.line()
+			@ui.line()
 			sconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.REMOTE}.js", @UTF8
 			cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
 			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
@@ -315,22 +340,22 @@ class Marie
 			dconfig = fs.readFileSync ddest, @UTF8
 			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @mongoType)
 			fs.writeFileSync ddest, dconfig
-		ui.ok "#{db} database configuration done."
+		@ui.ok "#{db} database configuration done."
 		@configureAPIs()
 
 
 	configureAPIs: ->
-		ui.warn 'Configure APIs.'
+		@ui.warn 'Configure APIs.'
 		prompt.start()
 		input = ' APIs'
-		ui.line()
+		@ui.line()
 		prompt.get [input], (err, result) =>
-			ui.line()
+			@ui.line()
 			res = if result[input].length > 0 then result[input] else null
 			if not not res
 				apis = res.split ','
 				@installApis apis
-				ui.ok "APIs configuration done."
+				@ui.ok "APIs configuration done."
 				@save()
 			else
 				@save()
@@ -341,7 +366,7 @@ class Marie
 			@root = path.dirname @dir
 			process.chdir @root
 			fs.removeSync @dir
-		if error then ui.error error else 'An error occured.'
+		if error then @ui.error error else 'An error occured.'
 
 
 	appPath: (loc) ->
@@ -387,8 +412,8 @@ class Marie
 
 	save: ->
 		@endTime = new Date 
-		app = new App {
-			name: @app
+		app = new Marie::App {
+			name: @arg
 			path: @dir
 			created: @endTime.getTime()
 			live: 0
@@ -397,13 +422,14 @@ class Marie
 			frontEndFramework: @frontEndFramework
 			storage: @mongoType
 		}
+		app.save()
 		total = (@endTime - @startTime) / 1000
 		if total < 60 
 			@initTime = "#{Math.round(total)} seconds" 
 		else
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.notice "Path: #{@dir}"
-		ui.notice "Creation Time: #{@initTime}"
+		@ui.notice "Path: #{@dir}"
+		@ui.notice "Creation Time: #{@initTime}"
 
 
 # export marie module
