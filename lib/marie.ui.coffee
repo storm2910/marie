@@ -1,15 +1,13 @@
 clc = require 'cli-color'
 
 class UI
-	@xpixels
-	caret: '\u2192 '
-	check: '\u221A '
-	bullet: '\u262F '
-	dash: '\u0335'
-
+	XPIXELS: 104
+	CARET: '\u2192 '
+	CHECK: '\u221A '
+	BULLET: '\u262F '
+	DASH: '\u0335'
 
 	constructor: ->
-		@xpixels = 104
 
 
 	warn: (msg) ->
@@ -21,7 +19,7 @@ class UI
 
 
 	ok: (msg) ->
-		@log 'ok', msg, @check
+		@log 'ok', msg, @CHECK
 
 
 	error: (msg) ->
@@ -29,11 +27,11 @@ class UI
 
 
 	msg: (msg, theme) ->
-		console.log clc.white "#{@caret}" + clc[theme] msg
+		console.log clc.white "#{@CARET}" + clc[theme] msg
 
 	write: (msg) ->
 		@clear()
-		process.stdout.write clc.blackBright "#{@bullet}" + clc.blackBright msg
+		process.stdout.write clc.blackBright "#{@BULLET}" + clc.blackBright msg
 
 
 	clear: ->
@@ -48,12 +46,12 @@ class UI
 			ok: clc.greenBright
 			error: clc.redBright
 		@clear()
-		console.log clc.white "#{symbol or @caret}" + _clc[key] msg
+		console.log clc.white "#{symbol or @CARET}" + _clc[key] msg
 
 
 	line: ->
 		stdout = ''
-		for i in [0..@xpixels] then stdout = stdout + @dash
+		for i in [0..@XPIXELS] then stdout = stdout + @DASH
 		console.log clc.blackBright stdout
 
 
@@ -63,5 +61,5 @@ class UI
 		@line()
 
 
-# export class
+# export ui module
 module.exports = new UI 
