@@ -261,8 +261,8 @@ class Marie
 
 	configureLocalMongoDB: ->
 		@mongoType = @mongoTypes.LOCAL
-		lconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.LOCAL}.js", @UTF8
-		cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+		lconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.LOCAL}.js", @UTF8
+		cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
 		@setupDBWithConfig 'Local MongoDB', cconfig
 
@@ -282,8 +282,8 @@ class Marie
 		inputs = [' host', ' port', ' user', ' password', ' database']
 		prompt.get inputs, (err, result) =>
 			ui.line()
-			sconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.REMOTE}.js", @UTF8
-			cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+			sconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.REMOTE}.js", @UTF8
+			cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
 			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
 			cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
 			cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
@@ -295,8 +295,8 @@ class Marie
 
 	configureRemoteMongoDBWithURI: (uri) ->
 		@mongoType = @mongoTypes.URL
-		uconfig = fs.readFileSync @configPath "/connections/#{@mongoTypes.URL}.js", @UTF8
-		cconfig = fs.readFileSync @configPath('/connections/connections.js'), @UTF8
+		uconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.URL}.js", @UTF8
+		cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
 		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
 		@setupDBWithConfig 'Remote MongoDB', cconfig

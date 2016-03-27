@@ -9,7 +9,7 @@ class UI
 
 
 	constructor: ->
-		@xpixels = 104
+		@xpixels = Math.round Math.pow 8, 2.333
 
 
 	warn: (msg) ->
