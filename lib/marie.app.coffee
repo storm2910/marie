@@ -13,13 +13,13 @@ class App
 	@frontEndFramework
 	@storage
 	@templateEnegine
-	@status
+	@live
 	@created
 	@lastActive
 	@pid
 
 
-	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @status, @created, @lastActive}) ->
+	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive}) ->
 		@configureCollection()
 		@save()
 
@@ -28,22 +28,29 @@ class App
 		db.serialize =>
 			fs.stat db_path, (err, stats) ->
 				if err
-					db.run 'create table app(name varchar(255) primary key not null, path varchar(255), cssProcessor varchar(255), frontEndFramework varchar(255), storage varchar(255), templateEnegine varchar(255), status bool, created varchar(255), lastActive varchar(255), pid smallint)'
+					db.run 'create table app(name varchar(255) primary key not null, path varchar(255), cssProcessor varchar(255), frontEndFramework varchar(255), storage varchar(255), templateEnegine varchar(255), live bool, created varchar(255), lastActive varchar(255), pid smallint)'
 
 
 	save: ->
 		db.serialize =>
-			stmt = db.prepare "INSERT INTO app (name, path, cssProcessor, frontEndFramework, storage, templateEnegine, status, created, lastActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" 
-			stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @status, @created, @lastActive
+			stmt = db.prepare "INSERT INTO app (name, path, cssProcessor, frontEndFramework, storage, templateEnegine, live, created, lastActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" 
+			stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive
 			stmt.finalize()
 		db.close()
-		ui.notice "#{@name} app was successfully created."
+		ui.notice "#{@name} was successfully created."
 
 
-	find: ->
+	@find: (name, cb)->
+		if not not name
+			db.each "SELECT * FROM app WHERE name = ?", name, (err, row) ->
+				cb err, row
+		else
+			db.all "SELECT * FROM app", (err, row) ->
+				cb err, row
+		db.close()
 
 
-	remove: ->
+	@remove: ->
 
 
 module.exports = App

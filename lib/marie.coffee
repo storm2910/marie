@@ -4,7 +4,7 @@ path = require 'path'
 prompt = require 'prompt'
 exe = require('child_process').execFile
 ui = require './marie.ui'
-mapp = require './marie.app'
+App = require './marie.app'
 
 class Marie
 	@args
@@ -89,7 +89,9 @@ class Marie
 
 
 	list: (app) =>
-		ui.warn 'list command'
+		App.find @args[3], (err, row) =>
+			if err then @throwError err
+			if row then console.log row
 
 
 	remove: (app) =>
@@ -336,12 +338,11 @@ class Marie
 
 
 	throwError: (error) ->
-		ui.error 'An error occured.'
-		ui.warn 'Exit.'
-		@root = path.dirname @dir
-		process.chdir @root
-		fs.removeSync @dir
-		throw error
+		if @dir
+			@root = path.dirname @dir
+			process.chdir @root
+			fs.removeSync @dir
+		if error then ui.error error else 'An error occured.'
 
 
 	appPath: (loc) ->
@@ -387,12 +388,12 @@ class Marie
 
 	save: ->
 		@endTime = new Date 
-		app = new mapp {
+		app = new App {
 			name: @app
 			path: @dir
-			created: @endTime
-			status: 0
-			template: @templateEnegine
+			created: @endTime.getTime()
+			live: 0
+			templateEnegine: @templateEnegine
 			cssProcessor: @cssProcessor
 			frontEndFramework: @frontEndFramework
 			storage: @mongoType
