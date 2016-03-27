@@ -24,13 +24,19 @@ class App
 	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid}) ->
 
 
-	save: ->
-		db.serialize =>
-			db.run App::query.INIT
-			stmt = db.prepare App::query.SAVE
-			stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
-			stmt.finalize()
-			App::ui.ok "#{@name} was successfully saved."
+	save: (cb) ->
+		if not not @name
+			db.each App::query.FIND_ONE, @name, (err, row) =>
+				stmt = null
+				if err or not row or row.length == 0
+					db.run App::query.INIT
+					stmt = db.prepare App::query.SAVE
+					stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
+				else
+					stmt = db.prepare App::query.UPDATE
+					stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid, @name
+				stmt.finalize()
+				if cb then cb err, @
 
 
 	@find: (name, cb) =>
@@ -38,11 +44,10 @@ class App
 			db.run App::query.INIT
 			if not not name
 				db.each App::query.FIND_ONE, name, (err, row) ->
-					app = new App row
-					cb err, app
+					if cb then cb err, new App row
 			else
 				db.all App::query.FIND, (err, row) ->
-					cb err, row
+					if cb then cb err, row
 
 
 	@remove:(name, cb) ->
@@ -50,13 +55,13 @@ class App
 			if err then cb err, row
 			if row
 				path = row['path']
-				cb err, path
+				if cb then cb err, path
 				db.run App::query.REMOVE, name, (err, success) ->
 					if not err
 						fs.removeSync path
-						cb null, "#{name} was successfully removed."
+						if cb then cb null, "#{name} was successfully removed."
 					else
-						cb "#{name} was not removed.", null
+						if cb then cb "#{name} was not removed.", null
 
 
 # export app module

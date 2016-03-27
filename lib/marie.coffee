@@ -50,11 +50,10 @@ class Marie
 	configureCommands: ->
 		@commands =
 			'new': @add
-			'update': @update
 			'list': @list
 			'remove': @remove
 			'start': @start
-			'stop': @start
+			'stop': @stop
 
 
 	configureArgs: ->
@@ -91,15 +90,12 @@ class Marie
 			if app
 				if not not @args[4] then @ui.notice app[@args[4]] else console.log app
 
-
 	remove: =>
 		@App.remove @args[3], (err, success) =>
 			if err then @throwError err
 			if success then @ui.ok success
 
-
 	start: =>
-		@ui.warn 'start'
 		if not not @args[3]
 			@App.find @args[3], (err, app) =>
 				if err then @throwError err
@@ -108,26 +104,49 @@ class Marie
 					out = fs.openSync @configPath('/.log'), 'a'
 					err = fs.openSync @configPath('/.log'), 'a'
 					start = spawn 'node', [run], {
-						detached: false
+						detached: true
 						stdio: ['ignore', out, err]
 					}
+
 					app.live = true
-					app.lastActive = new Date().getTime()
 					app.pid = start.pid
-					app.save()
-					@ui.ok "#{app.name} started."
-					@ui.notice "url: http://localhost:1337"
-					@ui.notice "path: #{app.path}"
+					app.lastActive = new Date().getTime()
+					app.save (err, app) =>
+						if err then @throwError err
+						else
+							@ui.ok "#{app.name} started."
+							@ui.ok "url: http://localhost:1337"
+							@ui.notice "path: #{app.path}"
+							# @todo: exit code here
+							
 		else
 			@ui.error 'argument missing.'
 
 
 	stop: =>
-		@App.find @args[3], (err, row) =>
-			if err then @throwError err
-			if row
-				if not not @args[4] then @ui.notice row[@args[4]] else console.log row
-		@ui.warn 'stop command'
+		if not not @args[3]
+			@App.find @args[3], (err, app) =>
+				if err then @throwError err
+				if app
+					run = "#{app.path}/app.js"
+					out = fs.openSync @configPath('/.log'), 'a'
+					err = fs.openSync @configPath('/.log'), 'a'
+					stop = spawn 'kill', ['-SIGTERM', app.pid], {
+						detached: true
+						stdio: ['ignore', out, err]
+					}
+
+					app.live = false
+					app.pid = 0
+					app.lastActive = new Date().getTime()
+					app.save (err, app) =>
+						if err then @throwError err
+						else
+							@ui.ok "#{app.name} stopped."
+							# @todo: exit code here
+		else
+			@ui.error 'argument missing.'
+
 
 
 	configureSails: ->
@@ -367,6 +386,7 @@ class Marie
 			process.chdir @root
 			fs.removeSync @dir
 		if error then @ui.error error else 'An error occured.'
+		process.exit()
 
 
 	appPath: (loc) ->
@@ -412,7 +432,7 @@ class Marie
 
 	save: ->
 		@endTime = new Date 
-		app = new Marie::App {
+		app = new @App {
 			name: @arg
 			path: @dir
 			created: @endTime.getTime()
@@ -422,7 +442,12 @@ class Marie
 			frontEndFramework: @frontEndFramework
 			storage: @mongoType
 		}
-		app.save()
+		app.save =>
+			if err
+				@throwError err
+			else
+				@ui.ok "#{@name} was successfully saved."
+
 		total = (@endTime - @startTime) / 1000
 		if total < 60 
 			@initTime = "#{Math.round(total)} seconds" 
