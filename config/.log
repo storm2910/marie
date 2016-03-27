@@ -3224,3 +3224,875 @@ kill: 44041: No such process
 [31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
 [31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
 
+kill: 44104: No such process
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 09:41:19 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 09:45:29 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 09:46:26 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 09:46:31 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:02:01 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:06:14 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:08:47 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:08:57 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:09:11 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:11:37 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:14:11 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:14:32 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:14:44 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:14:49 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:14:56 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:15:13 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:16:39 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:16:55 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+kill: 44473: No such process
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:18:21 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+kill: 44490: No such process
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:18:48 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:20:52 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:21:33 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:22:11 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:24:26 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:25:07 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:26:44 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:28:37 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:29:21 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:30:00 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:30:11 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Sun Mar 27 2016 10:32:46 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m

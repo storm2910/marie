@@ -25,21 +25,24 @@ class App
 
 
 	save: (cb) ->
-		if not not @name
-			db.each App::query.FIND_ONE, @name, (err, row) =>
-				stmt = null
-				if err or not row or row.length == 0
-					db.run App::query.INIT
-					stmt = db.prepare App::query.SAVE
-					stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
-				else
-					stmt = db.prepare App::query.UPDATE
-					stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid, @name
-				stmt.finalize()
-				if cb then cb err, @
+		db.serialize =>
+			db.run App::query.INIT
+			if not not @name
+				db.each @query.FIND_ONE, @name, (err, row) =>
+					stmt = null
+					if not not row
+						# console.log 'update'
+						stmt = db.prepare App::query.UPDATE
+						stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid, @name
+					else
+						# console.log 'add'
+						stmt = db.prepare App::query.SAVE
+						stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
+					stmt.finalize()
+					if cb then cb err, @
 
 
-	@find: (name, cb) =>
+	@find: (name, cb) ->
 		db.serialize =>
 			db.run App::query.INIT
 			if not not name

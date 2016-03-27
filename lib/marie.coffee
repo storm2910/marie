@@ -4,6 +4,7 @@ path = require 'path'
 prompt = require 'prompt'
 exe = require('child_process').execFile
 spawn = require('child_process').spawn
+spawnSync = require('child_process').spawnSync
 
 class Marie
 	@arg
@@ -50,10 +51,12 @@ class Marie
 	configureCommands: ->
 		@commands =
 			'new': @add
-			'list': @list
 			'remove': @remove
+			'list': @list
+			'live': @getLive
 			'start': @start
 			'stop': @stop
+			'restart': @restart
 
 
 	configureArgs: ->
@@ -90,6 +93,8 @@ class Marie
 			if app
 				if not not @args[4] then @ui.notice app[@args[4]] else console.log app
 
+	live: =>
+
 	remove: =>
 		@App.remove @args[3], (err, success) =>
 			if err then @throwError err
@@ -114,10 +119,13 @@ class Marie
 					app.save (err, app) =>
 						if err then @throwError err
 						else
-							@ui.ok "#{app.name} started."
-							@ui.ok "url: http://localhost:1337"
-							@ui.notice "path: #{app.path}"
-							# @todo: exit code here
+							@ui.write "Starting #{app.name}..."
+							setTimeout =>
+								@ui.ok "#{app.name} started."
+								@ui.ok "url: http://localhost:1337"
+								@ui.notice "path: #{app.path}"
+								process.exit()
+							, 1000
 							
 		else
 			@ui.error 'argument missing.'
@@ -131,7 +139,7 @@ class Marie
 					run = "#{app.path}/app.js"
 					out = fs.openSync @configPath('/.log'), 'a'
 					err = fs.openSync @configPath('/.log'), 'a'
-					stop = spawn 'kill', ['-SIGTERM', app.pid], {
+					stop = spawnSync 'kill', ['-SIGTERM', app.pid], {
 						detached: true
 						stdio: ['ignore', out, err]
 					}
@@ -143,10 +151,11 @@ class Marie
 						if err then @throwError err
 						else
 							@ui.ok "#{app.name} stopped."
-							# @todo: exit code here
 		else
 			@ui.error 'argument missing.'
 
+
+	restart: =>
 
 
 	configureSails: ->
@@ -430,7 +439,7 @@ class Marie
 		if error then @throwError()
 
 
-	save: ->
+	save: =>
 		@endTime = new Date 
 		app = new @App {
 			name: @arg
@@ -441,8 +450,10 @@ class Marie
 			cssProcessor: @cssProcessor
 			frontEndFramework: @frontEndFramework
 			storage: @mongoType
+			lastActive: null
+			pid: 0
 		}
-		app.save =>
+		app.save ->
 			if err
 				@throwError err
 			else
