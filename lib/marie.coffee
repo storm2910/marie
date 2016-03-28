@@ -7,14 +7,12 @@ class Marie
 	@args
 	@root
 	@commands
-	@frontEndFramework
-	@mongoType
 
 	utf8: 'utf8'
-	frameworks:
+	framework:
 		BOOTSTRAP: 'bootstrap'
 		FOUNDATION: 'foundation'
-	mongoTypes:
+	storageType:
 		LOCAL: 'localMongodbServer'
 		REMOTE: 'someMongodbServer'
 		URL: 'someMongodbServerWithURL'
@@ -264,25 +262,25 @@ class Marie
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
 			if result[input].match(/^f/i)
-				@configureFrontend @frameworks.FOUNDATION
+				@configureFrontend @framework.FOUNDATION
 			else if result[input].match(/^b/i)
-				@configureFrontend @frameworks.BOOTSTRAP
+				@configureFrontend @framework.BOOTSTRAP
 			else
 				@configureBundles()
 			
 
 	configureFrontend: (framework) ->
-		@frontEndFramework = framework
-		cpath = "#{utils.root}/config/#{@frontEndFramework}-#{@app.cssProcessor}"
-		jpath = "#{utils.root}/config/#{@frontEndFramework}-js"
-		utils.fs.copySync cpath, @app.file("/assets/styles/#{@frontEndFramework}"), { clobber: true }
-		utils.fs.copySync jpath, @app.file("/assets/js/dependencies/#{@frontEndFramework}"), { clobber: true }
+		@app.frontEndFramework = framework
+		cpath = "#{utils.root}/config/#{@app.frontEndFramework}-#{@app.cssProcessor}"
+		jpath = "#{utils.root}/config/#{@app.frontEndFramework}-js"
+		utils.fs.copySync cpath, @app.file("/assets/styles/#{@app.frontEndFramework}"), { clobber: true }
+		utils.fs.copySync jpath, @app.file("/assets/js/dependencies/#{@app.frontEndFramework}"), { clobber: true }
 		@configureBundles()
 
 
 	configureBundles: ->
 		ext = '.styl'
-		styles = if not not @frontEndFramework then "@import '../#{@frontEndFramework}'" else ''
+		styles = if not not @app.frontEndFramework then "@import '../#{@app.frontEndFramework}'" else ''
 		utils.fs.mkdirSync @app.file('/assets/styles/bundles')
 		utils.fs.removeSync @app.file('/assets/styles/importer.less')
 		utils.fs.writeFileSync @app.file("/assets/styles/bundles/default#{ext}"), styles
@@ -302,7 +300,7 @@ class Marie
 
 
 	configureNativeDB: ->
-		@mongoType = 'localDisk'
+		@app.storage = 'localDisk'
 		@setupDBWithConfig 'The local disk'
 
 
@@ -319,8 +317,8 @@ class Marie
 
 
 	configureLocalMongoDB: ->
-		@mongoType = @mongoTypes.LOCAL
-		lconfig = utils.fs.readFileSync utils.config "/databases/#{@mongoTypes.LOCAL}.js", @utf8
+		@app.storage = @storageType.LOCAL
+		lconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.LOCAL}.js", @utf8
 		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
 		@setupDBWithConfig 'Local MongoDB', cconfig
@@ -337,11 +335,11 @@ class Marie
 
 
 	configureRemoteMongoDBWithConfig: ->
-		@mongoType = @mongoTypes.REMOTE
+		@app.storage = @storageType.REMOTE
 		inputs = [' host', ' port', ' user', ' password', ' database']
 		utils.prompt.get inputs, (err, result) =>
 			ui.line()
-			sconfig = utils.fs.readFileSync utils.config "/databases/#{@mongoTypes.REMOTE}.js", @utf8
+			sconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.REMOTE}.js", @utf8
 			cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
 			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
 			cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
@@ -353,8 +351,8 @@ class Marie
 
 
 	configureRemoteMongoDBWithURI: (uri) ->
-		@mongoType = @mongoTypes.URL
-		uconfig = utils.fs.readFileSync utils.config "/databases/#{@mongoTypes.URL}.js", @utf8
+		@app.storage = @storageType.URL
+		uconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.URL}.js", @utf8
 		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
 		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
@@ -371,7 +369,7 @@ class Marie
 			utils.fs.writeFileSync cdest, cconfig
 			ddest = @app.file '/config/env/development.js'
 			dconfig = utils.fs.readFileSync ddest, @utf8
-			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @mongoType)
+			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @app.storage)
 			utils.fs.writeFileSync ddest, dconfig
 		ui.ok "#{db} database configuration done."
 		@configureAPIs()
@@ -408,7 +406,6 @@ class Marie
 			if err then @throwError err
 			else
 				ui.ok "#{app.name} was successfully added."
-
 		total = (@endTime - @app.created) / 1000
 		if total < 60 
 			@initTime = "#{Math.round(total)} seconds" 
@@ -416,6 +413,26 @@ class Marie
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
 		ui.notice "Path: #{@app.path}"
 		ui.notice "Creation Time: #{@initTime}"
+		@onSave()
+
+
+	onSave: ->
+		ui.warn 'Start app?'
+		utils.prompt.start()
+		input = ' yes/no'
+		ui.line()
+		utils.prompt.get [input], (err, result) =>
+			ui.line()
+			if result[input].match(/^y/i)
+				App.live (err, apps) =>
+					if err then @throwError err
+					else if apps
+						@stop()
+						@_start @app
+					else
+						return @_start @app
+
+
 
 
 # export marie module
