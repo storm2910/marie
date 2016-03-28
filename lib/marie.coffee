@@ -1,4 +1,3 @@
-
 utils = require './marie.utils'
 ui = require './marie.ui'
 App = require './marie.app'
@@ -33,6 +32,7 @@ class Marie
 			'new': @add
 			'add': @add
 			'remove': @remove
+			'ls': @list
 			'list': @list
 			'live': @live
 			'start': @start
@@ -183,7 +183,7 @@ class Marie
 
 	configureTasManager: ->
 		ui.write 'Configuring Grunt...'
-		@install 'grunt-includes', '--save-dev', =>
+		utils.install 'grunt-includes', '--save-dev', =>
 			utils.fs.copySync utils.config('/tasks/compileAssets'), @app.file('/tasks/register/compileAssets.js'), { clobber: true }
 			utils.fs.copySync utils.config('/tasks/syncAssets'), @app.file('/tasks/register/syncAssets.js'), { clobber: true }
 			utils.fs.copySync utils.config('/tasks/includes'), @app.file('/tasks/config/includes.js'), { clobber: true }
@@ -193,9 +193,9 @@ class Marie
 
 	configureCoffeeScript: ->
 		ui.write 'Configuring CoffeeScript...'
-		@install 'coffee-script', '--save-dev', =>
+		utils.install 'coffee-script', '--save-dev', =>
 			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
-			@installPackages pkgs
+			utils.installPackages pkgs
 			utils.fs.copySync utils.config('/tasks/coffee'), @app.file('/tasks/config/coffee.js'), { clobber: true }
 			utils.fs.writeFileSync @app.file('/assets/js/app.coffee'), ''
 			ui.ok 'CoffeeScript configuration done.'
@@ -204,7 +204,7 @@ class Marie
 
 	configureJade: ->
 		ui.write 'Configuring Jade...'
-		@install 'jade', '--save-dev', =>
+		utils.install 'jade', '--save-dev', =>
 			viewSrc = @app.file '/config/views.js'
 			stream = utils.fs.readFileSync viewSrc, @utf8
 			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
@@ -233,9 +233,9 @@ class Marie
 
 	configureStylus: ->
 		ui.write 'Configuring Stylus...'
-		@install 'stylus', '--save-dev', =>
+		utils.install 'stylus', '--save-dev', =>
 			pkgs = ['grunt-contrib-stylus']
-			@installPackages pkgs
+			utils.installPackages pkgs
 			stream = utils.fs.readFileSync @app.file('/tasks/config/less.js'), @utf8
 			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
 			utils.fs.writeFileSync @app.file('/tasks/config/stylus.js'), stream
@@ -313,7 +313,7 @@ class Marie
 		utils.prompt.get input, (err, result) =>
 			ui.line()
 			ui.write "Configuring MongoDB..."
-			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
+			utils.install 'sails-mongo', '--save', (error, stdout, stderr) =>
 				ui.clear()
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
 
@@ -387,7 +387,7 @@ class Marie
 			res = if result[input].length > 0 then result[input] else null
 			if not not res
 				apis = res.split ','
-				@installApis apis
+				utils.installApis apis
 				ui.ok "APIs configuration done."
 				@save()
 			else
@@ -399,36 +399,7 @@ class Marie
 			@root = utils.path.dirname @app.path
 			process.chdir @root
 			utils.fs.removeSync @app.path
-		if error then ui.error error else 'An error occured.'
-		process.exit()
-
-
-	install: (pkg, opt, cb) ->
-		utils.exe 'npm', ['install', pkg, opt], cb
-
-
-	uninstall: (pkg, cb) ->
-		utils.exe 'npm', ['uninstall', pkg], cb
-
-
-	installPackages: (pkgs) ->
-		for pkg in pkgs then @install pkg, '--save-dev', @stdoutCallBack
-
-
-	uninstallPackages: (pkgs) ->
-		for pkg in pkgs then @uninstall pkg, @stdoutCallBack
-
-
-	installApi: (api) ->
-		api = api.toLowerCase().replace /\s/, ''
-		utils.exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
-
-	installApis: (apis)->
-		for api in apis then @installApi api
-
-
-	stdoutCallBack: (error, stdout, stderr) =>
-		if error then @throwError()
+		utils.throwError error
 
 
 	save: ->

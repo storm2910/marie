@@ -1,5 +1,3 @@
-# importer + utility class
-
 class Utils
 	fs: require 'fs'
 	path: require 'path'
@@ -27,6 +25,39 @@ class Utils
 
 	configurePrompt: ->
 		@prompt.message = null
+
+
+	throwError: (error) ->
+		if error then ui.error error else 'An error occured.'
+		process.exit()
+
+
+	install: (pkg, opt, cb) ->
+		@exe 'npm', ['install', pkg, opt], cb
+
+
+	uninstall: (pkg, cb) ->
+		@exe 'npm', ['uninstall', pkg], cb
+
+
+	installPackages: (pkgs) ->
+		for pkg in pkgs then @install pkg, '--save-dev', @stdoutCallBack
+
+
+	uninstallPackages: (pkgs) ->
+		for pkg in pkgs then @uninstall pkg, @stdoutCallBack
+
+
+	installApi: (api) ->
+		api = api.toLowerCase().replace /\s/, ''
+		@exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
+
+	installApis: (apis)->
+		for api in apis then @installApi api
+
+
+	stdoutCallBack: (error, stdout, stderr) =>
+		if error then @throwError()
 
 
 module.exports = new Utils 
