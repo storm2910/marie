@@ -1,34 +1,17 @@
-fs = require 'fs'
-fs = require 'fs-extra'
-path = require 'path'
-prompt = require 'prompt'
-exe = require('child_process').execFile
-spawn = require('child_process').spawn
-spawnSync = require('child_process').spawnSync
+
+utils = require './marie.utils'
+ui = require './marie.ui'
+App = require './marie.app'
 
 class Marie
-	@arg
+	@app
 	@args
-	@dir
 	@root
 	@commands
-	@startTime
-	@endTime
-	@initTime
-	@cssProcessor
 	@frontEndFramework
-	@templateEnegine
 	@mongoType
 
-	UTF8: 'utf8'
-	templates:
-		JADE: 'jade'
-		EJS: 'ejs'
-		HANDLEBARS: 'handlebars'
-	processors:
-		STYLUS: 'stylus'
-		SCSS: 'scss'
-		LESS: 'less'
+	utf8: 'utf8'
 	frameworks:
 		BOOTSTRAP: 'bootstrap'
 		FOUNDATION: 'foundation'
@@ -37,21 +20,18 @@ class Marie
 		REMOTE: 'someMongodbServer'
 		URL: 'someMongodbServerWithURL'
 
-	ui: require './marie.ui'
-	App: require './marie.app'
-
 
 	constructor: ->
-		@startTime = new Date 
 		@root = process.cwd()
-		prompt.message = null
 		@configureCommands()
 		@configureArgs()
+		return false
 
 
 	configureCommands: ->
 		@commands =
 			'new': @add
+			'add': @add
 			'remove': @remove
 			'list': @list
 			'live': @live
@@ -72,46 +52,54 @@ class Marie
 
 	add: (arg) =>
 		if not not arg
-			@arg = arg
-			@ui.header 'Creating', @arg
-			@dir = @rootPath "/#{@arg}"
-			fs.stat @dir, (err, stats) =>
-				if err then @configureSails() else @ui.warn 'App already exists.'
+			ui.header 'Creating', arg
+			path = utils.path.join @root, arg
+			utils.fs.stat path, (err, stats) =>
+				if err
+					@app = new App { 
+						name: arg 
+						path: path
+						cssProcessor: 'stylus'
+						templateEnegine: 'jade'
+						created: new Date()
+					}
+					@configureSails()
+				else ui.warn "#{arg} app exists."
 		else
-			@ui.warn 'Enter app name.'
-			prompt.start()
-			@ui.line()
-			prompt.get ['name'], (error, result) =>
+			ui.warn 'Enter app name.'
+			utils.prompt.start()
+			ui.line()
+			utils.prompt.get ['name'], (error, result) =>
 				if error 
-					@ui.error 'An error occured.'
+					ui.error 'An error occured.'
 				else
 					@add result.name
 
 
 	list: =>
-		@App.find @args[3], (err, app) =>
+		App.find @args[3], (err, app) =>
 			if err then @throwError err
 			if app
-				if not not @args[4] then @ui.notice app[@args[4]] else console.log app
+				if not not @args[4] then ui.notice app[@args[4]] else console.log app
 
 
 	live: =>
-		@App.live (err, apps) =>
+		App.live (err, apps) =>
 			if err then @throwError err
 			else console.log apps
 
 
 	remove: =>
 		if not not @args[3]
-			@App.remove @args[3], (err, success) =>
+			App.remove @args[3], (err, success) =>
 				if err then @throwError err
-				if success then @ui.ok success
+				if success then ui.ok success
 		else
-			@ui.error 'argument missing.'
+			ui.error 'argument missing.'
 
 
 	start: =>
-		@App.live (err, apps) =>
+		App.live (err, apps) =>
 			if err then @throwError err
 			else if apps
 				@stop()
@@ -121,7 +109,7 @@ class Marie
 
 
 	stop: =>
-		@App.live (err, apps) =>
+		App.live (err, apps) =>
 			if err then @throwError err
 			else if apps
 				@_stop app for app in apps
@@ -130,7 +118,7 @@ class Marie
 
 
 	restart: =>
-		@App.live (err, apps) =>
+		App.live (err, apps) =>
 			if err then @throwError err
 			else if apps
 				@_stop app for app in apps
@@ -140,27 +128,27 @@ class Marie
 
 
 	_start: (app) ->
-		@App.start app, (err, app) =>
+		App.start app, (err, app) =>
 			if err then @throwError err
 			else
-				@ui.write "Starting #{app.name}..."
+				ui.write "Starting #{app.name}..."
 				setTimeout =>
-					@ui.ok "#{app.name} started."
-					@ui.ok "url: http://localhost:1337"
-					@ui.notice "path: #{app.path}"
+					ui.ok "#{app.name} started."
+					ui.ok "url: http://localhost:1337"
+					ui.notice "path: #{app.path}"
 					process.exit()
 				, 1000
 
 
 	_stop: (app) ->
-		@ui.write "Stopping #{app.name}..."
-		@App.stop app, (err, app) =>
-			if err then @throwError err else @ui.ok "#{app.name} stopped."
+		ui.write "Stopping #{app.name}..."
+		App.stop app, (err, app) =>
+			if err then @throwError err else ui.ok "#{app.name} stopped."
 
 
 	_run: (cmd) ->
 		if not not @args[3]
-			@App.find @args[3], (err, app) =>
+			App.find @args[3], (err, app) =>
 				if err then @throwError err
 				if app
 					if cmd.match /^stop/i
@@ -174,85 +162,83 @@ class Marie
 						@_start app
 
 		else
-			@ui.error 'argument missing.'
+			ui.error 'argument missing.'
 
 
 	configureSails: ->
-		@ui.write 'Configuring Sails...'
-		exe 'sails', ['generate', 'new', @arg], (error, stdout, stderr) =>
+		ui.write 'Configuring Sails...'
+		utils.exe 'sails', ['generate', 'new', @app.name], (error, stdout, stderr) =>
 			if error
-				exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
+				utils.exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
 					if error 
-						@ui.error 'An error occured.'
-						@ui.notice "Run `sudo npm install sails -g` then try again."
+						ui.error 'An error occured.'
+						ui.notice "Run `sudo npm install sails -g` then try again."
 					else
 						@configureSails()
 			else
-				@ui.ok 'Sails configuration done.'
-				process.chdir @dir
+				ui.ok 'Sails configuration done.'
+				process.chdir @app.path
 				@configureTasManager()
 
 
 	configureTasManager: ->
-		@ui.write 'Configuring Grunt...'
+		ui.write 'Configuring Grunt...'
 		@install 'grunt-includes', '--save-dev', =>
-			fs.copySync @configPath('/tasks/compileAssets.js'), @appPath('/tasks/register/compileAssets.js'), { clobber: true }
-			fs.copySync @configPath('/tasks/syncAssets.js'), @appPath('/tasks/register/syncAssets.js'), { clobber: true }
-			fs.copySync @configPath('/tasks/includes.js'), @appPath('/tasks/config/includes.js'), { clobber: true }
-			@ui.ok 'Grunt configuration done.'
+			utils.fs.copySync utils.config('/tasks/compileAssets'), @app.file('/tasks/register/compileAssets.js'), { clobber: true }
+			utils.fs.copySync utils.config('/tasks/syncAssets'), @app.file('/tasks/register/syncAssets.js'), { clobber: true }
+			utils.fs.copySync utils.config('/tasks/includes'), @app.file('/tasks/config/includes.js'), { clobber: true }
+			ui.ok 'Grunt configuration done.'
 			@configureCoffeeScript()
 
 
 	configureCoffeeScript: ->
-		@ui.write 'Configuring CoffeeScript...'
+		ui.write 'Configuring CoffeeScript...'
 		@install 'coffee-script', '--save-dev', =>
 			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
 			@installPackages pkgs
-			fs.copySync @configPath('/tasks/coffee.js'), @appPath('/tasks/config/coffee.js'), { clobber: true }
-			fs.writeFileSync @appPath('/assets/js/app.coffee'), ''
-			@ui.ok 'CoffeeScript configuration done.'
+			utils.fs.copySync utils.config('/tasks/coffee'), @app.file('/tasks/config/coffee.js'), { clobber: true }
+			utils.fs.writeFileSync @app.file('/assets/js/app.coffee'), ''
+			ui.ok 'CoffeeScript configuration done.'
 			@configureJade()
 
 
 	configureJade: ->
-		@ui.write 'Configuring Jade...'
+		ui.write 'Configuring Jade...'
 		@install 'jade', '--save-dev', =>
-			@templateEnegine = @templates.JADE
-			viewSrc = @appPath '/config/views.js'
-			stream = fs.readFileSync viewSrc, @UTF8
+			viewSrc = @app.file '/config/views.js'
+			stream = utils.fs.readFileSync viewSrc, @utf8
 			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
-			fs.writeFileSync viewSrc, stream
+			utils.fs.writeFileSync viewSrc, stream
 			
 			dirs = ['/views/modules', '/views/partials', '/views/layouts']
-			for dir in dirs then fs.mkdirSync @appPath dir
+			for dir in dirs then utils.fs.mkdirSync @app.file dir
 			
 			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
-			fs.unlinkSync @appPath "/#{file}.ejs" for file in files
+			utils.fs.unlinkSync @app.file "/#{file}.ejs" for file in files
 			files.splice files.indexOf('views/layout'), 1
 			partial = 'views/partial'
 			files.push partial 
 			for file in files
-				sfile = @configPath "/templates/#{file}.jade"
-				dfile = @appPath(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
-				fs.copySync sfile, dfile
+				sfile = utils.config "/templates/#{file}.jade"
+				dfile = @app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
+				utils.fs.copySync sfile, dfile
 
-			masterPath = @configPath '/templates/views/master.jade'
-			masterData = fs.readFileSync masterPath, @UTF8
-			masterData = masterData.replace /\$APP_NAME/gi, @arg
-			fs.writeFileSync @appPath('/views/layouts/master.jade'), masterData
-			@ui.ok 'Jade configuration done.'
+			masterPath = utils.config '/templates/views/master.jade'
+			masterData = utils.fs.readFileSync masterPath, @utf8
+			masterData = masterData.replace /\$APP_NAME/gi, @app.name
+			utils.fs.writeFileSync @app.file('/views/layouts/master.jade'), masterData
+			ui.ok 'Jade configuration done.'
 			@configureStylus()
 
 
 	configureStylus: ->
-		@ui.write 'Configuring Stylus...'
+		ui.write 'Configuring Stylus...'
 		@install 'stylus', '--save-dev', =>
-			@cssProcessor = @processors.STYLUS
 			pkgs = ['grunt-contrib-stylus']
 			@installPackages pkgs
-			stream = fs.readFileSync @appPath('/tasks/config/less.js'), @UTF8
+			stream = utils.fs.readFileSync @app.file('/tasks/config/less.js'), @utf8
 			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
-			fs.writeFileSync @appPath('/tasks/config/stylus.js'), stream
+			utils.fs.writeFileSync @app.file('/tasks/config/stylus.js'), stream
 			configs = [
 				'/tasks/register/compileAssets'
 				'/tasks/register/syncAssets'
@@ -260,23 +246,23 @@ class Marie
 				'/tasks/config/copy'
 			]
 			for config in configs
-				stream = fs.readFileSync @appPath("#{config}.js"), @UTF8
+				stream = utils.fs.readFileSync @app.file("#{config}.js"), @utf8
 				if config.match /register/
 					stream = stream.replace(/less:dev/gi, 'stylus:dev')
 				else
 					stream = stream.replace(/less/gi, 'stylus')
-				fs.writeFileSync @appPath("#{config}.js"), stream
-			@ui.ok 'Stylus configuration done.'
+				utils.fs.writeFileSync @app.file("#{config}.js"), stream
+			ui.ok 'Stylus configuration done.'
 			@configureStyleFramework()
 
 
 	configureStyleFramework: ->
-		@ui.warn 'Choose your style framework.'
-		prompt.start()
-		@ui.line()
+		ui.warn 'Choose your style framework.'
+		utils.prompt.start()
+		ui.line()
 		input = ' Foundation/Bootstrap/None'
-		prompt.get [input], (err, result) =>
-			@ui.line()
+		utils.prompt.get [input], (err, result) =>
+			ui.line()
 			if result[input].match(/^f/i)
 				@configureFrontend @frameworks.FOUNDATION
 			else if result[input].match(/^b/i)
@@ -287,31 +273,31 @@ class Marie
 
 	configureFrontend: (framework) ->
 		@frontEndFramework = framework
-		cpath = "#{@frontEndFramework}-#{@cssProcessor}"
-		jpath = "#{@frontEndFramework}-js"
-		fs.copySync @configPath("/#{cpath}"), @appPath("/assets/styles/#{@frontEndFramework}"), { clobber: true }
-		fs.copySync @configPath("/#{jpath}"), @appPath("/assets/js/dependencies/#{@frontEndFramework}"), { clobber: true }
+		cpath = "#{utils.root}/config/#{@frontEndFramework}-#{@app.cssProcessor}"
+		jpath = "#{utils.root}/config/#{@frontEndFramework}-js"
+		utils.fs.copySync cpath, @app.file("/assets/styles/#{@frontEndFramework}"), { clobber: true }
+		utils.fs.copySync jpath, @app.file("/assets/js/dependencies/#{@frontEndFramework}"), { clobber: true }
 		@configureBundles()
 
 
 	configureBundles: ->
-		ext = if @cssProcessor == @processors.STYLUS then '.styl' else @cssProcessor
+		ext = '.styl'
 		styles = if not not @frontEndFramework then "@import '../#{@frontEndFramework}'" else ''
-		fs.mkdirSync @appPath('/assets/styles/bundles')
-		fs.removeSync @appPath('/assets/styles/importer.less')
-		fs.writeFileSync @appPath("/assets/styles/bundles/default#{ext}"), styles
-		fs.writeFileSync @appPath("/assets/styles/bundles/admin#{ext}"), styles
-		@ui.ok 'Frontend configuration done.'
+		utils.fs.mkdirSync @app.file('/assets/styles/bundles')
+		utils.fs.removeSync @app.file('/assets/styles/importer.less')
+		utils.fs.writeFileSync @app.file("/assets/styles/bundles/default#{ext}"), styles
+		utils.fs.writeFileSync @app.file("/assets/styles/bundles/admin#{ext}"), styles
+		ui.ok 'Frontend configuration done.'
 		@configureDB()
 
 
 	configureDB: ->
-		@ui.warn 'Choose your database.'
-		prompt.start()
+		ui.warn 'Choose your database.'
+		utils.prompt.start()
 		input = ' Mongo/Disk'
-		@ui.line()
-		prompt.get [input], (err, result) =>
-			@ui.line()
+		ui.line()
+		utils.prompt.get [input], (err, result) =>
+			ui.line()
 			if result[input].match(/^m/i) then @configureMongoDB() else @configureNativeDB()
 
 
@@ -321,29 +307,29 @@ class Marie
 
 
 	configureMongoDB: ->
-		@ui.warn 'Configure MongoDB database.'
+		ui.warn 'Configure MongoDB database.'
 		input = [' local/remote']
-		@ui.line()
-		prompt.get input, (err, result) =>
-			@ui.line()
-			@ui.write "Configuring MongoDB..."
+		ui.line()
+		utils.prompt.get input, (err, result) =>
+			ui.line()
+			ui.write "Configuring MongoDB..."
 			@install 'sails-mongo', '--save', (error, stdout, stderr) =>
-				@ui.clear()
+				ui.clear()
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
 
 
 	configureLocalMongoDB: ->
 		@mongoType = @mongoTypes.LOCAL
-		lconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.LOCAL}.js", @UTF8
-		cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
+		lconfig = utils.fs.readFileSync utils.config "/databases/#{@mongoTypes.LOCAL}.js", @utf8
+		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
 		@setupDBWithConfig 'Local MongoDB', cconfig
 
 
 	configureRemoteMongoDB: ->
 		input = [' mongodb uri']
-		prompt.get input, (err, result) =>
-			@ui.line()
+		utils.prompt.get input, (err, result) =>
+			ui.line()
 			if result[input].length > 0 
 				@configureRemoteMongoDBWithURI result[input]
 			else
@@ -353,10 +339,10 @@ class Marie
 	configureRemoteMongoDBWithConfig: ->
 		@mongoType = @mongoTypes.REMOTE
 		inputs = [' host', ' port', ' user', ' password', ' database']
-		prompt.get inputs, (err, result) =>
-			@ui.line()
-			sconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.REMOTE}.js", @UTF8
-			cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
+		utils.prompt.get inputs, (err, result) =>
+			ui.line()
+			sconfig = utils.fs.readFileSync utils.config "/databases/#{@mongoTypes.REMOTE}.js", @utf8
+			cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
 			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
 			cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
 			cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
@@ -368,73 +354,61 @@ class Marie
 
 	configureRemoteMongoDBWithURI: (uri) ->
 		@mongoType = @mongoTypes.URL
-		uconfig = fs.readFileSync @configPath "/databases/#{@mongoTypes.URL}.js", @UTF8
-		cconfig = fs.readFileSync @configPath('/databases/connections.js'), @UTF8
+		uconfig = utils.fs.readFileSync utils.config "/databases/#{@mongoTypes.URL}.js", @utf8
+		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
 		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
 		@setupDBWithConfig 'Remote MongoDB', cconfig
 
 
 	setupDBWithConfig: (db, cconfig) ->
-		mdest = @appPath '/config/models.js'
-		mconfig = fs.readFileSync mdest, @UTF8
+		mdest = @app.file '/config/models.js'
+		mconfig = utils.fs.readFileSync mdest, @utf8
 		mconfig = mconfig.replace(/'alter'/gi, "'safe'").replace(/\/\/ /gi,'').replace(/connection/gi, '// connection')
-		fs.writeFileSync mdest, mconfig
+		utils.fs.writeFileSync mdest, mconfig
 		if not not cconfig
-			cdest = @appPath '/config/connections.js'
-			fs.writeFileSync cdest, cconfig
-			ddest = @appPath '/config/env/development.js'
-			dconfig = fs.readFileSync ddest, @UTF8
+			cdest = @app.file '/config/connections.js'
+			utils.fs.writeFileSync cdest, cconfig
+			ddest = @app.file '/config/env/development.js'
+			dconfig = utils.fs.readFileSync ddest, @utf8
 			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @mongoType)
-			fs.writeFileSync ddest, dconfig
-		@ui.ok "#{db} database configuration done."
+			utils.fs.writeFileSync ddest, dconfig
+		ui.ok "#{db} database configuration done."
 		@configureAPIs()
 
 
 	configureAPIs: ->
-		@ui.warn 'Configure APIs.'
-		prompt.start()
+		ui.warn 'Configure APIs.'
+		utils.prompt.start()
 		input = ' APIs'
-		@ui.line()
-		prompt.get [input], (err, result) =>
-			@ui.line()
+		ui.line()
+		utils.prompt.get [input], (err, result) =>
+			ui.line()
 			res = if result[input].length > 0 then result[input] else null
 			if not not res
 				apis = res.split ','
 				@installApis apis
-				@ui.ok "APIs configuration done."
+				ui.ok "APIs configuration done."
 				@save()
 			else
 				@save()
 
 
 	throwError: (error) ->
-		if @dir
-			@root = path.dirname @dir
+		if @app.path
+			@root = utils.path.dirname @app.path
 			process.chdir @root
-			fs.removeSync @dir
-		if error then @ui.error error else 'An error occured.'
+			utils.fs.removeSync @app.path
+		if error then ui.error error else 'An error occured.'
 		process.exit()
 
 
-	appPath: (loc) ->
-		return path.join @dir, loc
-
-
-	rootPath: (loc) ->
-		return path.join @root, loc
-
-
-	configPath: (loc) ->
-		return path.join __dirname.replace('/marie/lib', '/marie/config'), loc
-
-
 	install: (pkg, opt, cb) ->
-		exe 'npm', ['install', pkg, opt], cb
+		utils.exe 'npm', ['install', pkg, opt], cb
 
 
 	uninstall: (pkg, cb) ->
-		exe 'npm', ['uninstall', pkg], cb
+		utils.exe 'npm', ['uninstall', pkg], cb
 
 
 	installPackages: (pkgs) ->
@@ -447,7 +421,7 @@ class Marie
 
 	installApi: (api) ->
 		api = api.toLowerCase().replace /\s/, ''
-		exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
+		utils.exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
 
 	installApis: (apis)->
 		for api in apis then @installApi api
@@ -459,31 +433,18 @@ class Marie
 
 	save: ->
 		@endTime = new Date 
-		app = new @App {
-			name: @arg
-			path: @dir
-			created: @endTime.getTime()
-			live: false
-			templateEnegine: @templateEnegine
-			cssProcessor: @cssProcessor
-			frontEndFramework: @frontEndFramework
-			storage: @mongoType
-			lastActive: ''
-			pid: 0
-		}
-
-		app.add (err, succ) =>
+		@app.add (err, app) =>
 			if err then @throwError err
 			else
-				@ui.ok "#{app.name} was successfully added."
+				ui.ok "#{app.name} was successfully added."
 
-		total = (@endTime - @startTime) / 1000
+		total = (@endTime - @app.created) / 1000
 		if total < 60 
 			@initTime = "#{Math.round(total)} seconds" 
 		else
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		@ui.notice "Path: #{@dir}"
-		@ui.notice "Creation Time: #{@initTime}"
+		ui.notice "Path: #{@app.path}"
+		ui.notice "Creation Time: #{@initTime}"
 
 
 # export marie module

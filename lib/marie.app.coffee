@@ -42,6 +42,10 @@ class App
 			if cb then cb null, @
 
 
+	file: (path) ->
+		return utils.path.join @path, path
+
+
 	stop: ->
 		@live = false
 		@lastActive = new Date().getTime()
@@ -97,10 +101,11 @@ class App
 
 
 	@start: (app, cb) ->
-		run = "#{app.path}/app.js"
-		out = utils.fs.openSync utils.configPath('/.log'), 'a'
-		err = utils.fs.openSync utils.configPath('/.log'), 'a'
-		start = utils.spawn 'node', [run], {
+		file = app.file '/app.js'
+		log = "#{utils.root}/config/.log"
+		out = utils.fs.openSync log, 'a'
+		err = utils.fs.openSync log, 'a'
+		start = utils.spawn 'node', [file], {
 			detached: true
 			stdio: ['ignore', out, err]
 		}
@@ -117,9 +122,6 @@ class App
 				if cb then cb err, app
 		else return true
 
-
-	@path: (path) ->
-		return utils.path.join @path, path
 
 
 # export app module
