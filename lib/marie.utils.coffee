@@ -29,7 +29,9 @@ class Utils
 
 	throwError: (error) ->
 		if error then ui.error error else 'An error occured.'
-		process.exit()
+		setTimeout ->
+			process.exit()
+		, 300
 
 
 	install: (pkg, opt, cb) ->

@@ -5,7 +5,6 @@ App = require './marie.app'
 class Marie
 	@app
 	@args
-	@root
 	@commands
 
 	utf8: 'utf8'
@@ -16,151 +15,6 @@ class Marie
 		LOCAL: 'localMongodbServer'
 		REMOTE: 'someMongodbServer'
 		URL: 'someMongodbServerWithURL'
-
-
-	constructor: ->
-		@root = process.cwd()
-		@configureCommands()
-		@configureArgs()
-		return false
-
-
-	configureCommands: ->
-		@commands =
-			'new': @add
-			'add': @add
-			'remove': @remove
-			'ls': @list
-			'list': @list
-			'live': @live
-			'start': @start
-			'stop': @stop
-			'restart': @restart
-
-
-	configureArgs: ->
-		@args = process.argv
-		len = @args.length
-		if len >= 3
-			cmd = @args[2]
-			if @commands[cmd]? then @commands[cmd](@args[3]) else @add cmd
-		else
-			@add null
-
-
-	add: (arg) =>
-		if not not arg
-			ui.header 'Creating', arg
-			path = utils.path.join @root, arg
-			utils.fs.stat path, (err, stats) =>
-				if err
-					@app = new App { 
-						name: arg 
-						path: path
-						cssProcessor: 'stylus'
-						templateEnegine: 'jade'
-						created: new Date()
-					}
-					@configureSails()
-				else ui.warn "#{arg} app exists."
-		else
-			ui.warn 'Enter app name.'
-			utils.prompt.start()
-			ui.line()
-			utils.prompt.get ['name'], (error, result) =>
-				if error 
-					ui.error 'An error occured.'
-				else
-					@add result.name
-
-
-	list: =>
-		App.find @args[3], (err, app) =>
-			if err then @throwError err
-			if app
-				if not not @args[4] then ui.notice app[@args[4]] else console.log app
-
-
-	live: =>
-		App.live (err, apps) =>
-			if err then @throwError err
-			else console.log apps
-
-
-	remove: =>
-		if not not @args[3]
-			App.remove @args[3], (err, success) =>
-				if err then @throwError err
-				if success then ui.ok success
-		else
-			ui.error 'argument missing.'
-
-
-	start: =>
-		App.live (err, apps) =>
-			if err then @throwError err
-			else if apps
-				@stop()
-				@_run 'start'
-			else
-				return @_run 'start'
-
-
-	stop: =>
-		App.live (err, apps) =>
-			if err then @throwError err
-			else if apps
-				@_stop app for app in apps
-			else
-				return @_run 'stop'
-
-
-	restart: =>
-		App.live (err, apps) =>
-			if err then @throwError err
-			else if apps
-				@_stop app for app in apps
-				@_start apps[0]
-			else
-				return @_run 'start'
-
-
-	_start: (app) ->
-		App.start app, (err, app) =>
-			if err then @throwError err
-			else
-				ui.write "Starting #{app.name}..."
-				setTimeout =>
-					ui.ok "#{app.name} started."
-					ui.ok "url: http://localhost:1337"
-					ui.notice "path: #{app.path}"
-					process.exit()
-				, 1000
-
-
-	_stop: (app) ->
-		ui.write "Stopping #{app.name}..."
-		App.stop app, (err, app) =>
-			if err then @throwError err else ui.ok "#{app.name} stopped."
-
-
-	_run: (cmd) ->
-		if not not @args[3]
-			App.find @args[3], (err, app) =>
-				if err then @throwError err
-				if app
-					if cmd.match /^stop/i
-						@_stop app
-						app.stop()
-					else if cmd.match /^start/i
-						@_stop app
-						@_start app
-					else if cmd.match /^restart/i
-						@_stop app
-						@_start app
-
-		else
-			ui.error 'argument missing.'
 
 
 	configureSails: ->
@@ -392,18 +246,20 @@ class Marie
 				@save()
 
 
-	throwError: (error) ->
-		if @app.path
-			@root = utils.path.dirname @app.path
-			process.chdir @root
-			utils.fs.removeSync @app.path
-		utils.throwError error
+	throwFatalError: (error) ->
+		utils.fs.stat @app.path, (err, stats) =>
+			if not err
+				utils.fs.removeSync @app.path
+				App.remove @app.name
+				utils.throwError error
+			else
+				utils.throwError error
 
 
 	save: ->
 		@endTime = new Date 
 		@app.add (err, app) =>
-			if err then @throwError err
+			if err then @throwFatalError err
 			else
 				ui.ok "#{app.name} was successfully added."
 		total = (@endTime - @app.created) / 1000
@@ -425,15 +281,12 @@ class Marie
 			ui.line()
 			if result[input].match(/^y/i)
 				App.live (err, apps) =>
-					if err then @throwError err
-					else if apps
+					if apps
 						@stop()
 						@_start @app
 					else
 						return @_start @app
 
 
-
-
 # export marie module
-module.exports = new Marie 
+module.exports = Marie

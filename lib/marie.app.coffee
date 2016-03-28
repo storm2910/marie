@@ -91,7 +91,6 @@ class App
 			if err then cb err, row
 			if row
 				path = row['path']
-				if cb then cb err, path
 				db.run App::query.REMOVE, name, (err, success) ->
 					if not err
 						utils.fs.removeSync path
