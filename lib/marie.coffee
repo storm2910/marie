@@ -5,7 +5,6 @@ prompt = require 'prompt'
 exe = require('child_process').execFile
 spawn = require('child_process').spawn
 spawnSync = require('child_process').spawnSync
-App = require './marie.app'
 
 class Marie
 	@arg
@@ -37,9 +36,10 @@ class Marie
 		LOCAL: 'localMongodbServer'
 		REMOTE: 'someMongodbServer'
 		URL: 'someMongodbServerWithURL'
-	
+
 	ui: require './marie.ui'
-	App: App
+	App: require './marie.app'
+
 
 	constructor: ->
 		@startTime = new Date 
@@ -54,7 +54,7 @@ class Marie
 			'new': @add
 			'remove': @remove
 			'list': @list
-			'live': @getLive
+			'live': @live
 			'start': @start
 			'stop': @stop
 			'restart': @restart
@@ -96,69 +96,85 @@ class Marie
 
 
 	live: =>
+		@App.live (err, apps) =>
+			if err then @throwError err
+			else console.log apps
 
 
 	remove: =>
-		@App.remove @args[3], (err, success) =>
-			if err then @throwError err
-			if success then @ui.ok success
-
-	start: =>
 		if not not @args[3]
-			@App.find @args[3], (err, app) =>
+			@App.remove @args[3], (err, success) =>
 				if err then @throwError err
-				if app
-					run = "#{app.path}/app.js"
-					out = fs.openSync @configPath('/.log'), 'a'
-					err = fs.openSync @configPath('/.log'), 'a'
-					start = spawn 'node', [run], {
-						detached: true
-						stdio: ['ignore', out, err]
-					}
-
-					app.live = true
-					app.pid = start.pid
-					app.lastActive = new Date().getTime()
-					app.save (err, app) =>
-						if err then @throwError err
-						else
-							@ui.write "Starting #{app.name}..."
-							setTimeout =>
-								@ui.ok "#{app.name} started."
-								@ui.ok "url: http://localhost:1337"
-								@ui.notice "path: #{app.path}"
-								process.exit()
-							, 1000
-							
+				if success then @ui.ok success
 		else
 			@ui.error 'argument missing.'
+
+
+	start: =>
+		@App.live (err, apps) =>
+			if err then @throwError err
+			else if apps
+				@stop()
+				@_run 'start'
+			else
+				return @_run 'start'
 
 
 	stop: =>
+		@App.live (err, apps) =>
+			if err then @throwError err
+			else if apps
+				@_stop app for app in apps
+			else
+				return @_run 'stop'
+
+
+	restart: =>
+		@App.live (err, apps) =>
+			if err then @throwError err
+			else if apps
+				@_stop app for app in apps
+				@_start apps[0]
+			else
+				return @_run 'start'
+
+
+	_start: (app) ->
+		@App.start app, (err, app) =>
+			if err then @throwError err
+			else
+				@ui.write "Starting #{app.name}..."
+				setTimeout =>
+					@ui.ok "#{app.name} started."
+					@ui.ok "url: http://localhost:1337"
+					@ui.notice "path: #{app.path}"
+					process.exit()
+				, 1000
+
+
+	_stop: (app) ->
+		@ui.write "Stopping #{app.name}..."
+		@App.stop app, (err, app) =>
+			if err then @throwError err else @ui.ok "#{app.name} stopped."
+
+
+	_run: (cmd) ->
 		if not not @args[3]
 			@App.find @args[3], (err, app) =>
 				if err then @throwError err
 				if app
-					run = "#{app.path}/app.js"
-					out = fs.openSync @configPath('/.log'), 'a'
-					err = fs.openSync @configPath('/.log'), 'a'
-					stop = spawnSync 'kill', ['-SIGTERM', app.pid], {
-						detached: true
-						stdio: ['ignore', out, err]
-					}
+					if cmd.match /^stop/i
+						@_stop app
+						app.stop()
+					else if cmd.match /^start/i
+						@_stop app
+						@_start app
+					else if cmd.match /^restart/i
+						@_stop app
+						@_start app
 
-					app.live = false
-					app.pid = 0
-					app.lastActive = new Date().getTime()
-					app.save (err, app) =>
-						if err then @throwError err
-						else
-							@ui.ok "#{app.name} stopped."
 		else
 			@ui.error 'argument missing.'
-
-
-	restart: =>
 
 
 	configureSails: ->
@@ -456,7 +472,7 @@ class Marie
 			pid: 0
 		}
 
-		app.store (err, succ) =>
+		app.add (err, succ) =>
 			if err then @throwError err
 			else
 				@ui.ok "#{app.name} was successfully added."
