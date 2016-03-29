@@ -195,6 +195,7 @@ class MarieController extends Marie
 
 
 	addModule: (pkg) =>
+		ui.write "Adding `#{pkg}` module..."
 		App.addModule @args[2], pkg, (err, app) =>
 			if err then utils.throwError err
 			if app
@@ -204,6 +205,7 @@ class MarieController extends Marie
 
 
 	removeModule: (pkg) =>
+		ui.write "Removing `#{pkg}` module..."
 		App.removeModule @args[2], pkg, (err, app) =>
 			if err then utils.throwError err
 			if app

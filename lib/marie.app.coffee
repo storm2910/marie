@@ -1,5 +1,4 @@
 utils = require './marie.utils'
-ui = require './marie.ui'
 sqlite3 = require('sqlite3').verbose()
 db_path = utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
 db = new sqlite3.Database db_path
@@ -149,7 +148,6 @@ class App
 			if row
 				app = new App row
 				process.chdir app.path
-				ui.write "Adding `#{pkg}` module..."
 				utils.install [pkg], '--save', (error, stdout, stderr) ->
 					cb error, app
 
@@ -160,7 +158,6 @@ class App
 			if row
 				app = new App row
 				process.chdir app.path
-				ui.write "Removing `#{pkg}` module..."
 				utils.uninstall [pkg], (error, stdout, stderr) ->
 					cb error, app
 
