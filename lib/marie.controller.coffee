@@ -64,7 +64,7 @@ class MarieController extends Marie
 							name: arg 
 							path: path
 							cssProcessor: 'stylus'
-							templateEnegine: 'jade'
+							templateEngine: 'jade'
 							created: new Date()
 						}
 						@configureSails()
