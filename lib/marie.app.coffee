@@ -10,7 +10,7 @@ class App
 	@cssProcessor
 	@frontEndFramework 
 	@storage
-	@templateEnegine
+	@templateEngine
 	@live
 	@created
 	@lastActive
@@ -19,7 +19,7 @@ class App
 	query: require './marie.query'
 
 
-	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid}) ->
+	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
 
 
 	add: (cb) ->
@@ -35,10 +35,10 @@ class App
 			db.run App::query.INIT
 			if cmd.match /save/
 				stmt = db.prepare App::query.SAVE
-				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid, @name 
+				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
 			else
 				stmt = db.prepare App::query.ADD
-				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
+				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
 
