@@ -7,5 +7,5 @@ class Query
 	FIND: 'SELECT * FROM app'
 	LIVE: 'SELECT * FROM app WHERE live = 1'
 
-# export app module
+# export query module
 module.exports = new Query 

@@ -122,6 +122,5 @@ class App
 		else return true
 
 
-
 # export app module
 module.exports = App

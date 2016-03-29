@@ -4,8 +4,6 @@ App = require './marie.app'
 
 class Marie
 	@app
-	@args
-	@commands
 
 	utf8: 'utf8'
 	framework:
@@ -13,8 +11,8 @@ class Marie
 		FOUNDATION: 'foundation'
 	storageType:
 		LOCAL: 'localMongodbServer'
-		REMOTE: 'someMongodbServer'
-		URL: 'someMongodbServerWithURL'
+		REMOTE: 'remoteMongodbServer'
+		URL: 'remoteMongodbServerWithURL'
 
 
 	configureSails: ->

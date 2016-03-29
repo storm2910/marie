@@ -1,4 +1,4 @@
-  someMongodbServer: {
+  remoteMongodbServer: {
     adapter: 'sails-mongo',
     host: '$MONGO.HOST',
     port: '$MONGO.PORT',

@@ -5,13 +5,13 @@ App = require './marie.app'
 
 
 class MarieController extends Marie
+	@args
 	@root
 
 	constructor: ->
 		@root = process.cwd()
 		@configureRoutes()
 		@route()
-		return false
 
 
 	configureRoutes: ->
@@ -152,6 +152,5 @@ class MarieController extends Marie
 			ui.error 'argument missing.'
 
 
-
-# export marie module
+# export controller module
 module.exports = new MarieController

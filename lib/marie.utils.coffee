@@ -62,4 +62,5 @@ class Utils
 		if error then @throwError()
 
 
+# export utils module
 module.exports = new Utils 
