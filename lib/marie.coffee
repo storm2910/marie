@@ -158,7 +158,7 @@ class Marie
 
 	configureMongoDB: ->
 		ui.warn 'Configure MongoDB database.'
-		input = [' local/remote']
+		input = [' Local/Remote']
 		ui.line()
 		utils.prompt.get input, (err, result) =>
 			ui.line()
@@ -273,7 +273,7 @@ class Marie
 	onSave: ->
 		ui.warn 'Start app?'
 		utils.prompt.start()
-		input = ' yes/no'
+		input = ' Yes/No'
 		ui.line()
 		utils.prompt.get [input], (err, result) =>
 			ui.line()

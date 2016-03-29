@@ -8,7 +8,7 @@ class Utils
 	clc: require 'cli-color'
 	root: __dirname.replace '/marie/lib', '/marie'
 
-
+	
 	constructor: ->
 		@configurePrompt()
 		@configureFs()

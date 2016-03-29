@@ -16,15 +16,15 @@ class MarieController extends Marie
 
 	configureRoutes: ->
 		@routes =
-			'new': @add
 			'add': @add
-			'remove': @remove
+			'new': @add
 			'ls': @list
 			'list': @list
 			'live': @live
 			'start': @start
 			'stop': @stop
 			'restart': @restart
+			'remove': @remove
 
 
 	route: ->
@@ -78,11 +78,18 @@ class MarieController extends Marie
 
 	remove: =>
 		if not not @args[3]
-			App.remove @args[3], (err, success) =>
-				if err then utils.throwError err
-				if success then ui.ok success
+			ui.warn 'Are you sure?'
+			utils.prompt.start()
+			input = ' Yes/No'
+			ui.line()
+			utils.prompt.get [input], (err, result) =>
+				ui.line()
+				if result[input].match(/^y/i)
+					App.remove @args[3], (err, success) =>
+						if err then utils.throwError err
+						if success then ui.ok success
 		else
-			ui.error 'argument missing.'
+			ui.error 'Missing argument.'
 
 
 	start: =>
@@ -121,8 +128,8 @@ class MarieController extends Marie
 				ui.write "Starting #{app.name}..."
 				setTimeout =>
 					ui.ok "#{app.name} started."
-					ui.ok "url: http://localhost:1337"
-					ui.notice "path: #{app.path}"
+					ui.notice "Url: http://localhost:1337"
+					ui.notice "Path: #{app.path}"
 					process.exit()
 				, 1000
 
@@ -149,7 +156,7 @@ class MarieController extends Marie
 						@_start app
 
 		else
-			ui.error 'argument missing.'
+			ui.error 'Missing argument.'
 
 
 # export controller module
