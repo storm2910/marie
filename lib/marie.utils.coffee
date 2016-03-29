@@ -28,7 +28,7 @@ class Utils
 
 
 	throwError: (error) ->
-		if error then ui.error error else 'An error occured.'
+		if error then console.log error else 'An error occured.'
 		setTimeout ->
 			process.exit()
 		, 300
@@ -50,9 +50,9 @@ class Utils
 		for pkg in pkgs then @uninstall pkg, @stdoutCallBack
 
 
-	installApi: (api) ->
-		api = api.toLowerCase().replace /\s/, ''
-		@exe 'sails', ['generate', 'api', api, '--coffee'], @stdoutCallBack
+	installApi: (api, cb) ->
+		api = api.toLowerCase().replace /^[.\s]+|[.\s]+$/g, ''
+		@exe 'sails', ['generate', 'api', api, '--coffee'], cb
 
 	installApis: (apis)->
 		for api in apis then @installApi api
