@@ -14,7 +14,7 @@ class MarieController extends Marie
 		@route()
 
 
-	configureRoutes: ->
+	configureRoutes: ->	
 		@routes =
 			'add': @add
 			'new': @add
@@ -26,11 +26,22 @@ class MarieController extends Marie
 			'restart': @restart
 			'remove': @remove
 
+		@commands =
+			'api':
+				'add': @addApi
+				'remove': @removeApi
+				'delete': @removeApi
+
+			'module':
+				'add': @addModule
+				'remove': @removeModule
+				'delete': @removeModule
+
 
 	route: ->
 		@args = process.argv
-		len = @args.length
-		if len >= 3
+		len = @args.length - 1
+		if len >= 2
 			route = @args[2]
 			if @routes[route]? then @routes[route](@args[3]) else @add route
 		else
@@ -39,19 +50,25 @@ class MarieController extends Marie
 
 	add: (arg) =>
 		if not not arg
-			ui.header 'Creating', arg
-			path = utils.path.join @root, arg
-			utils.fs.stat path, (err, stats) =>
-				if err
-					@app = new App { 
-						name: arg 
-						path: path
-						cssProcessor: 'stylus'
-						templateEnegine: 'jade'
-						created: new Date()
-					}
-					@configureSails()
-				else ui.warn "#{arg} app exists."
+			len = @args.length - 1
+			if len == 5
+				if @commands[@args[4]][@args[3]]? then @commands[@args[4]][@args[3]] @args[5]
+			else if len > 2 and len < 5
+				ui.error 'Missing. argument.'
+			else
+				ui.header 'Creating', arg
+				path = utils.path.join @root, arg
+				utils.fs.stat path, (err, stats) =>
+					if err
+						@app = new App { 
+							name: arg 
+							path: path
+							cssProcessor: 'stylus'
+							templateEnegine: 'jade'
+							created: new Date()
+						}
+						@configureSails()
+					else ui.warn "#{arg} app exists."
 		else
 			ui.warn 'Enter app name.'
 			utils.prompt.start()
@@ -157,6 +174,42 @@ class MarieController extends Marie
 
 		else
 			ui.error 'Missing argument.'
+
+
+	addApi: (api) =>
+		App.addApi @args[2], api, (err, app) =>
+			if err then utils.throwError err
+			if app
+				@add = app
+				@restart()
+				ui.ok "Added api #{api}"
+
+
+	removeApi: (api) =>
+		App.removeApi @args[2], api, (err, app) =>
+			if err then utils.throwError err
+			if app
+				@add = app
+				@restart()
+				ui.ok "Removed api #{api}"
+
+
+	addModule: (pkg) =>
+		App.addModule @args[2], pkg, (err, app) =>
+			if err then utils.throwError err
+			if app
+				@add = app
+				@restart()
+				ui.ok "Added module #{pkg}"
+
+
+	removeModule: (pkg) =>
+		App.removeModule @args[2], pkg, (err, app) =>
+			if err then utils.throwError err
+			if app
+				@add = app
+				@restart()
+				ui.ok "Removed module #{pkg}"
 
 
 # export controller module

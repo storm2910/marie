@@ -1,4 +1,5 @@
 utils = require './marie.utils'
+ui = require './marie.ui'
 sqlite3 = require('sqlite3').verbose()
 db_path = utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
 db = new sqlite3.Database db_path
@@ -120,6 +121,49 @@ class App
 			app.save (err, app) =>
 				if cb then cb err, app
 		else return true
+
+
+	@addApi: (name, api, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			if row
+				app = new App row
+				process.chdir app.path
+				utils.installApi api, (error, stdout, stderr) ->
+					cb error, app
+
+
+	@removeApi: (name, api, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			if row
+				app = new App row
+				utils.fs.unlink app.file("/api/controllers/#{api}controller.coffee"), (err) ->
+				utils.fs.unlink app.file("/api/models/#{api}.coffee"), (err) ->
+				cb err, app
+
+
+	@addModule: (name, pkg, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			if row
+				app = new App row
+				process.chdir app.path
+				ui.write "Adding `#{pkg}` module..."
+				utils.install [pkg], '--save', (error, stdout, stderr) ->
+					cb error, app
+
+
+	@removeModule: (name, pkg, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			if row
+				app = new App row
+				process.chdir app.path
+				ui.write "Removing `#{pkg}` module..."
+				utils.uninstall [pkg], (error, stdout, stderr) ->
+					cb error, app
+
 
 
 # export app module

@@ -13,6 +13,7 @@ class UI
 		OK: utils.clc.greenBright
 		ERROR: utils.clc.redBright
 
+
 	constructor: ->
 
 
