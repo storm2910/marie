@@ -8883,3 +8883,49 @@ Error: ENOENT: no such file or directory, uv_cwd
 [34mdebug: [39mEnvironment : development
 [34mdebug: [39mPort        : 1337
 [34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 00:39:23 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 00:39:50 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
