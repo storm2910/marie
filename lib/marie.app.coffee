@@ -1,8 +1,6 @@
-fs = require 'fs'
-fs = require 'fs-extra'
-path = require 'path'
+utils = require './marie.utils'
 sqlite3 = require('sqlite3').verbose()
-db_path = path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
+db_path = utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
 db = new sqlite3.Database db_path
 
 class App
@@ -18,31 +16,74 @@ class App
 	@pid
 
 	query: require './marie.query'
-	ui: require './marie.ui'
 
 
 	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid}) ->
 
 
-	save: ->
+	add: (cb) ->
+		return @store 'add', cb
+
+
+	save: (cb) ->
+		return @store 'save', cb
+
+
+	store: (cmd, cb) ->
 		db.serialize =>
 			db.run App::query.INIT
-			stmt = db.prepare App::query.SAVE
-			stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
+			if cmd.match /save/
+				stmt = db.prepare App::query.SAVE
+				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid, @name 
+			else
+				stmt = db.prepare App::query.ADD
+				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEnegine, @live, @created, @lastActive, @pid
 			stmt.finalize()
-			App::ui.ok "#{@name} was successfully saved."
+			if cb then cb null, @
 
 
-	@find: (name, cb) =>
+	file: (path) ->
+		return utils.path.join @path, path
+
+
+	stop: ->
+		@live = false
+		@lastActive = new Date().getTime()
+		@pid = 0
+
+
+	start: (pid) ->
+		@live = true
+		@lastActive = new Date().getTime()
+		@pid = pid
+
+
+	@live: (cb) ->
+		db.serialize =>
+			db.all App::query.LIVE, (err, rows) ->
+				if cb and rows
+					apps = []
+					apps.push new App row for row in rows
+					cb err, apps
+				else if cb and not rows
+					cb err, null
+
+
+	@find: (name, cb) ->
 		db.serialize =>
 			db.run App::query.INIT
 			if not not name
 				db.each App::query.FIND_ONE, name, (err, row) ->
-					app = new App row
-					cb err, app
+					if cb then cb err, new App row
 			else
-				db.all App::query.FIND, (err, row) ->
-					cb err, row
+				db.all App::query.FIND, (err, rows) ->
+					if cb and rows
+						apps = []
+						apps.push new App row for row in rows
+						cb err, apps
+					else if cb and not rows
+						cb err, null
+
 
 
 	@remove:(name, cb) ->
@@ -50,13 +91,35 @@ class App
 			if err then cb err, row
 			if row
 				path = row['path']
-				cb err, path
 				db.run App::query.REMOVE, name, (err, success) ->
 					if not err
-						fs.removeSync path
-						cb null, "#{name} was successfully removed."
+						utils.fs.removeSync path
+						if cb then cb null, "#{name} was successfully removed."
 					else
-						cb "#{name} was not removed.", null
+						if cb then cb "#{name} was not removed.", null
+
+
+	@start: (app, cb) ->
+		file = app.file '/app.js'
+		log = "#{utils.root}/config/.log"
+		out = utils.fs.openSync log, 'a'
+		err = utils.fs.openSync log, 'a'
+		start = utils.spawn 'node', [file], {
+			detached: true
+			stdio: ['ignore', out, err]
+		}
+		app.start start.pid 
+		app.save (err, app) =>
+			if cb then cb err, app
+
+
+	@stop: (app, cb) ->
+		if app.live
+			utils.spawnSync 'kill', ['-SIGTERM', app.pid]
+			app.stop()
+			app.save (err, app) =>
+				if cb then cb err, app
+		else return true
 
 
 # export app module
