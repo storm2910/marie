@@ -1,3 +1,11 @@
+###
+@namespace marie.ui
+@author Teddy Moussignac (teddy.moussignac@gmail.com)
+@version 0.0.3
+@copyright: March 2016
+@note Marie ui class
+###
+
 utils = require './marie.utils'
 
 class UI

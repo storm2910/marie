@@ -1,19 +1,34 @@
+###
+@namespace marie.controller
+@extend marie
+@property [Array<String>] args
+@property [String] root
+@author Teddy Moussignac (teddy.moussignac@gmail.com)
+@version 0.0.3
+@copyright March 2016
+@note Marie controller class. Maps routes and commands to app methods.
+###
+
 utils = require './marie.utils'
 ui = require './marie.ui'
 Marie = require './marie'
 App = require './marie.app'
 
-
 class MarieController extends Marie
 	@args
 	@root
 
+	###
+	Construct app
+	###
 	constructor: ->
 		@root = process.cwd()
 		@configureRoutes()
 		@route()
 
-
+	###
+	Configure application routes and commands
+	###
 	configureRoutes: ->	
 		@routes =
 			'add': @add
@@ -37,7 +52,9 @@ class MarieController extends Marie
 				'remove': @removeModule
 				'delete': @removeModule
 
-
+	###
+	Process app route
+	###
 	route: ->
 		@args = process.argv
 		len = @args.length - 1
@@ -47,7 +64,13 @@ class MarieController extends Marie
 		else
 			@add null
 
-
+	###
+	Configure `add` app method. Creates new app
+	@pparam [String] arg or app name
+	@example `marie add dc-web`
+	@example `marie new dc-web`
+	@example `marie dc-web
+	###
 	add: (arg) =>
 		if not not arg
 			len = @args.length - 1
@@ -79,20 +102,32 @@ class MarieController extends Marie
 				else
 					@add result.name
 
-
+	###
+	Configure `list` app command handler. Retrive and List all apps or single app method
+	@example `marie list`
+	@example `marie list dc-web`
+	@returns [Array<App>, App] apps return apps or app
+	###
 	list: =>
 		App.find @args[3], (err, app) =>
 			if err then utils.throwError err
 			if app
 				if not not @args[4] then ui.notice app[@args[4]] else console.log app
 
-
+	###
+	Configure `live` app command handler. Get all live app
+	@example `marie live`
+	@returns [App] app return live app
+	###
 	live: =>
 		App.live (err, apps) =>
 			if err then utils.throwError err
 			else console.log apps
 
-
+	###
+	Configure `remove` app command handler. Remove app from system
+	@example `marie remove dc-web`
+	###
 	remove: =>
 		if not not @args[3]
 			ui.warn 'Are you sure?'
@@ -108,7 +143,10 @@ class MarieController extends Marie
 		else
 			ui.error 'Missing argument.'
 
-
+	###
+	Configure `start` app command handler. start app
+	@example `marie start dc-web`
+	###
 	start: =>
 		App.live (err, apps) =>
 			if err then utils.throwError err
@@ -118,7 +156,11 @@ class MarieController extends Marie
 			else
 				return @_run 'start'
 
-
+	###
+	Configure `stop` app command handler. Stops app or stop all apps
+	@example `marie stop dc-web`
+	@example `marie stop`
+	###
 	stop: =>
 		App.live (err, apps) =>
 			if err then utils.throwError err
@@ -127,17 +169,24 @@ class MarieController extends Marie
 			else
 				return @_run 'stop'
 
-
+	###
+	Configure `restart` app command handler. Restarts current live app
+	@example `marie restart`
+	###
 	restart: =>
 		App.live (err, apps) =>
 			if err then utils.throwError err
-			else if apps
+			else if apps and apps.length > 0
 				@_stop app for app in apps
 				@_start apps[0]
 			else
 				return @_run 'start'
 
-
+	###
+	Configure system start app method
+	@param [App] app app to start
+	@example `_start app`
+	###
 	_start: (app) ->
 		App.start app, (err, app) =>
 			if err then utils.throwError err
@@ -150,13 +199,20 @@ class MarieController extends Marie
 					process.exit()
 				, 1000
 
-
+	###
+	Configure system stop app method
+	@param [App] app app to stop
+	@example `_stop app`
+	###
 	_stop: (app) ->
 		ui.write "Stopping #{app.name}..."
 		App.stop app, (err, app) =>
 			if err then utils.throwError err else ui.ok "#{app.name} stopped."
 
-
+	###
+	Configure system run app method.
+	@param [String] cmd command sart/stop/restart
+	###
 	_run: (cmd) ->
 		if not not @args[3]
 			App.find @args[3], (err, app) =>
@@ -175,44 +231,59 @@ class MarieController extends Marie
 		else
 			ui.error 'Missing argument.'
 
-
+	###
+	Configure add api method
+	@param [String] api api to add
+	@example `marie dc-web add api user`
+	###
 	addApi: (api) =>
 		App.addApi @args[2], api, (err, app) =>
 			if err then utils.throwError err
 			if app
-				@add = app
+				@app = app
 				@restart()
 				ui.ok "Added api #{api}"
 
-
+	###
+	Configure remove api method
+	@param [String] api api to remove
+	@example `marie dc-web remove api user`
+	###
 	removeApi: (api) =>
 		App.removeApi @args[2], api, (err, app) =>
 			if err then utils.throwError err
 			if app
-				@add = app
+				@app = app
 				@restart()
 				ui.ok "Removed api #{api}"
 
-
+	###
+	Configure add module method
+	@param [String] pkg module to add
+	@example `marie dc-web add module bower`
+	###
 	addModule: (pkg) =>
 		ui.write "Adding `#{pkg}` module..."
 		App.addModule @args[2], pkg, (err, app) =>
 			if err then utils.throwError err
 			if app
-				@add = app
+				@app = app
 				@restart()
 				ui.ok "Added module #{pkg}"
 
-
+	###
+	Configure remove module method
+	@param [String] pkg module to remove
+	@example `marie dc-web remove module bower`
+	###
 	removeModule: (pkg) =>
 		ui.write "Removing `#{pkg}` module..."
 		App.removeModule @args[2], pkg, (err, app) =>
 			if err then utils.throwError err
 			if app
-				@add = app
+				@app = app
 				@restart()
 				ui.ok "Removed module #{pkg}"
-
 
 # export controller module
 module.exports = new MarieController
