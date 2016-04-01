@@ -107,8 +107,7 @@ class Utils
 	@param [String] api api to install
 	@param [App] app app to install api for
 	###
-	installApi: (api, app, cb) ->
-		process.chdir app.path
+	installApi: (api, cb) ->
 		api = @trim api.toLowerCase()
 		@exe 'sails', ['generate', 'api', api, '--coffee'], cb
 
@@ -128,8 +127,8 @@ class Utils
 	@param [Array<String>] api api to install
 	@param [App] app app to install apis for
 	###
-	installApis: (apis, app)->
-		for api in apis then @installApi api, app
+	installApis: (apis)->
+		for api in apis then @installApi api
 
 	###
 	Uninstall api method definition

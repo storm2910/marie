@@ -205,7 +205,8 @@ class App
 			if err then cb err, row
 			if row
 				app = new App row
-				utils.installApi api, app, (error, stdout, stderr) ->
+				app.cwd()
+				utils.installApi api, (error, stdout, stderr) ->
 					cb error, app
 
 	###
@@ -233,7 +234,7 @@ class App
 			if err then cb err, row
 			if row
 				app = new App row
-				process.chdir app.path
+				app.cwd()
 				option = '--save'
 				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
 				utils.install [pkg], option, (error, stdout, stderr) ->
@@ -266,8 +267,8 @@ class App
 			if err then cb err, row
 			if row
 				app = new App row
-				pkg_file = app.file 'package.json'
-				config = JSON.parse utils.fs.readFileSync pkg_file, @utf8
+				file = app.file 'package.json'
+				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
 				cb null, config
 
@@ -353,6 +354,16 @@ class App
 	@configureLocalMongoDB: (app, cb) ->
 		app.cwd()
 		utils.configureLocalMongoDBFor app, cb
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureApis: (app, apis, cb) ->
+		app.cwd()
+		utils.installApis apis, @app
+		cb null, app
 			
 # export ap module
 module.exports = App

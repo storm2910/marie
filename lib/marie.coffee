@@ -289,14 +289,16 @@ class Marie
 		ui.line()
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
-			res = if result[input].length > 0 then result[input] else null
-			if not not res
+			res = if result[input] then utils.trim(result[input]) else null
+			if not not res and res.length > 0
 				apis = res.split ','
-				utils.installApis apis, @app
-				ui.ok "APIs configuration done."
-				@save()
+				App.configureApis app, apis, (err, app) =>
+					if err then utils.throwError err 
+					if app 
+						ui.ok 'API configuration done.'
+						@save app
 			else
-				@save()
+				@save app
 
 	###
 	If something goes really bad. Stop everything, remove everything and exit process
@@ -315,9 +317,9 @@ class Marie
 	Save app to marie database
 	@example marie list some-app
 	###
-	save: ->
+	save: (app) ->
 		@endTime = new Date 
-		@app.add (err, app) =>
+		app.add (err, app) =>
 			if err then @throwFatalError err
 			else
 				ui.ok "#{app.name} was successfully added."
@@ -326,7 +328,7 @@ class Marie
 			@initTime = "#{Math.round(total)} seconds" 
 		else
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.notice "Path: #{@app.path}"
+		ui.notice "Path: #{app.path}"
 		ui.notice "Creation Time: #{@initTime}"
 		@onSave()
 
