@@ -257,7 +257,7 @@ class App
 			if row
 				app = new App row
 				pkg_file = app.file 'package.json'
-				config = JSON.parse(utils.fs.readFileSync(pkg_file, @utf8))
+				config = JSON.parse utils.fs.readFileSync pkg_file, @utf8
 				if key then config = config[key]
 				cb null, config
 
