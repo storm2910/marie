@@ -323,6 +323,36 @@ class App
 	###
 	@configureBundles: (app, cb) ->
 		utils.configureBundlesFor app, cb
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureNativeDB: (app, cb) ->
+		app.storage = utils.storageType.LOCAL
+		utils.setupDBWithConfigFor app, null, cb
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureMongoDB: (app, config, cb) ->
+		app.cwd()
+		if config.constructor == String 
+			utils.configureRemoteMongoDBWithURIFor app, config, cb
+		else 
+			utils.configureRemoteMongoDBWithConfigFor app, config, cb
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureLocalMongoDB: (app, cb) ->
+		app.cwd()
+		utils.configureLocalMongoDBFor app, cb
 			
-# export app module
+# export ap module
 module.exports = App

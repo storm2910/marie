@@ -188,114 +188,91 @@ class Marie
 			if err then utils.throwError err 
 			if app
 				ui.ok 'Frontend configuration done.'
-				@configureDB()
+				@configureDB app
 
 	###
 	Data storage form prompt configuration
 	Let you choose between localDisk and a mongo database
 	@example localDisk/mongo
 	###
-	configureDB: ->
+	configureDB: (app) ->
 		ui.warn 'Choose your database.'
 		utils.prompt.start()
 		input = ' Mongo/Disk'
 		ui.line()
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
-			if result[input].match(/^m/i) then @configureMongoDB() else @configureNativeDB()
+			if result[input].match(/^m/i) then @configureMongoDB(app) else @configureNativeDB(app)
 
 	###
 	Configure localDisk as the default data storage
 	###
-	configureNativeDB: ->
-		@app.storage = 'localDisk'
-		@setupDBWithConfig 'The local disk'
+	configureNativeDB: (app) ->
+		App.configureNativeDB app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok "Local disk database configuration done."
+				@configureAPIs app
 
 	###
 	Configure mongoDB as the default data storage and choose between local or remote mongo
 	###
-	configureMongoDB: ->
+	configureMongoDB: (app) ->
 		ui.warn 'Configure MongoDB database.'
 		input = [' Local/Remote']
 		ui.line()
 		utils.prompt.get input, (err, result) =>
 			ui.line()
-			ui.write "Configuring MongoDB..."
-			utils.install 'sails-mongo', '--save', (error, stdout, stderr) =>
-				ui.clear()
-				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
+			if result[input].match(/^r/i) then @configureRemoteMongoDB(app) else @configureLocalMongoDB(app)
 
-	###
-	Local mongodb database configuration
-	###
-	configureLocalMongoDB: ->
-		@app.storage = @storageType.LOCAL
-		lconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.LOCAL}.js", @utf8
-		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
-		@setupDBWithConfig 'Local MongoDB', cconfig
+	# ###
+	# Local mongodb database configuration
+	# ###
+	configureLocalMongoDB: (app) ->
+		ui.write "Configuring MongoDB..."
+		App.configureLocalMongoDB app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok "Local MongoDB database configuration done."
+				@configureAPIs app
 
 	###
 	Remote mongodb database configuration
 	###
-	configureRemoteMongoDB: ->
+	configureRemoteMongoDB: (app) ->
 		input = [' mongodb uri']
 		utils.prompt.get input, (err, result) =>
 			ui.line()
-			if result[input].length > 0 
-				@configureRemoteMongoDBWithURI result[input]
+			uri = utils.trim result[input]
+			if uri.match(/\:|@/g)
+				ui.write "Configuring MongoDB..."
+				App.configureMongoDB app, uri, (err, app) =>
+					if err then utils.throwError err 
+					if app
+						ui.ok "MongoDB database configuration done."
+						@configureAPIs app
 			else
-				@configureRemoteMongoDBWithConfig() 
+				@configureRemoteMongoDBWithConfig app
 
 	###
-	Configure remote mongodb with user, password, host, port and database credentials
+	Remote mongodb database configuration
 	###
-	configureRemoteMongoDBWithConfig: ->
-		@app.storage = @storageType.REMOTE
+	configureRemoteMongoDBWithConfig: (app) ->
 		inputs = [' host', ' port', ' user', ' password', ' database']
 		utils.prompt.get inputs, (err, result) =>
 			ui.line()
-			sconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.REMOTE}.js", @utf8
-			cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
-			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
-			cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
-			cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
-			cconfig = cconfig.replace /\$MONGO\.USER/gi, result[' user'] if result[' user']? 
-			cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, result[' password'] if result[' password']? 
-			cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
-			@setupDBWithConfig 'Remote MongoDB', cconfig
-
-	###
-	Configure mongodb with URI
-	@param [String] uri databse url 
-	###
-	configureRemoteMongoDBWithURI: (uri) ->
-		@app.storage = @storageType.URL
-		uconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.URL}.js", @utf8
-		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
-		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
-		@setupDBWithConfig 'Remote MongoDB', cconfig
-
-	###
-	Default databse connection configuration
-	@param [String] db databse label
-	@param [String] config databse connection config data 
-	###
-	setupDBWithConfig: (db, cconfig) ->
-		mdest = @app.file '/config/models.js'
-		mconfig = utils.fs.readFileSync mdest, @utf8
-		mconfig = mconfig.replace(/'alter'/gi, "'safe'").replace(/\/\/ /gi,'').replace(/connection/gi, '// connection')
-		utils.fs.writeFileSync mdest, mconfig
-		if not not cconfig
-			cdest = @app.file '/config/connections.js'
-			utils.fs.writeFileSync cdest, cconfig
-			ddest = @app.file '/config/env/development.js'
-			dconfig = utils.fs.readFileSync ddest, @utf8
-			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @app.storage)
-			utils.fs.writeFileSync ddest, dconfig
-		ui.ok "#{db} database configuration done."
-		@configureAPIs()
+			config =
+				host: if result[' host']? then result[' host'] else ''
+				port: if result[' port']? then result[' port'] else ''
+				user: if result[' user']? then result[' user'] else ''
+				password: if result[' password']? then result[' password'] else ''
+				database: if result[' database']? then result[' database'] else ''
+			ui.write "Configuring MongoDB..."
+			App.configureMongoDB app, config, (err, app) =>
+				if err then utils.throwError err 
+				if app
+					ui.ok "MongoDB database configuration done."
+					@configureAPIs app
 
 	###
 	Configure default app APIs
@@ -305,7 +282,7 @@ class Marie
 	@example /api/models/User.coffee
 	@example /api/controllers/UserController.coffee
 	###
-	configureAPIs: ->
+	configureAPIs: (app) ->
 		ui.warn 'Configure APIs.'
 		utils.prompt.start()
 		input = ' APIs'
