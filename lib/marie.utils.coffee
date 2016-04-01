@@ -1,5 +1,5 @@
 ###
-@namespace marie.utils
+@namespace marie
 @author Teddy Moussignac (teddy.moussignac@gmail.com)
 @version 0.0.3
 @copyright: March 2016
@@ -67,8 +67,8 @@ class Utils
 	@param [String] pkg package to uninstall
 	@param [Function] cb callback function
 	###
-	uninstall: (pkg, cb) ->
-		@exe 'npm', ['uninstall', pkg], cb
+	uninstall: (pkg, opt, cb) ->
+		@exe 'npm', ['uninstall', pkg, opt], cb
 
 	###
 	Install packages method definition

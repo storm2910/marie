@@ -1,5 +1,5 @@
 ###
-@namespace marie.controller
+@namespace marie
 @extend marie
 @property [Array<String>] args
 @property [String] root
@@ -46,11 +46,12 @@ class MarieController extends Marie
 				'add': @addApi
 				'remove': @removeApi
 				'delete': @removeApi
-
 			'module':
 				'add': @addModule
 				'remove': @removeModule
 				'delete': @removeModule
+			'list': 
+				'config': @listConfig
 
 	###
 	Process app route
@@ -109,10 +110,13 @@ class MarieController extends Marie
 	@returns [Array<App>, App] apps return apps or app
 	###
 	list: =>
-		App.find @args[3], (err, app) =>
+		App.find @args[3], (err, apps) =>
 			if err then utils.throwError err
-			if app
-				if not not @args[4] then ui.notice app[@args[4]] else console.log app
+			if apps
+				if not not @args[4] 
+					if @commands.list[@args[4]] then @commands.list[@args[4]]()
+					else ui.notice apps[@args[4]] 
+				else console.log apps
 
 	###
 	Configure `live` app command handler. Get all live app
@@ -284,6 +288,17 @@ class MarieController extends Marie
 				@app = app
 				@restart()
 				ui.ok "Removed module #{pkg}"
+
+	###
+	Configure list module method
+	@example `marie dc-web remove module bower`
+	###
+	listConfig: =>
+		App.getConfig @args[3], @args[5], (err, config) =>
+			if err then utils.throwError err
+			if config
+				if config.constructor == String then ui.notice config
+				else console.log config
 
 # export controller module
 module.exports = new MarieController

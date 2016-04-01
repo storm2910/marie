@@ -1,5 +1,5 @@
 ###
-@namespace marie.app
+@namespace marie
 @include marie.query
 @property [String] name app name
 @property [String] path app path
@@ -243,8 +243,23 @@ class App
 			if row
 				app = new App row
 				process.chdir app.path
-				utils.uninstall [pkg], (error, stdout, stderr) ->
+				utils.uninstall [pkg], '--save', (error, stdout, stderr) ->
 					cb error, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@getConfig: (name, key, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			if row
+				app = new App row
+				pkg_file = app.file 'package.json'
+				config = JSON.parse(utils.fs.readFileSync(pkg_file, @utf8))
+				if key then config = config[key]
+				cb null, config
 
 # export app module
 module.exports = App
