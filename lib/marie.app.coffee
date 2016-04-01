@@ -18,9 +18,8 @@
 ###
 
 utils = require './marie.utils'
-sqlite3 = require('sqlite3').verbose()
-db_path = utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
-db = new sqlite3.Database db_path
+ui = require './marie.ui'
+storage = utils.configureStorage()
 
 class App
 	@name
@@ -34,6 +33,7 @@ class App
 	@lastActive
 	@pid
 
+	db: new storage.Database utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
 	query: require './marie.query'
 
 	###
@@ -71,13 +71,13 @@ class App
 	@param [Function] cb callback function
 	###
 	store: (cmd, cb) ->
-		db.serialize =>
-			db.run App::query.INIT
+		App::db.serialize =>
+			App::db.run App::query.INIT
 			if cmd.match /save/
-				stmt = db.prepare App::query.SAVE
+				stmt = App::db.prepare App::query.SAVE
 				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
 			else
-				stmt = db.prepare App::query.ADD
+				stmt = App::db.prepare App::query.ADD
 				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
@@ -88,6 +88,13 @@ class App
 	###
 	file: (path) ->
 		return utils.path.join @path, path
+
+	###
+	Change process to app root directory
+	###
+	cwd: ->
+		if process.cwd() != @path then process.chdir @path
+		return @path
 
 	###
 	Set app properties to `off` on stop
@@ -111,8 +118,8 @@ class App
 	@param [Function] cb callback function
 	###
 	@live: (cb) ->
-		db.serialize =>
-			db.all App::query.LIVE, (err, rows) ->
+		App::db.serialize =>
+			App::db.all App::query.LIVE, (err, rows) ->
 				if cb and rows
 					apps = []
 					apps.push new App row for row in rows
@@ -126,13 +133,13 @@ class App
 	@param [Function] cb callback function
 	###
 	@find: (name, cb) ->
-		db.serialize =>
-			db.run App::query.INIT
+		App::db.serialize =>
+			App::db.run App::query.INIT
 			if not not name
-				db.each App::query.FIND_ONE, name, (err, row) ->
+				App::db.each App::query.FIND_ONE, name, (err, row) ->
 					if cb then cb err, new App row
 			else
-				db.all App::query.FIND, (err, rows) ->
+				App::db.all App::query.FIND, (err, rows) ->
 					if cb and rows
 						apps = []
 						apps.push new App row for row in rows
@@ -150,7 +157,7 @@ class App
 			if err then cb err, row
 			if row
 				path = row['path']
-				db.run App::query.REMOVE, name, (err, success) ->
+				App::db.run App::query.REMOVE, name, (err, success) ->
 					if not err
 						utils.fs.removeSync path
 						if cb then cb null, "#{name} was successfully removed."
@@ -264,6 +271,67 @@ class App
 				config = JSON.parse utils.fs.readFileSync pkg_file, @utf8
 				if key then config = config[key]
 				cb null, config
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureTasManager: (app, cb) ->
+		app.cwd()
+		utils.install 'grunt-includes', '--save-dev', (error, stdout, stderr) =>
+			utils.fs.copySync utils.config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
+			utils.fs.copySync utils.config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
+			utils.fs.copySync utils.config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
+			cb null, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureCoffeeScript: (app, cb) ->
+		app.cwd()
+		utils.install 'coffee-script', '--save-dev', (error, stdout, stderr) =>
+			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
+			utils.installPackages pkgs
+			utils.fs.copySync utils.config('/tasks/coffee'), app.file('/tasks/config/coffee.js'), { clobber: true }
+			utils.fs.writeFileSync app.file('/assets/js/app.coffee'), ''
+			cb null, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureJade: (app, cb) ->
+		app.cwd()
+		utils.install 'jade', '--save-dev', (error, stdout, stderr) =>
+			viewSrc = app.file '/config/views.js'
+			stream = utils.fs.readFileSync viewSrc, utils.encoding.UTF8
+			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
+			utils.fs.writeFileSync viewSrc, stream
+			
+			dirs = ['/views/modules', '/views/partials', '/views/layouts']
+			for dir in dirs then utils.fs.mkdirSync app.file dir
+			
+			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
+			utils.fs.unlinkSync app.file "/#{file}.ejs" for file in files
+			files.splice files.indexOf('views/layout'), 1
+			partial = 'views/partial'
+			files.push partial 
+			for file in files
+				sfile = utils.config "/templates/#{file}.jade"
+				dfile = app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
+				utils.fs.copySync sfile, dfile
+
+			masterPath = utils.config '/templates/views/master.jade'
+			masterData = utils.fs.readFileSync masterPath, utils.encoding.UTF8
+			masterData = masterData.replace /\$APP_NAME/gi, app.name
+			utils.fs.writeFileSync app.file('/views/layouts/master.jade'), masterData
+			cb null, app
+
+
 
 # export app module
 module.exports = App
