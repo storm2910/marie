@@ -14,7 +14,7 @@ ui = require './marie.ui'
 Marie = require './marie'
 App = require './marie.app'
 
-class MarieController extends Marie
+class MarieCLI extends Marie
 	@args
 	@root
 
@@ -301,4 +301,4 @@ class MarieController extends Marie
 				else console.log config
 
 # export controller module
-module.exports = new MarieController
+module.exports = new MarieCLI
