@@ -137,41 +137,25 @@ class Marie
 			if err then utils.throwError err 
 			if app 
 				ui.ok 'Jade configuration done.'
-				# @configureStylus app
+				@configureStylus app
 
 	###
 	Configure stylus as the default css pre-processor
 	###
-	configureStylus: ->
+	configureStylus:(app) ->
 		ui.write 'Configuring Stylus...'
-		utils.install 'stylus', '--save-dev', =>
-			pkgs = ['grunt-contrib-stylus']
-			utils.installPackages pkgs
-			stream = utils.fs.readFileSync @app.file('/tasks/config/less.js'), @utf8
-			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
-			utils.fs.writeFileSync @app.file('/tasks/config/stylus.js'), stream
-			configs = [
-				'/tasks/register/compileAssets'
-				'/tasks/register/syncAssets'
-				'/tasks/config/sync'
-				'/tasks/config/copy'
-			]
-			for config in configs
-				stream = utils.fs.readFileSync @app.file("#{config}.js"), @utf8
-				if config.match /register/
-					stream = stream.replace(/less:dev/gi, 'stylus:dev')
-				else
-					stream = stream.replace(/less/gi, 'stylus')
-				utils.fs.writeFileSync @app.file("#{config}.js"), stream
-			ui.ok 'Stylus configuration done.'
-			@configureStyleFramework()
+		App.configureStylus app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok 'Stylus configuration done.'
+				@configureFrontEndFramework app
 
 	###
 	Frontend framework form prompt configuration
 	Let you choose betwen bootstrap and foundation
 	@example foundation/bootstrap
 	###
-	configureStyleFramework: ->
+	configureFrontEndFramework: (app) ->
 		ui.warn 'Choose your style framework.'
 		utils.prompt.start()
 		ui.line()
@@ -179,145 +163,116 @@ class Marie
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
 			if result[input].match(/^f/i)
-				@configureFrontend @framework.FOUNDATION
+				@configureFramework app, utils.framework.FOUNDATION
 			else if result[input].match(/^b/i)
-				@configureFrontend @framework.BOOTSTRAP
+				@configureFramework app, utils.framework.BOOTSTRAP
 			else
-				@configureBundles()
+				@configureBundles app
 			
 	###
 	Configure foundation or bootstrap as the default frontend framewok
 	@param [String] framework bootstrap or foundation
 	###
-	configureFrontend: (framework) ->
-		@app.frontEndFramework = framework
-		cpath = "#{utils.root}/config/#{@app.frontEndFramework}-#{@app.cssProcessor}"
-		jpath = "#{utils.root}/config/#{@app.frontEndFramework}-js"
-		utils.fs.copySync cpath, @app.file("/assets/styles/#{@app.frontEndFramework}"), { clobber: true }
-		utils.fs.copySync jpath, @app.file("/assets/js/dependencies/#{@app.frontEndFramework}"), { clobber: true }
-		@configureBundles()
+	configureFramework: (app, framework) ->
+		App.configureFrontEndFramework app, framework, (err, app) =>
+			if err then utils.throwError err 
+			if app then @configureBundles app
 
 	###
 	Configure default bundle files
 	@example /assets/styles/bundles/default.styl
 	@example /assets/styles/bundles/admin.styl
 	###
-	configureBundles: ->
-		ext = '.styl'
-		styles = if not not @app.frontEndFramework then "@import '../#{@app.frontEndFramework}'" else ''
-		utils.fs.mkdirSync @app.file('/assets/styles/bundles')
-		utils.fs.removeSync @app.file('/assets/styles/importer.less')
-		utils.fs.writeFileSync @app.file("/assets/styles/bundles/default#{ext}"), styles
-		utils.fs.writeFileSync @app.file("/assets/styles/bundles/admin#{ext}"), styles
-		ui.ok 'Frontend configuration done.'
-		@configureDB()
+	configureBundles: (app) ->
+		App.configureBundles app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok 'Frontend configuration done.'
+				@configureDB app
 
 	###
 	Data storage form prompt configuration
 	Let you choose between localDisk and a mongo database
 	@example localDisk/mongo
 	###
-	configureDB: ->
+	configureDB: (app) ->
 		ui.warn 'Choose your database.'
 		utils.prompt.start()
 		input = ' Mongo/Disk'
 		ui.line()
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
-			if result[input].match(/^m/i) then @configureMongoDB() else @configureNativeDB()
+			if result[input].match(/^m/i) then @configureMongoDB(app) else @configureNativeDB(app)
 
 	###
 	Configure localDisk as the default data storage
 	###
-	configureNativeDB: ->
-		@app.storage = 'localDisk'
-		@setupDBWithConfig 'The local disk'
+	configureNativeDB: (app) ->
+		App.configureNativeDB app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok "Local disk database configuration done."
+				@configureAPIs app
 
 	###
 	Configure mongoDB as the default data storage and choose between local or remote mongo
 	###
-	configureMongoDB: ->
+	configureMongoDB: (app) ->
 		ui.warn 'Configure MongoDB database.'
 		input = [' Local/Remote']
 		ui.line()
 		utils.prompt.get input, (err, result) =>
 			ui.line()
-			ui.write "Configuring MongoDB..."
-			utils.install 'sails-mongo', '--save', (error, stdout, stderr) =>
-				ui.clear()
-				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
+			if result[input].match(/^r/i) then @configureRemoteMongoDB(app) else @configureLocalMongoDB(app)
 
-	###
-	Local mongodb database configuration
-	###
-	configureLocalMongoDB: ->
-		@app.storage = @storageType.LOCAL
-		lconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.LOCAL}.js", @utf8
-		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
-		@setupDBWithConfig 'Local MongoDB', cconfig
+	# ###
+	# Local mongodb database configuration
+	# ###
+	configureLocalMongoDB: (app) ->
+		ui.write "Configuring MongoDB..."
+		App.configureLocalMongoDB app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok "Local MongoDB database configuration done."
+				@configureAPIs app
 
 	###
 	Remote mongodb database configuration
 	###
-	configureRemoteMongoDB: ->
+	configureRemoteMongoDB: (app) ->
 		input = [' mongodb uri']
 		utils.prompt.get input, (err, result) =>
 			ui.line()
-			if result[input].length > 0 
-				@configureRemoteMongoDBWithURI result[input]
+			uri = utils.trim result[input]
+			if uri.match(/\:|@/g)
+				ui.write "Configuring MongoDB..."
+				App.configureMongoDB app, uri, (err, app) =>
+					if err then utils.throwError err 
+					if app
+						ui.ok "MongoDB database configuration done."
+						@configureAPIs app
 			else
-				@configureRemoteMongoDBWithConfig() 
+				@configureRemoteMongoDBWithConfig app
 
 	###
-	Configure remote mongodb with user, password, host, port and database credentials
+	Remote mongodb database configuration
 	###
-	configureRemoteMongoDBWithConfig: ->
-		@app.storage = @storageType.REMOTE
+	configureRemoteMongoDBWithConfig: (app) ->
 		inputs = [' host', ' port', ' user', ' password', ' database']
 		utils.prompt.get inputs, (err, result) =>
 			ui.line()
-			sconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.REMOTE}.js", @utf8
-			cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
-			cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
-			cconfig = cconfig.replace /\$MONGO\.HOST/gi, result[' host'] if result[' host']? 
-			cconfig = cconfig.replace /\$MONGO\.PORT/gi, result[' port'] if result[' port']? 
-			cconfig = cconfig.replace /\$MONGO\.USER/gi, result[' user'] if result[' user']? 
-			cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, result[' password'] if result[' password']? 
-			cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
-			@setupDBWithConfig 'Remote MongoDB', cconfig
-
-	###
-	Configure mongodb with URI
-	@param [String] uri databse url 
-	###
-	configureRemoteMongoDBWithURI: (uri) ->
-		@app.storage = @storageType.URL
-		uconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.URL}.js", @utf8
-		cconfig = utils.fs.readFileSync utils.config('/databases/connections.js'), @utf8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
-		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
-		@setupDBWithConfig 'Remote MongoDB', cconfig
-
-	###
-	Default databse connection configuration
-	@param [String] db databse label
-	@param [String] config databse connection config data 
-	###
-	setupDBWithConfig: (db, cconfig) ->
-		mdest = @app.file '/config/models.js'
-		mconfig = utils.fs.readFileSync mdest, @utf8
-		mconfig = mconfig.replace(/'alter'/gi, "'safe'").replace(/\/\/ /gi,'').replace(/connection/gi, '// connection')
-		utils.fs.writeFileSync mdest, mconfig
-		if not not cconfig
-			cdest = @app.file '/config/connections.js'
-			utils.fs.writeFileSync cdest, cconfig
-			ddest = @app.file '/config/env/development.js'
-			dconfig = utils.fs.readFileSync ddest, @utf8
-			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, @app.storage)
-			utils.fs.writeFileSync ddest, dconfig
-		ui.ok "#{db} database configuration done."
-		@configureAPIs()
+			config =
+				host: if result[' host']? then result[' host'] else ''
+				port: if result[' port']? then result[' port'] else ''
+				user: if result[' user']? then result[' user'] else ''
+				password: if result[' password']? then result[' password'] else ''
+				database: if result[' database']? then result[' database'] else ''
+			ui.write "Configuring MongoDB..."
+			App.configureMongoDB app, config, (err, app) =>
+				if err then utils.throwError err 
+				if app
+					ui.ok "MongoDB database configuration done."
+					@configureAPIs app
 
 	###
 	Configure default app APIs
@@ -327,21 +282,23 @@ class Marie
 	@example /api/models/User.coffee
 	@example /api/controllers/UserController.coffee
 	###
-	configureAPIs: ->
+	configureAPIs: (app) ->
 		ui.warn 'Configure APIs.'
 		utils.prompt.start()
 		input = ' APIs'
 		ui.line()
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
-			res = if result[input].length > 0 then result[input] else null
-			if not not res
+			res = if result[input] then utils.trim(result[input]) else null
+			if not not res and res.length > 0
 				apis = res.split ','
-				utils.installApis apis, @app
-				ui.ok "APIs configuration done."
-				@save()
+				App.configureApis app, apis, (err, app) =>
+					if err then utils.throwError err 
+					if app 
+						ui.ok 'API configuration done.'
+						@save app
 			else
-				@save()
+				@save app
 
 	###
 	If something goes really bad. Stop everything, remove everything and exit process
@@ -360,9 +317,9 @@ class Marie
 	Save app to marie database
 	@example marie list some-app
 	###
-	save: ->
+	save: (app) ->
 		@endTime = new Date 
-		@app.add (err, app) =>
+		app.add (err, app) =>
 			if err then @throwFatalError err
 			else
 				ui.ok "#{app.name} was successfully added."
@@ -371,7 +328,7 @@ class Marie
 			@initTime = "#{Math.round(total)} seconds" 
 		else
 			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.notice "Path: #{@app.path}"
+		ui.notice "Path: #{app.path}"
 		ui.notice "Creation Time: #{@initTime}"
 		@onSave()
 

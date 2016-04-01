@@ -10976,3 +10976,1452 @@ Error: Callback was already called.
    { [MongoError: getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020]
      name: 'MongoError',
      message: 'getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020' } }
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:21:39 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:28:19 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:30:38 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[31merror: [39mSending 500 ("Server Error") response: 
+ Error: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mServer Error:
+[31merror: [39mError: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mSending 500 ("Server Error") response: 
+ Error: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mServer Error:
+[31merror: [39mError: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mSending 500 ("Server Error") response: 
+ Error: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mServer Error:
+[31merror: [39mError: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mSending 500 ("Server Error") response: 
+ Error: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[31merror: [39mServer Error:
+[31merror: [39mError: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at serveView (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:72:13)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at rememberViewId (/usr/local/lib/node_modules/sails/lib/hooks/views/actions.js:69:9)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at module.exports (/usr/local/lib/node_modules/sails/lib/hooks/cors/clear-headers.js:14:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at sails.router.bind._middlewareType (/usr/local/lib/node_modules/sails/lib/hooks/csrf/index.js:124:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at _addResViewMethod (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:327:3)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:35:7
+  at Object.i18nInit [as init] (/usr/local/lib/node_modules/sails/node_modules/i18n/i18n.js:89:5)
+  at addLocalizationMethod (/usr/local/lib/node_modules/sails/lib/hooks/i18n/index.js:33:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at addResponseMethods (/usr/local/lib/node_modules/sails/lib/hooks/responses/index.js:149:18)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at nextRoute (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+  at /usr/local/lib/node_modules/sails/lib/router/bind.js:187:7
+  at /usr/local/lib/node_modules/sails/lib/hooks/request/index.js:122:13
+  at /usr/local/lib/node_modules/sails/node_modules/connect-flash/lib/flash.js:21:5
+  at addMixins (/usr/local/lib/node_modules/sails/lib/hooks/request/index.js:100:11)
+  at routeTargetFnWrapper (/usr/local/lib/node_modules/sails/lib/router/bind.js:179:5)
+  at callbacks (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:164:37)
+  at param (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:138:11)
+  at pass (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:145:5)
+  at Router._dispatch (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+  at Object.router (/usr/local/lib/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.xPoweredBy [as handle] (/usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:205:7)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at Object.methodOverride [as handle] (/usr/local/lib/node_modules/sails/node_modules/method-override/index.js:65:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:176:9)
+  at Object._parseHTTPBody [as handle] (/usr/local/lib/node_modules/sails/node_modules/skipper/index.js:62:14)
+  at next (/usr/local/lib/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:174:15)
+  at /usr/local/lib/node_modules/sails/lib/hooks/http/middleware/defaults.js:45:22
+  at Immediate.<anonymous> (/usr/local/lib/node_modules/sails/node_modules/express-session/index.js:437:7)
+  at Immediate.immediate._onImmediate (timers.js:440:18)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+ { [Error: ENOENT: no such file or directory, uv_cwd] errno: -2, code: 'ENOENT', syscall: 'uv_cwd' }
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:31:54 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[31merror: [39mA hook (`orm`) failed to load!
+[31merror: [39mError: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+  name: 'MongoError',
+  message: 'connect ECONNREFUSED 127.0.0.1:27017' }
+  at _createError (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:116:23)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:119:13
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at emitErrorNT (net.js:1256:8)
+  at nextTickCallbackWith2Args (node.js:441:9)
+  at process._tickDomainCallback (node.js:396:17)
+ { [Error: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+  name: 'MongoError',
+  message: 'connect ECONNREFUSED 127.0.0.1:27017' }]
+  originalError: 
+   { [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+     name: 'MongoError',
+     message: 'connect ECONNREFUSED 127.0.0.1:27017' } }
+[31merror: [39mA hook (`orm`) failed to load!
+[31merror: [39mError: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+  name: 'MongoError',
+  message: 'connect ECONNREFUSED 127.0.0.1:27017' }
+  at _createError (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:116:23)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:119:13
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at emitErrorNT (net.js:1256:8)
+  at nextTickCallbackWith2Args (node.js:441:9)
+  at process._tickDomainCallback (node.js:396:17)
+ { [Error: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+  name: 'MongoError',
+  message: 'connect ECONNREFUSED 127.0.0.1:27017' }]
+  originalError: 
+   { [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+     name: 'MongoError',
+     message: 'connect ECONNREFUSED 127.0.0.1:27017' } }
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:50:00 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:54:18 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:58:33 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/utils.js:98
+    process.nextTick(function() { throw err; });
+                                  ^
+
+Error: ENOENT: no such file or directory, uv_cwd
+  at Error (native)
+  at setopts (/usr/local/lib/node_modules/sails/node_modules/glob/common.js:91:21)
+  at new GlobSync (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:38:3)
+  at Function.globSync [as sync] (/usr/local/lib/node_modules/sails/node_modules/glob/sync.js:24:10)
+  at globPath (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:17:15)
+  at exists (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:31:10)
+  at SailsView.lookup (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:51:7)
+  at SailsView.View (/usr/local/lib/node_modules/sails/node_modules/express/lib/view.js:44:20)
+  at new SailsView (/usr/local/lib/node_modules/sails/lib/hooks/http/view.js:39:15)
+  at Function.app.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/application.js:543:12)
+  at ServerResponse.res.render (/usr/local/lib/node_modules/sails/node_modules/express/lib/response.js:845:7)
+  at ServerResponse.res.view (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:239:16)
+  at ServerResponse.res.guessView (/usr/local/lib/node_modules/sails/lib/hooks/views/res.view.js:38:16)
+  at Object.sendOK (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/api/responses/ok.js:56:19)
+  at ServerResponse.wrapper [as ok] (/usr/local/lib/node_modules/sails/node_modules/lodash/index.js:3095:19)
+  at found (/usr/local/lib/node_modules/sails/lib/hooks/blueprints/actions/find.js:60:9)
+  at wrapper (/usr/local/lib/node_modules/sails/node_modules/lodash/index.js:3592:19)
+  at applyInOriginalCtx (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/utils/normalize.js:421:80)
+  at wrappedCallback (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/utils/normalize.js:324:18)
+  at callback.success (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/switchback/lib/normalize.js:33:31)
+  at _switch (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/switchback/lib/factory.js:58:28)
+  at returnResults (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/basic.js:392:9)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/basic.js:272:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/operations.js:83:7
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at Object.async.forEachOf.async.eachOf (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:236:30)
+  at Object.async.forEach.async.each (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:209:22)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/operations.js:436:11
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/operations.js:574:5
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at Object.async.forEachOf.async.eachOf (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:236:30)
+  at Object.async.forEach.async.each (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:209:22)
+  at [object Object]._buildChildOpts (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/operations.js:464:9)
+  at [object Object]._execChildOpts (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/operations.js:432:8)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/operations.js:81:10
+  at wrapper (/usr/local/lib/node_modules/sails/node_modules/lodash/index.js:3592:19)
+  at applyInOriginalCtx (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/utils/normalize.js:421:80)
+  at wrappedCallback (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline/utils/normalize.js:324:18)
+  at callback.success (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/switchback/lib/normalize.js:33:31)
+  at _switch (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/switchback/lib/factory.js:58:28)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:353:9
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/collection.js:102:5
+  at handleCallback (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/utils.js:96:12)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/cursor.js:849:16
+  at handleCallback (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:244:5)
+  at setCursorDeadAndNotified (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:553:3)
+  at nextFunction (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:682:12)
+  at [object Object].Cursor.next [as _next] (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:773:3)
+  at fetchDocs (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/cursor.js:845:10)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/cursor.js:868:7
+  at handleCallback (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:244:5)
+  at nextFunction (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:763:5)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:676:7
+  at queryCallback (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/cursor.js:322:5)
+  at [object Object].Callbacks.emit (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:95:3)
+  at [object Object].messageHandler (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:249:23)
+  at Socket.<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:184:18)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at readableAddChunk (_stream_readable.js:146:16)
+  at Socket.Readable.push (_stream_readable.js:110:10)
+  at TCP.onread (net.js:523:20)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 14:59:00 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 15:00:36 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mA hook (`orm`) failed to load!
+/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:236
+        process.nextTick(function() { throw err; })
+                                      ^
+
+Error: Callback was already called.
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:43:36
+  at /usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:99:18
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:565:21
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:53:23
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:206:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:570:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at done (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:241:17)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:44:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:199:27
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:114:18
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at emitErrorNT (net.js:1256:8)
+  at nextTickCallbackWith2Args (node.js:441:9)
+  at process._tickDomainCallback (node.js:396:17)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 15:45:24 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:1669
+    if(databaseName.indexOf(invalidChars[i]) != -1) throw MongoError.create({message: "database names cannot contain the character '" + invalidChars[i] + "'", driver:true});
+                                                    ^
+MongoError: database names cannot contain the character ' '
+  at Function.MongoError.create (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/error.js:31:11)
+  at validateDatabaseName (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:1669:70)
+  at new Db (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:137:3)
+  at connectFunction (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:251:7)
+  at connect (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:362:5)
+  at Function.MongoClient.connect (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:109:3)
+  at Connection._buildConnection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:153:15)
+  at new Connection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:24:8)
+  at Object.module.exports.adapter.registerConnection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:111:7)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:198:29
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:181:20
+  at Object.async.forEachOf.async.eachOf (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:233:13)
+  at Object.async.forEach.async.each (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:209:22)
+  at Array.async.auto.registerConnections (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:171:13)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:596:38
+  at _arrayEach (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:85:13)
+  at Object.async.auto (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:554:9)
+  at [object Object].Waterline.initialize (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:118:9)
+  at buildORM (/usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:48:15)
+  at Array.async.auto.instantiatedCollections (/usr/local/lib/node_modules/sails/lib/hooks/orm/index.js:218:11)
+  at listener (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:600:42)
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:542:17
+  at _arrayEach (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:85:13)
+  at Immediate.taskComplete (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:541:13)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+
+
+/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:1669
+    if(databaseName.indexOf(invalidChars[i]) != -1) throw MongoError.create({message: "database names cannot contain the character '" + invalidChars[i] + "'", driver:true});
+                                                    ^
+MongoError: database names cannot contain the character ' '
+  at Function.MongoError.create (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/error.js:31:11)
+  at validateDatabaseName (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:1669:70)
+  at new Db (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:137:3)
+  at connectFunction (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:251:7)
+  at connect (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:362:5)
+  at Function.MongoClient.connect (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:109:3)
+  at Connection._buildConnection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:153:15)
+  at new Connection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:24:8)
+  at Object.module.exports.adapter.registerConnection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:111:7)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:198:29
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:181:20
+  at Object.async.forEachOf.async.eachOf (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:233:13)
+  at Object.async.forEach.async.each (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:209:22)
+  at Array.async.auto.registerConnections (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:171:13)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:596:38
+  at _arrayEach (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:85:13)
+  at Object.async.auto (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:554:9)
+  at [object Object].Waterline.initialize (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:118:9)
+  at buildORM (/usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:48:15)
+  at Array.async.auto.instantiatedCollections (/usr/local/lib/node_modules/sails/lib/hooks/orm/index.js:218:11)
+  at listener (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:600:42)
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:542:17
+  at _arrayEach (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:85:13)
+  at Immediate.taskComplete (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:541:13)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 16:01:37 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/url_parser.js:91
+      throw new Error('double colon in host identifier');
+      ^
+
+Error: double colon in host identifier
+  at module.exports (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/url_parser.js:91:13)
+  at connect (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:125:16)
+  at Function.MongoClient.connect (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:109:3)
+  at Connection._buildConnection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:153:15)
+  at new Connection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:24:8)
+  at Object.module.exports.adapter.registerConnection (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:111:7)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:198:29
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:181:20
+  at Object.async.forEachOf.async.eachOf (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:233:13)
+  at Object.async.forEach.async.each (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:209:22)
+  at Array.async.auto.registerConnections (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:171:13)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:596:38
+  at _arrayEach (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:85:13)
+  at Object.async.auto (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:554:9)
+  at [object Object].Waterline.initialize (/usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:118:9)
+  at buildORM (/usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:48:15)
+  at Array.async.auto.instantiatedCollections (/usr/local/lib/node_modules/sails/lib/hooks/orm/index.js:218:11)
+  at listener (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:600:42)
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:542:17
+  at _arrayEach (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:85:13)
+  at Immediate.taskComplete (/usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:541:13)
+  at processImmediate [as _immediateCallback] (timers.js:383:17)
+
+[31merror: [39mA hook (`orm`) failed to load!
+[31merror: [39mError: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: auth fails]
+  name: 'MongoError',
+  message: 'auth fails',
+  code: 18,
+  ok: 0,
+  errmsg: 'auth fails' }
+  at _createError (/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:116:23)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:119:13
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:451:15
+  at nextTickCallbackWith0Args (node.js:419:9)
+  at process._tickDomainCallback (node.js:389:13)
+ { [Error: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: auth fails]
+  name: 'MongoError',
+  message: 'auth fails',
+  code: 18,
+  ok: 0,
+  errmsg: 'auth fails' }]
+  originalError: 
+   { [MongoError: auth fails]
+     name: 'MongoError',
+     message: 'auth fails',
+     code: 18,
+     ok: 0,
+     errmsg: 'auth fails' } }
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 16:11:58 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 16:15:12 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 16:18:25 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/teddymoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Fri Apr 01 2016 16:43:03 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
