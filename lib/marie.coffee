@@ -137,34 +137,18 @@ class Marie
 			if err then utils.throwError err 
 			if app 
 				ui.ok 'Jade configuration done.'
-				# @configureStylus app
+				@configureStylus app
 
 	###
 	Configure stylus as the default css pre-processor
 	###
-	configureStylus: ->
+	configureStylus:(app) ->
 		ui.write 'Configuring Stylus...'
-		utils.install 'stylus', '--save-dev', =>
-			pkgs = ['grunt-contrib-stylus']
-			utils.installPackages pkgs
-			stream = utils.fs.readFileSync @app.file('/tasks/config/less.js'), @utf8
-			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
-			utils.fs.writeFileSync @app.file('/tasks/config/stylus.js'), stream
-			configs = [
-				'/tasks/register/compileAssets'
-				'/tasks/register/syncAssets'
-				'/tasks/config/sync'
-				'/tasks/config/copy'
-			]
-			for config in configs
-				stream = utils.fs.readFileSync @app.file("#{config}.js"), @utf8
-				if config.match /register/
-					stream = stream.replace(/less:dev/gi, 'stylus:dev')
-				else
-					stream = stream.replace(/less/gi, 'stylus')
-				utils.fs.writeFileSync @app.file("#{config}.js"), stream
-			ui.ok 'Stylus configuration done.'
-			@configureStyleFramework()
+		App.configureStylus app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok 'Stylus configuration done.'
+				# @configureStyleFramework()
 
 	###
 	Frontend framework form prompt configuration
@@ -179,9 +163,9 @@ class Marie
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
 			if result[input].match(/^f/i)
-				@configureFrontend @framework.FOUNDATION
+				@configureFrontend utils.framework.FOUNDATION
 			else if result[input].match(/^b/i)
-				@configureFrontend @framework.BOOTSTRAP
+				@configureFrontend utils.framework.BOOTSTRAP
 			else
 				@configureBundles()
 			

@@ -279,11 +279,7 @@ class App
 	###
 	@configureTasManager: (app, cb) ->
 		app.cwd()
-		utils.install 'grunt-includes', '--save-dev', (error, stdout, stderr) =>
-			utils.fs.copySync utils.config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
-			utils.fs.copySync utils.config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
-			utils.fs.copySync utils.config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
-			cb null, app
+		utils.configureTasManagerFor app, cb
 
 	###
 	Remove package to app
@@ -292,12 +288,7 @@ class App
 	###
 	@configureCoffeeScript: (app, cb) ->
 		app.cwd()
-		utils.install 'coffee-script', '--save-dev', (error, stdout, stderr) =>
-			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
-			utils.installPackages pkgs
-			utils.fs.copySync utils.config('/tasks/coffee'), app.file('/tasks/config/coffee.js'), { clobber: true }
-			utils.fs.writeFileSync app.file('/assets/js/app.coffee'), ''
-			cb null, app
+		utils.configureCoffeeScriptFor app, cb
 
 	###
 	Remove package to app
@@ -306,30 +297,17 @@ class App
 	###
 	@configureJade: (app, cb) ->
 		app.cwd()
-		utils.install 'jade', '--save-dev', (error, stdout, stderr) =>
-			viewSrc = app.file '/config/views.js'
-			stream = utils.fs.readFileSync viewSrc, utils.encoding.UTF8
-			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
-			utils.fs.writeFileSync viewSrc, stream
-			
-			dirs = ['/views/modules', '/views/partials', '/views/layouts']
-			for dir in dirs then utils.fs.mkdirSync app.file dir
-			
-			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
-			utils.fs.unlinkSync app.file "/#{file}.ejs" for file in files
-			files.splice files.indexOf('views/layout'), 1
-			partial = 'views/partial'
-			files.push partial 
-			for file in files
-				sfile = utils.config "/templates/#{file}.jade"
-				dfile = app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
-				utils.fs.copySync sfile, dfile
+		utils.configureJadeFor app, cb
 
-			masterPath = utils.config '/templates/views/master.jade'
-			masterData = utils.fs.readFileSync masterPath, utils.encoding.UTF8
-			masterData = masterData.replace /\$APP_NAME/gi, app.name
-			utils.fs.writeFileSync app.file('/views/layouts/master.jade'), masterData
-			cb null, app
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureStylus: (app, cb) ->
+		app.cwd()
+		utils.configureStylusFor app, cb
+			
 
 
 

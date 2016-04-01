@@ -146,6 +146,89 @@ class Utils
 	configureStorage: ->
 		return require('sqlite3').verbose()
 
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	configureTasManagerFor: (app, cb) ->
+		@install 'grunt-includes', '--save-dev', (error, stdout, stderr) =>
+			@fs.copySync @config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
+			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
+			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
+			cb null, app
+
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	configureCoffeeScriptFor: (app, cb) ->
+		@install 'coffee-script', '--save-dev', (error, stdout, stderr) =>
+			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
+			@installPackages pkgs
+			@fs.copySync @config('/tasks/coffee'), app.file('/tasks/config/coffee.js'), { clobber: true }
+			@fs.writeFileSync app.file('/assets/js/app.coffee'), ''
+			cb null, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	configureJadeFor: (app, cb) ->
+		@install 'jade', '--save-dev', (error, stdout, stderr) =>
+			viewSrc = app.file '/config/views.js'
+			stream = @fs.readFileSync viewSrc, @encoding.UTF8
+			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
+			@fs.writeFileSync viewSrc, stream
+			
+			dirs = ['/views/modules', '/views/partials', '/views/layouts']
+			for dir in dirs then @fs.mkdirSync app.file dir
+			
+			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
+			@fs.unlinkSync app.file "/#{file}.ejs" for file in files
+			files.splice files.indexOf('views/layout'), 1
+			partial = 'views/partial'
+			files.push partial 
+			for file in files
+				sfile = @config "/templates/#{file}.jade"
+				dfile = app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
+				@fs.copySync sfile, dfile
+
+			masterPath = @config '/templates/views/master.jade'
+			masterData = @fs.readFileSync masterPath, @encoding.UTF8
+			masterData = masterData.replace /\$APP_NAME/gi, app.name
+			@fs.writeFileSync app.file('/views/layouts/master.jade'), masterData
+			cb null, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	configureStylusFor: (app, cb) ->
+		@install 'stylus', '--save-dev', =>
+			pkgs = ['grunt-contrib-stylus']
+			@installPackages pkgs
+			stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
+			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
+			@fs.writeFileSync app.file('/tasks/config/stylus.js'), stream
+			configs = [
+				'/tasks/register/compileAssets'
+				'/tasks/register/syncAssets'
+				'/tasks/config/sync'
+				'/tasks/config/copy'
+			]
+			for config in configs
+				stream = @fs.readFileSync app.file("#{config}.js"), @encoding.UTF8
+				if config.match /register/
+					stream = stream.replace(/less:dev/gi, 'stylus:dev')
+				else
+					stream = stream.replace(/less/gi, 'stylus')
+				@fs.writeFileSync app.file("#{config}.js"), stream
+			cb null, app
 
 # export utils module
 module.exports = new Utils 
