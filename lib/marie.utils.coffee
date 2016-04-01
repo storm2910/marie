@@ -130,5 +130,13 @@ class Utils
 	stdoutCallBack: (error, stdout, stderr) =>
 		if error then @throwError()
 
+	###
+	configure sqlite3 as default storage
+	@returns sqlite verbose
+	###
+	configureStorage: ->
+		return require('sqlite3').verbose()
+
+
 # export utils module
 module.exports = new Utils 

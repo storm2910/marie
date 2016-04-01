@@ -18,9 +18,7 @@
 ###
 
 utils = require './marie.utils'
-sqlite3 = require('sqlite3').verbose()
-db_path = utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
-db = new sqlite3.Database db_path
+storage = utils.configureStorage()
 
 class App
 	@name
@@ -34,6 +32,7 @@ class App
 	@lastActive
 	@pid
 
+	db: new storage.Database utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
 	query: require './marie.query'
 
 	###
@@ -71,13 +70,13 @@ class App
 	@param [Function] cb callback function
 	###
 	store: (cmd, cb) ->
-		db.serialize =>
-			db.run App::query.INIT
+		App::db.serialize =>
+			App::db.run App::query.INIT
 			if cmd.match /save/
-				stmt = db.prepare App::query.SAVE
+				stmt = App::db.prepare App::query.SAVE
 				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
 			else
-				stmt = db.prepare App::query.ADD
+				stmt = App::db.prepare App::query.ADD
 				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
@@ -111,8 +110,8 @@ class App
 	@param [Function] cb callback function
 	###
 	@live: (cb) ->
-		db.serialize =>
-			db.all App::query.LIVE, (err, rows) ->
+		App::db.serialize =>
+			App::db.all App::query.LIVE, (err, rows) ->
 				if cb and rows
 					apps = []
 					apps.push new App row for row in rows
@@ -126,13 +125,13 @@ class App
 	@param [Function] cb callback function
 	###
 	@find: (name, cb) ->
-		db.serialize =>
-			db.run App::query.INIT
+		App::db.serialize =>
+			App::db.run App::query.INIT
 			if not not name
-				db.each App::query.FIND_ONE, name, (err, row) ->
+				App::db.each App::query.FIND_ONE, name, (err, row) ->
 					if cb then cb err, new App row
 			else
-				db.all App::query.FIND, (err, rows) ->
+				App::db.all App::query.FIND, (err, rows) ->
 					if cb and rows
 						apps = []
 						apps.push new App row for row in rows
@@ -150,7 +149,7 @@ class App
 			if err then cb err, row
 			if row
 				path = row['path']
-				db.run App::query.REMOVE, name, (err, success) ->
+				App::db.run App::query.REMOVE, name, (err, success) ->
 					if not err
 						utils.fs.removeSync path
 						if cb then cb null, "#{name} was successfully removed."
