@@ -7,4 +7,4 @@ var path = require('path');
 var fs   = require('fs');
 var lib  = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
 
-module.exports = require(lib + '/marie.controller')
+module.exports = require(lib + '/marie.cli')
