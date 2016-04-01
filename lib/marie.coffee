@@ -1,10 +1,19 @@
+###
+@namespace marie
+@include marie.app
+@property [App] app app being modified
+@author Teddy Moussignac (teddy.moussignac@gmail.com)
+@version 0.0.3
+@copyright March 2016
+@note Marie core class. Marie app logic definition
+###
+
 utils = require './marie.utils'
 ui = require './marie.ui'
 App = require './marie.app'
 
 class Marie
 	@app
-
 	utf8: 'utf8'
 	framework:
 		BOOTSTRAP: 'bootstrap'
@@ -14,7 +23,11 @@ class Marie
 		REMOTE: 'remoteMongodbServer'
 		URL: 'remoteMongodbServerWithURL'
 
-
+	###
+	Confgiure the default express/sails application framework
+	will try to install sails if not already installed. 
+	@exmaple `npm install sails -g`
+	###
 	configureSails: ->
 		ui.write 'Configuring Sails...'
 		utils.exe 'sails', ['generate', 'new', @app.name], (error, stdout, stderr) =>
@@ -30,7 +43,12 @@ class Marie
 				process.chdir @app.path
 				@configureTasManager()
 
-
+	###
+	Configure grunt as the default task manager
+	Also configure coffee files importer module + setup for assets coffee files in `/assets/js`
+	@example #import User
+	@example #import Page.coffee
+	###
 	configureTasManager: ->
 		ui.write 'Configuring Grunt...'
 		utils.install 'grunt-includes', '--save-dev', =>
@@ -40,7 +58,9 @@ class Marie
 			ui.ok 'Grunt configuration done.'
 			@configureCoffeeScript()
 
-
+	###
+	Configure coffeScript as the default js compiler
+	###
 	configureCoffeeScript: ->
 		ui.write 'Configuring CoffeeScript...'
 		utils.install 'coffee-script', '--save-dev', =>
@@ -51,7 +71,11 @@ class Marie
 			ui.ok 'CoffeeScript configuration done.'
 			@configureJade()
 
-
+	###
+	Configure jade as the default view templating engine
+	Disable `ejs` + add the default jade template files
+	@example /views/partials/partial.jade
+	###
 	configureJade: ->
 		ui.write 'Configuring Jade...'
 		utils.install 'jade', '--save-dev', =>
@@ -80,7 +104,9 @@ class Marie
 			ui.ok 'Jade configuration done.'
 			@configureStylus()
 
-
+	###
+	Configure stylus as the default css pre-processor
+	###
 	configureStylus: ->
 		ui.write 'Configuring Stylus...'
 		utils.install 'stylus', '--save-dev', =>
@@ -105,7 +131,11 @@ class Marie
 			ui.ok 'Stylus configuration done.'
 			@configureStyleFramework()
 
-
+	###
+	Frontend framework form prompt configuration
+	Let you choose betwen bootstrap and foundation
+	@example foundation/bootstrap
+	###
 	configureStyleFramework: ->
 		ui.warn 'Choose your style framework.'
 		utils.prompt.start()
@@ -120,7 +150,10 @@ class Marie
 			else
 				@configureBundles()
 			
-
+	###
+	Configure foundation or bootstrap as the default frontend framewok
+	@param [String] framework bootstrap or foundation
+	###
 	configureFrontend: (framework) ->
 		@app.frontEndFramework = framework
 		cpath = "#{utils.root}/config/#{@app.frontEndFramework}-#{@app.cssProcessor}"
@@ -129,7 +162,11 @@ class Marie
 		utils.fs.copySync jpath, @app.file("/assets/js/dependencies/#{@app.frontEndFramework}"), { clobber: true }
 		@configureBundles()
 
-
+	###
+	Configure default bundle files
+	@example /assets/styles/bundles/default.styl
+	@example /assets/styles/bundles/admin.styl
+	###
 	configureBundles: ->
 		ext = '.styl'
 		styles = if not not @app.frontEndFramework then "@import '../#{@app.frontEndFramework}'" else ''
@@ -140,7 +177,11 @@ class Marie
 		ui.ok 'Frontend configuration done.'
 		@configureDB()
 
-
+	###
+	Data storage form prompt configuration
+	Let you choose between localDisk and a mongo database
+	@example localDisk/mongo
+	###
 	configureDB: ->
 		ui.warn 'Choose your database.'
 		utils.prompt.start()
@@ -150,12 +191,16 @@ class Marie
 			ui.line()
 			if result[input].match(/^m/i) then @configureMongoDB() else @configureNativeDB()
 
-
+	###
+	Configure localDisk as the default data storage
+	###
 	configureNativeDB: ->
 		@app.storage = 'localDisk'
 		@setupDBWithConfig 'The local disk'
 
-
+	###
+	Configure mongoDB as the default data storage and choose between local or remote mongo
+	###
 	configureMongoDB: ->
 		ui.warn 'Configure MongoDB database.'
 		input = [' Local/Remote']
@@ -167,7 +212,9 @@ class Marie
 				ui.clear()
 				if result[input].match(/^r/i) then @configureRemoteMongoDB() else @configureLocalMongoDB()
 
-
+	###
+	Local mongodb database configuration
+	###
 	configureLocalMongoDB: ->
 		@app.storage = @storageType.LOCAL
 		lconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.LOCAL}.js", @utf8
@@ -175,7 +222,9 @@ class Marie
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
 		@setupDBWithConfig 'Local MongoDB', cconfig
 
-
+	###
+	Remote mongodb database configuration
+	###
 	configureRemoteMongoDB: ->
 		input = [' mongodb uri']
 		utils.prompt.get input, (err, result) =>
@@ -185,7 +234,9 @@ class Marie
 			else
 				@configureRemoteMongoDBWithConfig() 
 
-
+	###
+	Configure remote mongodb with user, password, host, port and database credentials
+	###
 	configureRemoteMongoDBWithConfig: ->
 		@app.storage = @storageType.REMOTE
 		inputs = [' host', ' port', ' user', ' password', ' database']
@@ -201,7 +252,10 @@ class Marie
 			cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, result[' database'] if result[' database']? 
 			@setupDBWithConfig 'Remote MongoDB', cconfig
 
-
+	###
+	Configure mongodb with URI
+	@param [String] uri databse url 
+	###
 	configureRemoteMongoDBWithURI: (uri) ->
 		@app.storage = @storageType.URL
 		uconfig = utils.fs.readFileSync utils.config "/databases/#{@storageType.URL}.js", @utf8
@@ -210,7 +264,11 @@ class Marie
 		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
 		@setupDBWithConfig 'Remote MongoDB', cconfig
 
-
+	###
+	Default databse connection configuration
+	@param [String] db databse label
+	@param [String] config databse connection config data 
+	###
 	setupDBWithConfig: (db, cconfig) ->
 		mdest = @app.file '/config/models.js'
 		mconfig = utils.fs.readFileSync mdest, @utf8
@@ -226,7 +284,14 @@ class Marie
 		ui.ok "#{db} database configuration done."
 		@configureAPIs()
 
-
+	###
+	Configure default app APIs
+	A `user` api will create both a user model and a user conftroller
+	file in the api directory
+	@example user, article, image
+	@example /api/models/User.coffee
+	@example /api/controllers/UserController.coffee
+	###
 	configureAPIs: ->
 		ui.warn 'Configure APIs.'
 		utils.prompt.start()
@@ -237,13 +302,16 @@ class Marie
 			res = if result[input].length > 0 then result[input] else null
 			if not not res
 				apis = res.split ','
-				utils.installApis apis
+				utils.installApis apis, @app
 				ui.ok "APIs configuration done."
 				@save()
 			else
 				@save()
 
-
+	###
+	If something goes really bad. Stop everything, remove everything and exit process
+	@param [Object, String] error 
+	###
 	throwFatalError: (error) ->
 		utils.fs.stat @app.path, (err, stats) =>
 			if not err
@@ -253,7 +321,10 @@ class Marie
 			else
 				utils.throwError error
 
-
+	###
+	Save app to marie database
+	@example marie list some-app
+	###
 	save: ->
 		@endTime = new Date 
 		@app.add (err, app) =>
@@ -269,7 +340,10 @@ class Marie
 		ui.notice "Creation Time: #{@initTime}"
 		@onSave()
 
-
+	###
+	App creation callback method
+	Will ask to start newly created app
+	###
 	onSave: ->
 		ui.warn 'Start app?'
 		utils.prompt.start()
@@ -284,7 +358,6 @@ class Marie
 						@_start @app
 					else
 						return @_start @app
-
 
 # export marie module
 module.exports = Marie

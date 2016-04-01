@@ -9215,3 +9215,920 @@ Error: ENOENT: no such file or directory, uv_cwd
 [34mdebug: [39mEnvironment : development
 [34mdebug: [39mPort        : 1337
 [34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 02:01:50 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 08:45:09 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 08:45:31 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+
+[31merror: [39mServer failed to start.
+[31merror: [39m(received error: EADDRINUSE)
+[31merror: [39m
+[31merror: [39mTroubleshooting tips:
+[31merror: [39m
+[31merror: [39m -> Is something else already running on port 1337 ?
+[31merror: [39m
+[31merror: [39m -> Are you deploying on a platform that requires an explicit hostname, like OpenShift?
+[31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
+[31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 19:09:22 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 19:09:56 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 21:53:53 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Tue Mar 29 2016 22:22:42 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mA hook (`orm`) failed to load!
+/Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:236
+        process.nextTick(function() { throw err; })
+                                      ^
+
+Error: Callback was already called.
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:43:36
+  at /usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:99:18
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:565:21
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:53:23
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:206:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:570:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at done (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:241:17)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:44:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:199:27
+  at /Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/adapter.js:114:18
+  at /Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/tp-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at emitErrorNT (net.js:1255:8)
+  at nextTickCallbackWith2Args (node.js:437:9)
+  at process._tickDomainCallback (node.js:392:17)
+
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mA hook (`orm`) failed to load!
+/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:236
+        process.nextTick(function() { throw err; })
+                                      ^
+
+Error: Callback was already called.
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:43:36
+  at /usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:99:18
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:565:21
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:53:23
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:206:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:570:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at done (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:241:17)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:44:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:199:27
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/adapter.js:114:18
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at emitErrorNT (net.js:1255:8)
+  at nextTickCallbackWith2Args (node.js:437:9)
+  at process._tickDomainCallback (node.js:392:17)
+
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mError: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)
+  at [object Object].tooLong [as _onTimeout] (/usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:85:21)
+  at Timer.listOnTimeout (timers.js:92:15)
+ { [Error: The hook `orm` is taking too long to load.
+Make sure it is triggering its `initialize()` callback, or else set `sails.config.orm._hookTimeout to a higher value (currently 20000)] code: 'E_HOOK_TIMEOUT' }
+[31merror: [39mA hook (`orm`) failed to load!
+/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:236
+        process.nextTick(function() { throw err; })
+                                      ^
+
+Error: Callback was already called.
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:43:36
+  at /usr/local/lib/node_modules/sails/lib/app/private/loadHooks.js:99:18
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:565:21
+  at /usr/local/lib/node_modules/sails/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/lib/hooks/orm/build-orm.js:53:23
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:206:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:570:21
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:167:37
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:52:16
+  at done (/usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:241:17)
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/node_modules/async/lib/async.js:44:16
+  at /usr/local/lib/node_modules/sails/node_modules/waterline/lib/waterline.js:199:27
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/adapter.js:114:18
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/tmoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at emitErrorNT (net.js:1255:8)
+  at nextTickCallbackWith2Args (node.js:437:9)
+  at process._tickDomainCallback (node.js:392:17)
+
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 16:21:50 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 16:57:14 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 16:57:31 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 16:57:53 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 16:58:55 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 16:59:16 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 17:21:20 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 17:22:13 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Wed Mar 30 2016 17:22:37 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/dc-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 10:33:34 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tp-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 10:33:47 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 11:34:55 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 11:35:35 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/cyn-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 11:35:56 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/omar-scott`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 13:11:00 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/omar-scott`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 13:12:32 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 15:51:48 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 15:52:33 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 21:06:50 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 21:19:43 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 21:53:13 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 21:54:07 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 21:56:44 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.1             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/tmoussignac/Dropbox/Apps/NODE/tvg-web`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m[90m--------------------------------------------------------[39m
+[34mdebug: [39m[90m:: Thu Mar 31 2016 22:29:31 GMT-0400 (EDT)[39m
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 1337
+[34mdebug: [39m[90m--------------------------------------------------------[39m
