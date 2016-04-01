@@ -222,13 +222,15 @@ class App
 	@param [String] pkg packge name to add
 	@param [Function] cb callback function
 	###
-	@addModule: (name, pkg, cb) ->
+	@addModule: (name, pkg, opt, cb) ->
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new App row
 				process.chdir app.path
-				utils.install [pkg], '--save', (error, stdout, stderr) ->
+				option = '--save'
+				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
+				utils.install [pkg], option, (error, stdout, stderr) ->
 					cb error, app
 
 	###
@@ -237,13 +239,15 @@ class App
 	@param [String] pkg packge name to add
 	@param [Function] cb callback function
 	###
-	@removeModule: (name, pkg, cb) ->
+	@removeModule: (name, pkg, opt, cb) ->
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new App row
 				process.chdir app.path
-				utils.uninstall [pkg], '--save', (error, stdout, stderr) ->
+				option = '--save'
+				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
+				utils.uninstall [pkg], option, (error, stdout, stderr) ->
 					cb error, app
 
 	###

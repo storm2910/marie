@@ -75,7 +75,7 @@ class MarieController extends Marie
 	add: (arg) =>
 		if not not arg
 			len = @args.length - 1
-			if len == 5
+			if len >= 5
 				if @commands[@args[4]][@args[3]]? then @commands[@args[4]][@args[3]] @args[5]
 			else if len > 2 and len < 5
 				ui.error 'Missing. argument.'
@@ -268,7 +268,7 @@ class MarieController extends Marie
 	###
 	addModule: (pkg) =>
 		ui.write "Adding `#{pkg}` module..."
-		App.addModule @args[2], pkg, (err, app) =>
+		App.addModule @args[2], pkg, @args[6], (err, app) =>
 			if err then utils.throwError err
 			if app
 				@app = app
@@ -282,7 +282,7 @@ class MarieController extends Marie
 	###
 	removeModule: (pkg) =>
 		ui.write "Removing `#{pkg}` module..."
-		App.removeModule @args[2], pkg, (err, app) =>
+		App.removeModule @args[2], pkg, @args[6], (err, app) =>
 			if err then utils.throwError err
 			if app
 				@app = app
