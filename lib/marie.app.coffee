@@ -18,7 +18,6 @@
 ###
 
 utils = require './marie.utils'
-ui = require './marie.ui'
 storage = utils.configureStorage()
 
 class App
@@ -307,9 +306,23 @@ class App
 	@configureStylus: (app, cb) ->
 		app.cwd()
 		utils.configureStylusFor app, cb
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureFrontEndFramework: (app, framework, cb) ->
+		app.frontEndFramework = framework
+		utils.configureFrontEndFrameworkFor app, cb
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@configureBundles: (app, cb) ->
+		utils.configureBundlesFor app, cb
 			
-
-
-
 # export app module
 module.exports = App

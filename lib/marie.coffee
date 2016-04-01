@@ -148,14 +148,14 @@ class Marie
 			if err then utils.throwError err 
 			if app
 				ui.ok 'Stylus configuration done.'
-				# @configureStyleFramework()
+				@configureFrontEndFramework app
 
 	###
 	Frontend framework form prompt configuration
 	Let you choose betwen bootstrap and foundation
 	@example foundation/bootstrap
 	###
-	configureStyleFramework: ->
+	configureFrontEndFramework: (app) ->
 		ui.warn 'Choose your style framework.'
 		utils.prompt.start()
 		ui.line()
@@ -163,38 +163,32 @@ class Marie
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
 			if result[input].match(/^f/i)
-				@configureFrontend utils.framework.FOUNDATION
+				@configureFramework app, utils.framework.FOUNDATION
 			else if result[input].match(/^b/i)
-				@configureFrontend utils.framework.BOOTSTRAP
+				@configureFramework app, utils.framework.BOOTSTRAP
 			else
-				@configureBundles()
+				@configureBundles app
 			
 	###
 	Configure foundation or bootstrap as the default frontend framewok
 	@param [String] framework bootstrap or foundation
 	###
-	configureFrontend: (framework) ->
-		@app.frontEndFramework = framework
-		cpath = "#{utils.root}/config/#{@app.frontEndFramework}-#{@app.cssProcessor}"
-		jpath = "#{utils.root}/config/#{@app.frontEndFramework}-js"
-		utils.fs.copySync cpath, @app.file("/assets/styles/#{@app.frontEndFramework}"), { clobber: true }
-		utils.fs.copySync jpath, @app.file("/assets/js/dependencies/#{@app.frontEndFramework}"), { clobber: true }
-		@configureBundles()
+	configureFramework: (app, framework) ->
+		App.configureFrontEndFramework app, framework, (err, app) =>
+			if err then utils.throwError err 
+			if app then @configureBundles app
 
 	###
 	Configure default bundle files
 	@example /assets/styles/bundles/default.styl
 	@example /assets/styles/bundles/admin.styl
 	###
-	configureBundles: ->
-		ext = '.styl'
-		styles = if not not @app.frontEndFramework then "@import '../#{@app.frontEndFramework}'" else ''
-		utils.fs.mkdirSync @app.file('/assets/styles/bundles')
-		utils.fs.removeSync @app.file('/assets/styles/importer.less')
-		utils.fs.writeFileSync @app.file("/assets/styles/bundles/default#{ext}"), styles
-		utils.fs.writeFileSync @app.file("/assets/styles/bundles/admin#{ext}"), styles
-		ui.ok 'Frontend configuration done.'
-		@configureDB()
+	configureBundles: (app) ->
+		App.configureBundles app, (err, app) =>
+			if err then utils.throwError err 
+			if app
+				ui.ok 'Frontend configuration done.'
+				@configureDB()
 
 	###
 	Data storage form prompt configuration

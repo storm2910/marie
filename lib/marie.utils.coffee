@@ -17,7 +17,7 @@ class Utils
 	root: __dirname.replace '/marie/lib', '/marie'
 	encoding:
 		UTF8: 'utf8'
-	ramework:
+	framework:
 		BOOTSTRAP: 'bootstrap'
 		FOUNDATION: 'foundation'
 	storageType:
@@ -158,7 +158,6 @@ class Utils
 			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
 			cb null, app
 
-
 	###
 	Remove package to app
 	@param [String] name app id name
@@ -229,6 +228,35 @@ class Utils
 					stream = stream.replace(/less/gi, 'stylus')
 				@fs.writeFileSync app.file("#{config}.js"), stream
 			cb null, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	configureFrontEndFrameworkFor: (app, cb) ->
+		ccpath = "#{@root}/config/#{app.frontEndFramework}-#{app.cssProcessor}"
+		cjpath = "#{@root}/config/#{app.frontEndFramework}-js"
+		dcpath = app.file "/assets/styles/#{app.frontEndFramework}"
+		djpath = app.file "/assets/js/dependencies/#{app.frontEndFramework}"
+		@fs.copySync ccpath, dcpath, { clobber: true }
+		@fs.copySync cjpath, djpath, { clobber: true }
+		cb null, app
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	configureBundlesFor: (app, cb) ->
+		ext = '.styl'
+		styles = if not not app.frontEndFramework then "@import '../#{app.frontEndFramework}'" else ''
+		@fs.mkdirSync app.file('/assets/styles/bundles')
+		@fs.removeSync app.file('/assets/styles/importer.less')
+		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), styles
+		@fs.writeFileSync app.file("/assets/styles/bundles/admin#{ext}"), styles
+		cb null, app
+
 
 # export utils module
 module.exports = new Utils 
