@@ -18,7 +18,6 @@ class Marie
 	@args
 	@app
 	@root
-	@commands
 	@routes
 
 	###
@@ -416,6 +415,7 @@ class Marie
 			utils.prompt.get [input], (err, result) =>
 				ui.line()
 				if result[input].match(/^y/i)
+					if @args[3] == process.env.LIVE_APP then @stop()
 					App.remove @args[3], (err, success) =>
 						if err then utils.throwError err
 						if success then ui.ok success
@@ -470,6 +470,7 @@ class Marie
 		App.start app, (err, app) =>
 			if err then utils.throwError err
 			else
+				process.env.LIVE_APP = app.name
 				ui.write "Starting #{app.name}..."
 				setTimeout =>
 					ui.ok "#{app.name} started."
@@ -486,6 +487,7 @@ class Marie
 	_stop: (app) ->
 		ui.write "Stopping #{app.name}..."
 		App.stop app, (err, app) =>
+			process.env.LIVE_APP = ''
 			if err then utils.throwError err else ui.ok "#{app.name} stopped."
 
 	###
