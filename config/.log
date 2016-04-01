@@ -10937,3 +10937,42 @@ Error: Callback was already called.
 [31merror: [39m    (Try setting the `explicitHost` config to the hostname where the server will be accessible.)
 [31merror: [39m    (e.g. `mydomain.com` or `183.24.244.42`)
 
+[31merror: [39mA hook (`orm`) failed to load!
+[31merror: [39mError: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020]
+  name: 'MongoError',
+  message: 'getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020' }
+  at _createError (/Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/adapter.js:116:23)
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/adapter.js:119:13
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/lib/connection.js:25:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/mongo_client.js:276:20
+  at /Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/db.js:224:14
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/lib/server.js:234:9)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:269:68)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at [object Object].<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:81:12)
+  at [object Object].g (events.js:260:16)
+  at emitTwo (events.js:87:13)
+  at [object Object].emit (events.js:172:7)
+  at Socket.<anonymous> (/Users/teddymoussignac/Dropbox/Apps/NODE/dc-web/node_modules/sails-mongo/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:124:49)
+  at Socket.g (events.js:260:16)
+  at emitOne (events.js:77:13)
+  at Socket.emit (events.js:169:7)
+  at connectErrorNT (net.js:998:8)
+  at nextTickCallbackWith2Args (node.js:441:9)
+  at process._tickDomainCallback (node.js:396:17)
+ { [Error: Failed to connect to MongoDB.  Are you sure your configured Mongo instance is running?
+ Error details:
+{ [MongoError: getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020]
+  name: 'MongoError',
+  message: 'getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020' }]
+  originalError: 
+   { [MongoError: getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020]
+     name: 'MongoError',
+     message: 'getaddrinfo ENOTFOUND kahana.mongohq.com kahana.mongohq.com:10020' } }

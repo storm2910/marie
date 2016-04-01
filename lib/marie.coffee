@@ -20,14 +20,6 @@ class Marie
 	@root
 	@commands
 	@routes
-	utf8: 'utf8'
-	framework:
-		BOOTSTRAP: 'bootstrap'
-		FOUNDATION: 'foundation'
-	storageType:
-		LOCAL: 'localMongodbServer'
-		REMOTE: 'remoteMongodbServer'
-		URL: 'remoteMongodbServerWithURL'
 
 	###
 	Construct App
@@ -86,7 +78,7 @@ class Marie
 					templateEngine: 'jade'
 					created: new Date()
 				}
-				@configureSails()
+				@generateFiles()
 			else ui.warn "#{app} app exists."
 
 	###
@@ -94,7 +86,7 @@ class Marie
 	will try to install sails if not already installed. 
 	@exmaple `npm install sails -g`
 	###
-	configureSails: ->
+	generateFiles: ->
 		ui.write 'Configuring Sails...'
 		utils.exe 'sails', ['generate', 'new', @app.name], (error, stdout, stderr) =>
 			if error
@@ -107,7 +99,7 @@ class Marie
 			else
 				ui.ok 'Sails configuration done.'
 				process.chdir @app.path
-				@configureTasManager()
+				@configureTasManager @app
 
 	###
 	Configure grunt as the default task manager
@@ -115,60 +107,37 @@ class Marie
 	@example #import User
 	@example #import Page.coffee
 	###
-	configureTasManager: ->
+	configureTasManager: (app) ->
 		ui.write 'Configuring Grunt...'
-		utils.install 'grunt-includes', '--save-dev', =>
-			utils.fs.copySync utils.config('/tasks/compileAssets'), @app.file('/tasks/register/compileAssets.js'), { clobber: true }
-			utils.fs.copySync utils.config('/tasks/syncAssets'), @app.file('/tasks/register/syncAssets.js'), { clobber: true }
-			utils.fs.copySync utils.config('/tasks/includes'), @app.file('/tasks/config/includes.js'), { clobber: true }
-			ui.ok 'Grunt configuration done.'
-			@configureCoffeeScript()
+		App.configureTasManager app, (err, app) =>
+			if err then utils.throwError err 
+			if app 
+				ui.ok 'Grunt configuration done.'
+				@configureCoffeeScript app
 
 	###
 	Configure coffeScript as the default js compiler
 	###
-	configureCoffeeScript: ->
+	configureCoffeeScript: (app) ->
 		ui.write 'Configuring CoffeeScript...'
-		utils.install 'coffee-script', '--save-dev', =>
-			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
-			utils.installPackages pkgs
-			utils.fs.copySync utils.config('/tasks/coffee'), @app.file('/tasks/config/coffee.js'), { clobber: true }
-			utils.fs.writeFileSync @app.file('/assets/js/app.coffee'), ''
-			ui.ok 'CoffeeScript configuration done.'
-			@configureJade()
+		App.configureCoffeeScript app, (err, app) =>
+			if err then utils.throwError err 
+			if app 
+				ui.ok 'CoffeeScript configuration done.'
+				@configureJade app
 
 	###
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
 	@example /views/partials/partial.jade
 	###
-	configureJade: ->
+	configureJade: (app) ->
 		ui.write 'Configuring Jade...'
-		utils.install 'jade', '--save-dev', =>
-			viewSrc = @app.file '/config/views.js'
-			stream = utils.fs.readFileSync viewSrc, @utf8
-			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
-			utils.fs.writeFileSync viewSrc, stream
-			
-			dirs = ['/views/modules', '/views/partials', '/views/layouts']
-			for dir in dirs then utils.fs.mkdirSync @app.file dir
-			
-			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
-			utils.fs.unlinkSync @app.file "/#{file}.ejs" for file in files
-			files.splice files.indexOf('views/layout'), 1
-			partial = 'views/partial'
-			files.push partial 
-			for file in files
-				sfile = utils.config "/templates/#{file}.jade"
-				dfile = @app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
-				utils.fs.copySync sfile, dfile
-
-			masterPath = utils.config '/templates/views/master.jade'
-			masterData = utils.fs.readFileSync masterPath, @utf8
-			masterData = masterData.replace /\$APP_NAME/gi, @app.name
-			utils.fs.writeFileSync @app.file('/views/layouts/master.jade'), masterData
-			ui.ok 'Jade configuration done.'
-			@configureStylus()
+		App.configureJade app, (err, app) =>
+			if err then utils.throwError err 
+			if app 
+				ui.ok 'Jade configuration done.'
+				# @configureStylus app
 
 	###
 	Configure stylus as the default css pre-processor

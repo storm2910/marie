@@ -15,6 +15,15 @@ class Utils
 	spawnSync: require('child_process').spawnSync
 	clc: require 'cli-color'
 	root: __dirname.replace '/marie/lib', '/marie'
+	encoding:
+		UTF8: 'utf8'
+	ramework:
+		BOOTSTRAP: 'bootstrap'
+		FOUNDATION: 'foundation'
+	storageType:
+		LOCAL: 'localMongodbServer'
+		REMOTE: 'remoteMongodbServer'
+		URL: 'remoteMongodbServerWithURL'
 
 	###
 	Construct app
