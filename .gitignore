@@ -66,6 +66,7 @@ node_modules
 lib-cov
 *.seed
 *.log
+*.db
 *.out
 *.pid
 npm-debug.log
