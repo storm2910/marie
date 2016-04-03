@@ -38,6 +38,7 @@ class Marie
 			'new': @add
 			'ls': @list
 			'list': @list
+			'log': @log
 			'live': @live
 			'start': @start
 			'stop': @stop
@@ -576,6 +577,24 @@ class Marie
 			if config
 				if config.constructor == String then ui.notice config
 				else console.log config
+
+	###
+	Display system log method 
+	###
+	log: =>
+		file = "#{utils.root}/config/.log"
+		if @args[3] and @args[3].match /clear/i
+			utils.fs.stat file, (err, stats) ->
+				if err then ui.notice 'Log is empty'
+				else
+					utils.fs.unlinkSync file
+					ui.notice 'Log is empty'
+		else
+			utils.fs.stat file, (err, stats) ->
+				if err then ui.notice 'Log is empty'
+				else
+					log = utils.fs.readFileSync file, utils.encoding.UTF8
+					console.log '%s', log
 
 	###
 	Process app route
