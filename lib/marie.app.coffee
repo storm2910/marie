@@ -237,6 +237,7 @@ class App
 				app.cwd()
 				option = '--save'
 				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
+				else if opt and opt.match(/\-front/gi) then option = '--front-end'
 				utils.install [pkg], option, (error, stdout, stderr) ->
 					cb error, app
 
@@ -254,6 +255,7 @@ class App
 				process.chdir app.path
 				option = '--save'
 				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
+				else if opt and opt.match(/\-front/gi) then option = '--front-end'
 				utils.uninstall [pkg], option, (error, stdout, stderr) ->
 					cb error, app
 

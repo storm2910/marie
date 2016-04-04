@@ -14,6 +14,7 @@ class Utils
 	spawn: require('child_process').spawn
 	spawnSync: require('child_process').spawnSync
 	clc: require 'cli-color'
+	bower: require 'bower'
 	root: __dirname.replace '/marie/lib', '/marie'
 	encoding:
 		UTF8: 'utf8'
@@ -38,7 +39,7 @@ class Utils
 	@param [String] path path to config file
 	###
 	config: (path) ->
-		if not @path.extname path  then path = path + '.js'
+		if not path.match /\./g then path = path + '.js'
 		return @path.join @root, "/config/#{ path }"
 
 	###
@@ -78,7 +79,11 @@ class Utils
 	@param [Function] cb callback function
 	###
 	install: (pkg, opt, cb) ->
-		@exe 'npm', ['install', pkg, opt], cb
+		if opt.match /\-front/
+			@bower.commands.install(pkg, {save:true, directory: 'assets/modules'}).on 'end', (installed) ->
+				cb null, installed, null
+		else
+			@exe 'npm', ['install', pkg, opt], cb
 
 	###
 	Uninstall package method definition
@@ -86,7 +91,11 @@ class Utils
 	@param [Function] cb callback function
 	###
 	uninstall: (pkg, opt, cb) ->
-		@exe 'npm', ['uninstall', pkg, opt], cb
+		if opt.match /\-front/
+			@bower.commands.uninstall(pkg, {save:true, directory: 'assets/modules'}).on 'end', (installed) ->
+				cb null, installed, null
+		else
+			@exe 'npm', ['uninstall', pkg, opt], cb
 
 	###
 	Install packages method definition
@@ -164,6 +173,7 @@ class Utils
 			@fs.copySync @config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
+			@fs.copySync @config('/tasks/.bowerrc'), app.file('/.bowerrc'), { clobber: true }
 			cb null, app
 
 	###
