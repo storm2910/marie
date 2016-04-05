@@ -118,11 +118,16 @@ class App
 	###
 	@live: (cb) ->
 		@::db.serialize =>
-			@::db.all @::query.LIVE, (err, rows) ->
+			@::db.all @::query.LIVE, (err, rows) =>
 				if cb and rows
-					apps = []
-					apps.push new App row for row in rows
-					cb err, apps
+					size = rows.length
+					if size == 1
+						app = new @ rows[0]
+						cb err, app
+					else
+						apps = []
+						apps.push new @ row for row in rows
+						cb err, apps
 				else if cb and not rows
 					cb err, null
 
@@ -135,13 +140,13 @@ class App
 		@::db.serialize =>
 			@::db.run @::query.INIT
 			if not not name
-				@::db.each @::query.FIND_ONE, name, (err, row) ->
-					if cb then cb err, new App row
+				@::db.each @::query.FIND_ONE, name, (err, row) =>
+					if cb then cb err, new @ row
 			else
-				@::db.all @::query.FIND, (err, rows) ->
+				@::db.all @::query.FIND, (err, rows) =>
 					if cb and rows
 						apps = []
-						apps.push new App row for row in rows
+						apps.push new @ row for row in rows
 						cb err, apps
 					else if cb and not rows
 						cb err, null
@@ -155,7 +160,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			else if row
-				app = new App row
+				app = new @ row
 				remove = =>
 					@::db.run @::query.REMOVE, app.name, (err, success) =>
 						if not err
@@ -211,7 +216,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new App row
+				app = new @ row
 				app.cwd()
 				utils.installApi api, (error, stdout, stderr) ->
 					cb error, app
@@ -226,7 +231,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new App row
+				app = new @ row
 				utils.uninstallApi api, app, (error, stdout, stderr) ->
 					cb error, app
 
@@ -240,7 +245,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new App row
+				app = new @ row
 				app.cwd()
 				option = '--save'
 				if not not opt
@@ -259,7 +264,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new App row
+				app = new @ row
 				process.chdir app.path
 				option = '--save'
 				if not not opt
@@ -277,7 +282,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new App row
+				app = new @ row
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
@@ -292,7 +297,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new App row
+				app = new @ row
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				modules = 
@@ -319,7 +324,7 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			else if row
-				app = new App row
+				app = new @ row
 				apis = []
 				file = app.file '/api/controllers'
 				ctrls = utils.fs.readdirSync file
