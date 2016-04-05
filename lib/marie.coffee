@@ -122,7 +122,7 @@ class Marie
 		ui.write 'Configuring CoffeeScript...'
 		App.configureCoffeeScript app, (err, app) =>
 			if err then utils.throwError err 
-			if app 
+			else 
 				ui.ok 'CoffeeScript configuration done.'
 				@configureJade app
 
@@ -135,7 +135,7 @@ class Marie
 		ui.write 'Configuring Jade...'
 		App.configureJade app, (err, app) =>
 			if err then utils.throwError err 
-			if app 
+			else 
 				ui.ok 'Jade configuration done.'
 				@configureStylus app
 
@@ -146,7 +146,7 @@ class Marie
 		ui.write 'Configuring Stylus...'
 		App.configureStylus app, (err, app) =>
 			if err then utils.throwError err 
-			if app
+			else
 				ui.ok 'Stylus configuration done.'
 				@configureFrontEndFramework app
 
@@ -176,7 +176,7 @@ class Marie
 	configureFramework: (app, framework) ->
 		App.configureFrontEndFramework app, framework, (err, app) =>
 			if err then utils.throwError err 
-			if app then @configureBundles app
+			else @configureBundles app
 
 	###
 	Configure default bundle files
@@ -186,7 +186,7 @@ class Marie
 	configureBundles: (app) ->
 		App.configureBundles app, (err, app) =>
 			if err then utils.throwError err 
-			if app
+			else
 				ui.ok 'Frontend configuration done.'
 				@configureDB app
 
@@ -210,7 +210,7 @@ class Marie
 	configureNativeDB: (app) ->
 		App.configureNativeDB app, (err, app) =>
 			if err then utils.throwError err 
-			if app
+			else
 				ui.ok "Local disk database configuration done."
 				@configureAPIs app
 
@@ -232,7 +232,7 @@ class Marie
 		ui.write "Configuring MongoDB..."
 		App.configureLocalMongoDB app, (err, app) =>
 			if err then utils.throwError err 
-			if app
+			else
 				ui.ok "Local MongoDB database configuration done."
 				@configureAPIs app
 
@@ -248,7 +248,7 @@ class Marie
 				ui.write "Configuring MongoDB..."
 				App.configureMongoDB app, uri, (err, app) =>
 					if err then utils.throwError err 
-					if app
+					else
 						ui.ok "MongoDB database configuration done."
 						@configureAPIs app
 			else
@@ -262,15 +262,15 @@ class Marie
 		utils.prompt.get inputs, (err, result) =>
 			ui.line()
 			config =
-				host: if result[' host']? then result[' host'] else ''
-				port: if result[' port']? then result[' port'] else ''
-				user: if result[' user']? then result[' user'] else ''
-				password: if result[' password']? then result[' password'] else ''
-				database: if result[' database']? then result[' database'] else ''
+				host: result[' host'] or ''
+				port: result[' port'] or ''
+				user: result[' user'] or ''
+				password: result[' password'] or ''
+				database: result[' database'] or ''
 			ui.write "Configuring MongoDB..."
 			App.configureMongoDB app, config, (err, app) =>
 				if err then utils.throwError err 
-				if app
+				else
 					ui.ok "MongoDB database configuration done."
 					@configureAPIs app
 
@@ -294,7 +294,7 @@ class Marie
 				apis = res.split ','
 				App.configureApis app, apis, (err, app) =>
 					if err then utils.throwError err 
-					if app 
+					else 
 						ui.ok 'API configuration done.'
 						@save app
 			else
@@ -387,7 +387,7 @@ class Marie
 	list: =>
 		App.find @args[3], (err, apps) =>
 			if err then utils.throwError err
-			if apps
+			else
 				if not not @args[4] 
 					if @commands.list[@args[4]] then @commands.list[@args[4]]()
 					else ui.notice apps[@args[4]] 
@@ -409,18 +409,24 @@ class Marie
 	###
 	remove: =>
 		if not not @args[3]
-			ui.warn 'Are you sure?'
-			utils.prompt.start()
-			input = ' Yes/No'
-			ui.line()
-			utils.prompt.get [input], (err, result) =>
+			if not not @args[4] and @args[4].match /\-f/ then @_remove()
+			else 
+				ui.warn 'Are you sure?'
+				utils.prompt.start()
+				input = ' Yes/No'
 				ui.line()
-				if result[input].match(/^y/i)
-					App.remove @args[3], (err, success) =>
-						if err then utils.throwError err
-						if success then ui.ok success
+				utils.prompt.get [input], (err, result) =>
+					ui.line()
+					if result[input].match(/^y/i) then @_remove()
 		else
 			ui.error 'Missing argument.'
+	###
+	remove
+	###
+	_remove: =>
+		App.remove @args[3], (err, success) =>
+			if err then utils.throwError err
+			else ui.ok success
 
 	###
 	Configure `start` app command handler. start app
@@ -518,7 +524,7 @@ class Marie
 	addApi: (api) =>
 		App.addApi @args[2], api, (err, app) =>
 			if err then utils.throwError err
-			if app
+			else
 				@app = app
 				@restart()
 				ui.ok "Added api #{api}"
@@ -531,7 +537,7 @@ class Marie
 	removeApi: (api) =>
 		App.removeApi @args[2], api, (err, app) =>
 			if err then utils.throwError err
-			if app
+			else
 				@app = app
 				@restart()
 				ui.ok "Removed api #{api}"
@@ -545,7 +551,7 @@ class Marie
 		ui.write "Adding `#{pkg}` module..."
 		App.addModule @args[2], pkg, @args[6], (err, app) =>
 			if err then utils.throwError err
-			if app
+			else
 				@app = app
 				@restart()
 				ui.ok "Added module #{pkg}"
@@ -559,7 +565,7 @@ class Marie
 		ui.write "Removing `#{pkg}` module..."
 		App.removeModule @args[2], pkg, @args[6], (err, app) =>
 			if err then utils.throwError err
-			if app
+			else
 				@app = app
 				@restart()
 				ui.ok "Removed module #{pkg}"
@@ -571,7 +577,7 @@ class Marie
 	listConfig: =>
 		App.getConfig @args[3], @args[5], (err, config) =>
 			if err then utils.throwError err
-			if config
+			else
 				if config.constructor == String then ui.notice config
 				else console.log config
 
@@ -582,7 +588,7 @@ class Marie
 	listModules: =>
 		App.getModules @args[3], @args[5], (err, config) =>
 			if err then utils.throwError err
-			if config
+			else
 				if config.constructor == String then ui.notice config
 				else console.log config
 

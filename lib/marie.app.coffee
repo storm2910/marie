@@ -70,13 +70,13 @@ class App
 	@param [Function] cb callback function
 	###
 	store: (cmd, cb) ->
-		App::db.serialize =>
-			App::db.run App::query.INIT
+		@::db.serialize =>
+			@::db.run @::query.INIT
 			if cmd.match /save/
-				stmt = App::db.prepare App::query.SAVE
+				stmt = @::db.prepare @::query.SAVE
 				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
 			else
-				stmt = App::db.prepare App::query.ADD
+				stmt = @::db.prepare @::query.ADD
 				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
@@ -117,8 +117,8 @@ class App
 	@param [Function] cb callback function
 	###
 	@live: (cb) ->
-		App::db.serialize =>
-			App::db.all App::query.LIVE, (err, rows) ->
+		@::db.serialize =>
+			@::db.all @::query.LIVE, (err, rows) ->
 				if cb and rows
 					apps = []
 					apps.push new App row for row in rows
@@ -132,13 +132,13 @@ class App
 	@param [Function] cb callback function
 	###
 	@find: (name, cb) ->
-		App::db.serialize =>
-			App::db.run App::query.INIT
+		@::db.serialize =>
+			@::db.run @::query.INIT
 			if not not name
-				App::db.each App::query.FIND_ONE, name, (err, row) ->
+				@::db.each @::query.FIND_ONE, name, (err, row) ->
 					if cb then cb err, new App row
 			else
-				App::db.all App::query.FIND, (err, rows) ->
+				@::db.all @::query.FIND, (err, rows) ->
 					if cb and rows
 						apps = []
 						apps.push new App row for row in rows
@@ -154,10 +154,10 @@ class App
 	@remove:(name, cb) ->
 		@find name, (err, row) =>
 			if err then cb err, row
-			if row
+			else if row
 				app = new App row
 				remove = =>
-					App::db.run App::query.REMOVE, app.name, (err, success) =>
+					@::db.run @::query.REMOVE, app.name, (err, success) =>
 						if not err
 							utils.fs.removeSync app.path
 							if cb then cb null, "#{name} was successfully removed."
@@ -167,6 +167,8 @@ class App
 					@stop app, (err, app) ->
 						remove()
 				else  remove()
+			else
+				if cb then cb "#{name} was not removed.", null
 
 	###
 	Start app method
