@@ -310,6 +310,24 @@ class App
 				cb null, modules
 
 	###
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@getApis: (name, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			else if row
+				app = new App row
+				apis = []
+				file = app.file '/api/controllers'
+				ctrls = utils.fs.readdirSync file
+				for ctrl in ctrls
+					if not ctrl.match /^\./
+						api = (ctrl.replace /controller|\.coffee/gi, '').toLowerCase()
+						apis.push api
+				cb null, apis
+
+	###
 	Remove package to app
 	@param [String] name app id name
 	@param [Function] cb callback function

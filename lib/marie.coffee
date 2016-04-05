@@ -59,6 +59,7 @@ class Marie
 			'list': 
 				'config': @listConfig
 				'modules': @listModules
+				'apis': @listApis
 
 	###
 	Confgiure the default express/sails application framework
@@ -584,6 +585,15 @@ class Marie
 			if config
 				if config.constructor == String then ui.notice config
 				else console.log config
+
+	###
+	Configure list module method
+	@example `marie dc-web remove module bower`
+	###
+	listApis: =>
+		App.getApis @args[3], (err, config) =>
+			if err then utils.throwError err
+			else console.log config
 
 	###
 	Display system log method 
