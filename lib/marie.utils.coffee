@@ -174,6 +174,7 @@ class Utils
 			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
 			@fs.copySync @config('/tasks/.bowerrc'), app.file('/.bowerrc'), { clobber: true }
+			@fs.mkdirSync app.file('/assets/modules')
 			cb null, app
 
 	###

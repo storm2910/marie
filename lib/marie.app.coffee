@@ -155,13 +155,18 @@ class App
 		@find name, (err, row) =>
 			if err then cb err, row
 			if row
-				path = row['path']
-				App::db.run App::query.REMOVE, name, (err, success) ->
-					if not err
-						utils.fs.removeSync path
-						if cb then cb null, "#{name} was successfully removed."
-					else
-						if cb then cb "#{name} was not removed.", null
+				app = new App row
+				remove = =>
+					App::db.run App::query.REMOVE, app.name, (err, success) =>
+						if not err
+							utils.fs.removeSync app.path
+							if cb then cb null, "#{name} was successfully removed."
+						else
+							if cb then cb "#{name} was not removed.", null
+				if not not app.pid
+					@stop app, (err, app) ->
+						remove()
+				else  remove()
 
 	###
 	Start app method
@@ -236,8 +241,9 @@ class App
 				app = new App row
 				app.cwd()
 				option = '--save'
-				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
-				else if opt and opt.match(/\-front/gi) then option = '--front-end'
+				if not not opt
+					if opt.match /\-d/ then option = '--save-dev'
+					else if opt.match /\-f/ then option = '--front-end'
 				utils.install [pkg], option, (error, stdout, stderr) ->
 					cb error, app
 
@@ -254,8 +260,9 @@ class App
 				app = new App row
 				process.chdir app.path
 				option = '--save'
-				if opt and opt.match(/\-dev/gi) then option = '--save-dev'
-				else if opt and opt.match(/\-front/gi) then option = '--front-end'
+				if not not opt
+					if opt.match /\-d/ then option = '--save-dev'
+					else if opt.match /\-f/ then option = '--front-end'
 				utils.uninstall [pkg], option, (error, stdout, stderr) ->
 					cb error, app
 
@@ -273,6 +280,34 @@ class App
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
 				cb null, config
+
+	###
+	Remove package to app
+	@param [String] name app id name
+	@param [Function] cb callback function
+	###
+	@getModules: (name, key, cb) ->
+		@find name, (err, row) =>
+			if err then cb err, row
+			if row
+				app = new App row
+				file = app.file 'package.json'
+				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
+				modules = 
+					save: config.dependencies 
+					dev: config.devDependencies
+				if not not key
+					if key.match /\-d/ then modules = config.devDependencies
+					else if key.match /\-s/ then modules = config.dependencies
+					else if key.match /\-f/
+						modules = {}
+						assets = 'assets/modules'
+						dirs = utils.fs.readdirSync app.file assets
+						for dir in dirs
+							file = app.file "#{assets}/#{dir}/.bower.json"
+							config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
+							modules["#{config.name}@#{config.version}"] = "/modules/#{dir}/#{config.main}"
+				cb null, modules
 
 	###
 	Remove package to app
