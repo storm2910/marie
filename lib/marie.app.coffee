@@ -70,13 +70,13 @@ class App
 	@param [Function] cb callback function
 	###
 	store: (cmd, cb) ->
-		@::db.serialize =>
-			@::db.run @::query.INIT
+		@db.serialize =>
+			@db.run @.query.INIT
 			if cmd.match /save/
-				stmt = @::db.prepare @::query.SAVE
+				stmt = @db.prepare @.query.SAVE
 				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
 			else
-				stmt = @::db.prepare @::query.ADD
+				stmt = @db.prepare @.query.ADD
 				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
