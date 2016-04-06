@@ -52,12 +52,9 @@ class Marie
 			'api':
 				'add': @addApi
 				'remove': @removeApi
+			'list': @list
 			'db':
 				'configure': @configure
-			'list':
-				'apis': @listApis
-				'config': @listConfig
-				'modules': @listModules
 			'module':
 				'add': @addModule
 				'remove': @removeModule
@@ -71,39 +68,27 @@ class Marie
 
 		if @routes[route]?
 			arg = @args[3] or null
-			# ui.notice 'marie command'
-			# ui.notice "command: #{route}"
-			# ui.notice "arg: #{arg}"
 			if @routes[route]? then @routes[route](arg)
 		else
 			cmd = @args[3] or null
 			arg = @args[4] or null
 			key = @args[5] or null
-			# key = @args[5] or null
+			opt = @args[6] or null
 
-			ui.notice 'app command'
-			ui.notice "command: #{cmd}"
-			ui.notice "arg: #{arg}"
-			ui.notice "key: #{key}"
+			if cmd is 'list' then @list route, arg, key, opt
+			else if @commands[arg][cmd] then @commands[arg][cmd] route, key, opt
+			else
+				ui.notice 'Invalid command.'
+				ui.notice 'load help'
 
-
-		# 
-		# console.log "route: #{route}"
-		# console.log "arg: #{arg}"
-		# console.log "length: #{len}"
-
-
-
-
-		# if len >= 2 and len < 5
-		# 	route = @args[2]
-		# 	if @routes[route]? then @routes[route](@args[3])
-		# else if len >= 5
-		# 	if @commands[@args[4]][@args[3]]? then @commands[@args[4]][@args[3]] @args[5]
-		# else if len is 3 or len is 4
-		# 	ui.error 'Missing. argument.'
-		# else
-		# 	@add null
+			# console.log ''
+			# ui.notice 'app command'
+			# ui.notice "route: #{route}"
+			# ui.notice "command: #{cmd}"
+			# ui.notice "arg: #{arg}"
+			# ui.notice "key: #{key}"
+			# ui.notice "opt: #{opt}"
+			# console.log ''
 
 	###
 	Confgiure the default express/sails application framework
@@ -439,13 +424,15 @@ class Marie
 	@example `marie list dc-web`
 	@returns [Array<App>, App] apps return apps or app
 	###
-	list: =>
-		App.find @args[3], (err, apps) =>
+	list: (arg, key, opt) =>
+		App.find arg, (err, apps) =>
 			if err then utils.throwError err
 			else
-				if not not @args[4] 
-					if @commands.list[@args[4]] then @commands.list[@args[4]]()
-					else ui.notice apps[@args[4]] 
+				if not not key
+					if key is 'api' then @listApis arg
+					else if key is 'module' then @listModules arg, opt
+					else if key is 'config' then @listConfig arg, opt
+					else ui.notice apps[key] 
 				else console.log apps
 
 	###
@@ -578,8 +565,12 @@ class Marie
 	@param [String] api api to add
 	@example `marie dc-web add api user`
 	###
-	addApi: (api) =>
-		App.addApi @args[2], api, (err, app) =>
+	addApi: (arg, api) =>
+		# console.log arg
+		# console.log api 
+		# console.log key 
+		# console.log opt
+		App.addApi arg, api, (err, app) =>
 			if err then utils.throwError err
 			else
 				@app = app
@@ -591,8 +582,8 @@ class Marie
 	@param [String] api api to remove
 	@example `marie dc-web remove api user`
 	###
-	removeApi: (api) =>
-		App.removeApi @args[2], api, (err, app) =>
+	removeApi: (arg, api) =>
+		App.removeApi arg, api, (err, app) =>
 			if err then utils.throwError err
 			else
 				@app = app
@@ -604,9 +595,12 @@ class Marie
 	@param [String] pkg module to add
 	@example `marie dc-web add module bower`
 	###
-	addModule: (pkg) =>
+	addModule: (arg, pkg, opt) =>
+		# console.log arg
+		# console.log pkg 
+		# console.log opt
 		ui.write "Adding `#{pkg}` module..."
-		App.addModule @args[2], pkg, @args[6], (err, app) =>
+		App.addModule arg, pkg, opt, (err, app) =>
 			if err then utils.throwError err
 			else
 				@app = app
@@ -618,9 +612,9 @@ class Marie
 	@param [String] pkg module to remove
 	@example `marie dc-web remove module bower`
 	###
-	removeModule: (pkg) =>
+	removeModule: (arg, pkg, opt) =>
 		ui.write "Removing `#{pkg}` module..."
-		App.removeModule @args[2], pkg, @args[6], (err, app) =>
+		App.removeModule arg, pkg, opt, (err, app) =>
 			if err then utils.throwError err
 			else
 				@app = app
@@ -631,8 +625,8 @@ class Marie
 	Configure list module method
 	@example `marie dc-web remove module bower`
 	###
-	listConfig: =>
-		App.getConfig @args[3], @args[5], (err, config) =>
+	listConfig: (arg, key) =>
+		App.getConfig arg, key, (err, config) =>
 			if err then utils.throwError err
 			else
 				if config.constructor == String then ui.notice config
@@ -642,8 +636,8 @@ class Marie
 	Configure list module method
 	@example `marie dc-web remove module bower`
 	###
-	listModules: =>
-		App.getModules @args[3], @args[5], (err, config) =>
+	listModules: (arg, opt) =>
+		App.getModules arg, opt, (err, config) =>
 			if err then utils.throwError err
 			else
 				if config.constructor == String then ui.notice config
@@ -653,8 +647,8 @@ class Marie
 	Configure list module method
 	@example `marie dc-web remove module bower`
 	###
-	listApis: =>
-		App.getApis @args[3], (err, config) =>
+	listApis: (arg) =>
+		App.getApis arg, (err, config) =>
 			if err then utils.throwError err
 			else console.log config
 
@@ -679,10 +673,10 @@ class Marie
 	###
 	cli configure command handler
 	###
-	configure: =>
-		name = @args[3]
-		key = @args[4]
-		App.find name, (error, app) =>
+	configure: (arg, key) =>
+		# name = @args[3]
+		# key = @args[4]
+		App.find arg, (error, app) =>
 			if error then utils.throwError error
 			else if app 
 				@app = app
