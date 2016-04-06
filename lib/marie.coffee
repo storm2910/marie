@@ -480,11 +480,11 @@ class Marie
 	@example `marie restart`
 	###
 	restart: =>
-		App.live (err, apps) =>
+		App.live (err, app) =>
 			if err then utils.throwError err
-			else if apps and apps.length > 0
-				@_stop app for app in apps
-				@_start apps[0]
+			else if app
+				@_stop app
+				@_start app
 			else
 				return @_run 'start'
 
