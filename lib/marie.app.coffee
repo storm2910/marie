@@ -399,9 +399,6 @@ class App
 	###
 	@configureNativeDB: (app, cb) ->
 		app.storage = utils.storageType.DISK
-		# console.log app.storage
-		# console.log app
-		# console.log utils.storageType.LOCAL
 		utils.setupDBWithConfigFor app, null, cb
 
 	###
