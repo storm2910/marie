@@ -338,9 +338,11 @@ class Utils
 			cdest = app.file '/config/connections.js'
 			@fs.writeFileSync cdest, cconfig
 		ddest = app.file '/config/env/development.js'
+		pdest = app.file '/config/env/production.js'
 		dconfig = @fs.readFileSync ddest, @encoding.UTF8
 		dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer|localDiskDb|localMongodbServer|remoteMongodbServerWithURL|remoteMongodbServer/g, app.storage)
 		@fs.writeFileSync ddest, dconfig
+		@fs.writeFileSync pdest, dconfig
 		cb null, app
 
 # export utils module
