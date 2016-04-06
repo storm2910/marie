@@ -21,7 +21,7 @@ class Utils
 		BOOTSTRAP: 'bootstrap'
 		FOUNDATION: 'foundation'
 	storageType:
-		DISK: 'localDisk'
+		DISK: 'localDiskDb'
 		LOCAL: 'localMongodbServer'
 		REMOTE: 'remoteMongodbServer'
 		URL: 'remoteMongodbServerWithURL'
@@ -337,10 +337,10 @@ class Utils
 		if not not cconfig
 			cdest = app.file '/config/connections.js'
 			@fs.writeFileSync cdest, cconfig
-			ddest = app.file '/config/env/development.js'
-			dconfig = @fs.readFileSync ddest, @encoding.UTF8
-			dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer/gi, app.storage)
-			@fs.writeFileSync ddest, dconfig
+		ddest = app.file '/config/env/development.js'
+		dconfig = @fs.readFileSync ddest, @encoding.UTF8
+		dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer|localDiskDb|localMongodbServer|remoteMongodbServerWithURL|remoteMongodbServer/g, app.storage)
+		@fs.writeFileSync ddest, dconfig
 		cb null, app
 
 # export utils module

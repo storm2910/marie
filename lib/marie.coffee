@@ -6,7 +6,7 @@
 @property [String] root process root directory
 @author Teddy Moussignac (teddy.moussignac@gmail.com)
 @version 0.0.3
-@copyright March 2016
+@copyright March 2016 
 @note Marie core class. Marie app logic definition
 ###
 
@@ -45,6 +45,7 @@ class Marie
 			'stop': @stop
 			'restart': @restart
 			'remove': @remove
+			'configure': @configure
 
 	###
 	Configure application route commands
@@ -204,55 +205,55 @@ class Marie
 	@param [App] 
 	@example localDisk/mongo
 	###
-	configureDB: (app) ->
+	configureDB: (app, skip) ->
 		ui.warn 'Choose your database.'
 		utils.prompt.start()
 		input = ' Mongo/Disk'
 		ui.line()
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
-			if result[input].match(/^m/i) then @configureMongoDB(app) else @configureNativeDB(app)
+			if result[input].match(/^m/i) then @configureMongoDB(app, skip) else @configureNativeDB(app, skip)
 
 	###
 	Configure localDisk as the default data storage
 	@param [App] 
 	###
-	configureNativeDB: (app) ->
+	configureNativeDB: (app, skip) ->
 		App.configureNativeDB app, (err, app) =>
 			if err then utils.throwError err 
 			else
 				ui.ok "Local disk database configuration done."
-				@configureAPIs app
+				@configureAPIs app, skip
 
 	###
 	Configure mongoDB as the default data storage and choose between local or remote mongo
 	@param [App] 
 	###
-	configureMongoDB: (app) ->
+	configureMongoDB: (app, skip) ->
 		ui.warn 'Configure MongoDB database.'
 		input = [' Local/Remote']
 		ui.line()
 		utils.prompt.get input, (err, result) =>
 			ui.line()
-			if result[input].match(/^r/i) then @configureRemoteMongoDB(app) else @configureLocalMongoDB(app)
+			if result[input].match(/^r/i) then @configureRemoteMongoDB(app, skip) else @configureLocalMongoDB(app, skip)
 
 	###
 	Local mongodb database configuration
 	@param [App] 
 	###
-	configureLocalMongoDB: (app) ->
+	configureLocalMongoDB: (app, skip) ->
 		ui.write "Configuring MongoDB..."
 		App.configureLocalMongoDB app, (err, app) =>
 			if err then utils.throwError err 
 			else
 				ui.ok "Local MongoDB database configuration done."
-				@configureAPIs app
+				@configureAPIs app, skip
 
 	###
 	Remote mongodb database configuration
 	@param [App] 
 	###
-	configureRemoteMongoDB: (app) ->
+	configureRemoteMongoDB: (app, skip) ->
 		input = [' mongodb uri']
 		utils.prompt.get input, (err, result) =>
 			ui.line()
@@ -263,15 +264,15 @@ class Marie
 					if err then utils.throwError err 
 					else
 						ui.ok "MongoDB database configuration done."
-						@configureAPIs app
+						@configureAPIs app, skip
 			else
-				@configureRemoteMongoDBWithConfig app
+				@configureRemoteMongoDBWithConfig app, skip
 
 	###
 	Remote mongodb database configuration
 	@param [App] 
 	###
-	configureRemoteMongoDBWithConfig: (app) ->
+	configureRemoteMongoDBWithConfig: (app, skip) ->
 		inputs = [' host', ' port', ' user', ' password', ' database']
 		utils.prompt.get inputs, (err, result) =>
 			ui.line()
@@ -286,7 +287,7 @@ class Marie
 				if err then utils.throwError err 
 				else
 					ui.ok "MongoDB database configuration done."
-					@configureAPIs app
+					@configureAPIs app, skip
 
 	###
 	Configure default app APIs
@@ -297,23 +298,28 @@ class Marie
 	@example /api/models/User.coffee
 	@example /api/controllers/UserController.coffee
 	###
-	configureAPIs: (app) ->
-		ui.warn 'Configure APIs.'
-		utils.prompt.start()
-		input = ' APIs'
-		ui.line()
-		utils.prompt.get [input], (err, result) =>
+	configureAPIs: (app, skip) ->
+		if not not skip
+			app.save (err, app) =>
+				@restart()
+			return false
+		else
+			ui.warn 'Configure APIs.'
+			utils.prompt.start()
+			input = ' APIs'
 			ui.line()
-			res = if result[input] then utils.trim(result[input]) else null
-			if not not res and res.length > 0
-				apis = res.split ','
-				App.configureApis app, apis, (err, app) =>
-					if err then utils.throwError err 
-					else 
-						ui.ok 'API configuration done.'
-						@save app
-			else
-				@save app
+			utils.prompt.get [input], (err, result) =>
+				ui.line()
+				res = if result[input] then utils.trim(result[input]) else null
+				if not not res and res.length > 0
+					apis = res.split ','
+					App.configureApis app, apis, (err, app) =>
+						if err then utils.throwError err 
+						else 
+							ui.ok 'API configuration done.'
+							@save app
+				else
+					@save app
 
 	###
 	If something goes really bad. Stop everything, remove everything and exit process
@@ -633,6 +639,21 @@ class Marie
 				else
 					log = utils.fs.readFileSync file, utils.encoding.UTF8
 					console.log '%s', log
+
+	###
+	cli configure command handler
+	###
+	configure: =>
+		name = @args[3]
+		key = @args[4]
+		App.find name, (error, app) =>
+			if error then utils.throwError error
+			else if app 
+				@app = app
+				if key.match /db/i
+					@configureDB app, true
+				else if key.match /frontend/i
+					@configureFrontEndFramework app, true
 
 	###
 	Process app route

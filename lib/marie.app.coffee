@@ -398,7 +398,10 @@ class App
 	@param [Function] cb callback function
 	###
 	@configureNativeDB: (app, cb) ->
-		app.storage = utils.storageType.LOCAL
+		app.storage = utils.storageType.DISK
+		# console.log app.storage
+		# console.log app
+		# console.log utils.storageType.LOCAL
 		utils.setupDBWithConfigFor app, null, cb
 
 	###
@@ -426,7 +429,7 @@ class App
 	###
 	Remove package to app
 	@param [String] name app id name
-	@param [String,...,String] apis app id name
+	@param [String,...,String] apis
 	@param [Function] cb callback function
 	###
 	@configureApis: (app, apis, cb) ->
