@@ -13,7 +13,6 @@ class Utils
 	exe: require('child_process').execFile
 	spawn: require('child_process').spawn
 	spawnSync: require('child_process').spawnSync
-	clc: require 'cli-color'
 	bower: require 'bower'
 	root: __dirname.replace '/marie/lib', '/marie'
 	encoding:
@@ -88,6 +87,7 @@ class Utils
 	###
 	Uninstall package method definition
 	@param [String] pkg package to uninstall
+	@param [String] opt option
 	@param [Function] cb callback function
 	###
 	uninstall: (pkg, opt, cb) ->
@@ -114,7 +114,7 @@ class Utils
 	###
 	Install api method definition
 	@param [String] api api to install
-	@param [App] app app to install api for
+	@param [Function] cb callback function
 	###
 	installApi: (api, cb) ->
 		api = @trim api.toLowerCase()
@@ -124,6 +124,7 @@ class Utils
 	Uninstall api method definition
 	@param [String] api api to install
 	@param [App] app app to remove api from
+	@param [Function] cb callback function
 	###
 	uninstallApi: (api, app, cb) ->
 		api = api.toLowerCase().replace /^[.\s]+|[.\s]+$/g, ''
@@ -165,7 +166,7 @@ class Utils
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureTasManagerFor: (app, cb) ->
@@ -179,7 +180,7 @@ class Utils
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureCoffeeScriptFor: (app, cb) ->
@@ -192,7 +193,7 @@ class Utils
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureJadeFor: (app, cb) ->
@@ -223,7 +224,7 @@ class Utils
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureStylusFor: (app, cb) ->
@@ -250,7 +251,7 @@ class Utils
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureFrontEndFrameworkFor: (app, cb) ->
@@ -264,7 +265,7 @@ class Utils
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureBundlesFor: (app, cb) ->
@@ -278,6 +279,8 @@ class Utils
 
 	###
 	Local mongodb database configuration
+	@param [App] app
+	@param [Function] cb callback function
 	###
 	configureLocalMongoDBFor: (app, cb) ->
 		app.storage = @storageType.LOCAL
@@ -289,6 +292,9 @@ class Utils
 
 	###
 	Configure remote mongodb with user, password, host, port and database credentials
+	@param [App] app
+	@param [Object] config
+	@param [Function] cb callback function
 	###
 	configureRemoteMongoDBWithConfigFor: (app, config, cb) ->
 		app.storage = @storageType.REMOTE
@@ -305,7 +311,9 @@ class Utils
 
 	###
 	Configure mongodb with URI
+	@param [App] app
 	@param [String] uri databse url 
+	@param [Function] cb callback function
 	###
 	configureRemoteMongoDBWithURIFor: (app, uri, cb) ->
 		app.storage = @storageType.URL

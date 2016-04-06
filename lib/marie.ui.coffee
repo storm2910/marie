@@ -6,7 +6,7 @@
 @note Marie ui class
 ###
 
-utils = require './marie.utils'
+clc = require 'cli-color'
 
 class UI
 	XPIXELS: 104
@@ -14,12 +14,12 @@ class UI
 	CARET: '\u2192 '
 	CHECK: '\u221A '
 	BULLET: '\u262F '
-
+	clc: require 'cli-color'
 	styles:
-		WARN: utils.clc.yellowBright
-		INFO: utils.clc.white
-		OK: utils.clc.greenBright
-		ERROR: utils.clc.redBright
+		WARN: clc.yellowBright
+		INFO: clc.white
+		OK: clc.greenBright
+		ERROR: clc.redBright
 
 	###
 	Construct app
@@ -32,7 +32,7 @@ class UI
 	@maram [String] theme style to apply to string
 	###
 	msg: (msg, theme) ->
-		console.log utils.clc.white "#{@CARET}" + clc[theme] msg
+		console.log clc.white "#{@CARET}" + clc[theme] msg
 
 	###
 	Configure write to console without new line method
@@ -40,7 +40,7 @@ class UI
 	###
 	write: (msg) ->
 		@clear()
-		process.stdout.write utils.clc.blackBright "#{@BULLET}" + utils.clc.blackBright msg
+		process.stdout.write clc.blackBright "#{@BULLET}" + clc.blackBright msg
 
 	###
 	Configure clear console method
@@ -56,7 +56,7 @@ class UI
 	###
 	log: (msg, symbol) ->
 		@clear()
-		console.log utils.clc.white  (symbol or @CARET) + msg
+		console.log clc.white  (symbol or @CARET) + msg
 
 	###
 	Configure warning message output method
@@ -92,16 +92,18 @@ class UI
 	line: ->
 		stdout = ''
 		for i in [0..@XPIXELS] then stdout = stdout + @DASH
-		console.log utils.clc.blackBright stdout
+		console.log clc.blackBright stdout
 
 	###
 	Configure console header style method
+	@param [String] a
+	@param [String] a
+	@example ui.header 'a', 'b'
 	###
 	header: (a,b) ->
 		@line()
-		console.log utils.clc.yellowBright "#{a}" + utils.clc.whiteBright " #{b}"
+		console.log clc.yellowBright "#{a}" + clc.whiteBright " #{b}"
 		@line()
-
 
 # export ui module
 module.exports = new UI 

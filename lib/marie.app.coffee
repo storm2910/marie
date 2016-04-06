@@ -239,6 +239,7 @@ class App
 	Add package to app
 	@param [String] name app id name
 	@param [String] pkg packge name to add
+	@param [String] opt
 	@param [Function] cb callback function
 	###
 	@addModule: (name, pkg, opt, cb) ->
@@ -258,6 +259,7 @@ class App
 	Remove package to app
 	@param [String] name app id name
 	@param [String] pkg packge name to add
+	@param [String] opt
 	@param [Function] cb callback function
 	###
 	@removeModule: (name, pkg, opt, cb) ->
@@ -276,6 +278,7 @@ class App
 	###
 	Remove package to app
 	@param [String] name app id name
+	@param [String] key to get
 	@param [Function] cb callback function
 	###
 	@getConfig: (name, key, cb) ->
@@ -291,6 +294,7 @@ class App
 	###
 	Remove package to app
 	@param [String] name app id name
+	@param [String] key to get
 	@param [Function] cb callback function
 	###
 	@getModules: (name, key, cb) ->
@@ -373,6 +377,7 @@ class App
 	###
 	Remove package to app
 	@param [String] name app id name
+	@param [String] framework
 	@param [Function] cb callback function
 	###
 	@configureFrontEndFramework: (app, framework, cb) ->
@@ -399,6 +404,7 @@ class App
 	###
 	Remove package to app
 	@param [String] name app id name
+	@param [Object, String] config
 	@param [Function] cb callback function
 	###
 	@configureMongoDB: (app, config, cb) ->
@@ -420,6 +426,7 @@ class App
 	###
 	Remove package to app
 	@param [String] name app id name
+	@param [String,...,String] apis app id name
 	@param [Function] cb callback function
 	###
 	@configureApis: (app, apis, cb) ->

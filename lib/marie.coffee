@@ -23,6 +23,7 @@ class Marie
 	###
 	Construct App
 	@param [Array<String>] args encoding action commands and routes
+	@param [String] root directory 
 	###
 	constructor: (@args, @root) ->
 		@configureRoutes()
@@ -104,6 +105,7 @@ class Marie
 	###
 	Configure grunt as the default task manager
 	Also configure coffee files importer module + setup for assets coffee files in `/assets/js`
+	@param [App] 
 	@example #import User
 	@example #import Page.coffee
 	###
@@ -117,6 +119,7 @@ class Marie
 
 	###
 	Configure coffeScript as the default js compiler
+	@param [App] 
 	###
 	configureCoffeeScript: (app) ->
 		ui.write 'Configuring CoffeeScript...'
@@ -129,6 +132,7 @@ class Marie
 	###
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
+	@param [App] 
 	@example /views/partials/partial.jade
 	###
 	configureJade: (app) ->
@@ -141,6 +145,7 @@ class Marie
 
 	###
 	Configure stylus as the default css pre-processor
+	@param [App] 
 	###
 	configureStylus:(app) ->
 		ui.write 'Configuring Stylus...'
@@ -153,6 +158,7 @@ class Marie
 	###
 	Frontend framework form prompt configuration
 	Let you choose betwen bootstrap and foundation
+	@param [App] 
 	@example foundation/bootstrap
 	###
 	configureFrontEndFramework: (app) ->
@@ -171,6 +177,7 @@ class Marie
 			
 	###
 	Configure foundation or bootstrap as the default frontend framewok
+	@param [App] 
 	@param [String] framework bootstrap or foundation
 	###
 	configureFramework: (app, framework) ->
@@ -180,6 +187,7 @@ class Marie
 
 	###
 	Configure default bundle files
+	@param [App] 
 	@example /assets/styles/bundles/default.styl
 	@example /assets/styles/bundles/admin.styl
 	###
@@ -193,6 +201,7 @@ class Marie
 	###
 	Data storage form prompt configuration
 	Let you choose between localDisk and a mongo database
+	@param [App] 
 	@example localDisk/mongo
 	###
 	configureDB: (app) ->
@@ -206,6 +215,7 @@ class Marie
 
 	###
 	Configure localDisk as the default data storage
+	@param [App] 
 	###
 	configureNativeDB: (app) ->
 		App.configureNativeDB app, (err, app) =>
@@ -216,6 +226,7 @@ class Marie
 
 	###
 	Configure mongoDB as the default data storage and choose between local or remote mongo
+	@param [App] 
 	###
 	configureMongoDB: (app) ->
 		ui.warn 'Configure MongoDB database.'
@@ -225,9 +236,10 @@ class Marie
 			ui.line()
 			if result[input].match(/^r/i) then @configureRemoteMongoDB(app) else @configureLocalMongoDB(app)
 
-	# ###
-	# Local mongodb database configuration
-	# ###
+	###
+	Local mongodb database configuration
+	@param [App] 
+	###
 	configureLocalMongoDB: (app) ->
 		ui.write "Configuring MongoDB..."
 		App.configureLocalMongoDB app, (err, app) =>
@@ -238,6 +250,7 @@ class Marie
 
 	###
 	Remote mongodb database configuration
+	@param [App] 
 	###
 	configureRemoteMongoDB: (app) ->
 		input = [' mongodb uri']
@@ -256,6 +269,7 @@ class Marie
 
 	###
 	Remote mongodb database configuration
+	@param [App] 
 	###
 	configureRemoteMongoDBWithConfig: (app) ->
 		inputs = [' host', ' port', ' user', ' password', ' database']
@@ -278,6 +292,7 @@ class Marie
 	Configure default app APIs
 	A `user` api will create both a user model and a user conftroller
 	file in the api directory
+	@param [App] 
 	@example user, article, image
 	@example /api/models/User.coffee
 	@example /api/controllers/UserController.coffee
@@ -315,6 +330,7 @@ class Marie
 
 	###
 	Save app to marie database
+	@param [App] 
 	@example marie list some-app
 	###
 	save: (app) ->
@@ -350,9 +366,8 @@ class Marie
 						@_start @app
 					else
 						return @_start @app
-
-
-		###
+	
+	###
 	Configure `add` app method. Creates new app
 	@pparam [String] arg or app name
 	@example `marie add dc-web`
