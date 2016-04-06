@@ -36,16 +36,13 @@ class Marie
 	configureRoutes: ->	
 		@routes =
 			'add': @add
-			'new': @add
-			'ls': @list
 			'list': @list
 			'log': @log
 			'live': @live
+			'remove': @remove
+			'restart': @restart
 			'start': @start
 			'stop': @stop
-			'restart': @restart
-			'remove': @remove
-			'configure': @configure
 
 	###
 	Configure application route commands
@@ -55,13 +52,58 @@ class Marie
 			'api':
 				'add': @addApi
 				'remove': @removeApi
+			'db':
+				'configure': @configure
+			'list':
+				'apis': @listApis
+				'config': @listConfig
+				'modules': @listModules
 			'module':
 				'add': @addModule
 				'remove': @removeModule
-			'list': 
-				'config': @listConfig
-				'modules': @listModules
-				'apis': @listApis
+
+	###
+	Process app route
+	###
+	route: ->
+		len = @args.length - 1
+		route = @args[2]
+
+		if @routes[route]?
+			arg = @args[3] or null
+			# ui.notice 'marie command'
+			# ui.notice "command: #{route}"
+			# ui.notice "arg: #{arg}"
+			if @routes[route]? then @routes[route](arg)
+		else
+			cmd = @args[3] or null
+			arg = @args[4] or null
+			key = @args[5] or null
+			# key = @args[5] or null
+
+			ui.notice 'app command'
+			ui.notice "command: #{cmd}"
+			ui.notice "arg: #{arg}"
+			ui.notice "key: #{key}"
+
+
+		# 
+		# console.log "route: #{route}"
+		# console.log "arg: #{arg}"
+		# console.log "length: #{len}"
+
+
+
+
+		# if len >= 2 and len < 5
+		# 	route = @args[2]
+		# 	if @routes[route]? then @routes[route](@args[3])
+		# else if len >= 5
+		# 	if @commands[@args[4]][@args[3]]? then @commands[@args[4]][@args[3]] @args[5]
+		# else if len is 3 or len is 4
+		# 	ui.error 'Missing. argument.'
+		# else
+		# 	@add null
 
 	###
 	Confgiure the default express/sails application framework
@@ -366,8 +408,8 @@ class Marie
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
 			if result[input].match(/^y/i)
-				App.live (err, apps) =>
-					if apps
+				App.live (err, app) =>
+					if app
 						@stop()
 						@_start @app
 					else
@@ -378,17 +420,9 @@ class Marie
 	@pparam [String] arg or app name
 	@example `marie add dc-web`
 	@example `marie new dc-web`
-	@example `marie dc-web
 	###
 	add: (arg) =>
-		if not not arg
-			len = @args.length - 1
-			if len >= 5
-				if @commands[@args[4]][@args[3]]? then @commands[@args[4]][@args[3]] @args[5]
-			else if len > 2 and len < 5
-				ui.error 'Missing. argument.'
-			else
-				@new arg
+		if not not arg then @new arg
 		else
 			ui.warn 'Enter app name.'
 			utils.prompt.start()
@@ -420,9 +454,10 @@ class Marie
 	@returns [App] app return live app
 	###
 	live: =>
-		App.live (err, apps) =>
+		App.live (err, app) =>
 			if err then utils.throwError err
-			else console.log apps
+			else if app then console.log app
+			else ui.notice 'No app is live.'
 
 	###
 	Configure `remove` app command handler. Remove app from system
@@ -453,40 +488,38 @@ class Marie
 	Configure `start` app command handler. start app
 	@example `marie start dc-web`
 	###
-	start: =>
-		App.live (err, apps) =>
+	start: (arg) =>
+		App.live (err, app) =>
 			if err then utils.throwError err
-			else if apps
+			else if app
 				@stop()
-				@_run 'start'
+				@_run 'start', arg
 			else
-				return @_run 'start'
+				return @_run 'start', arg
 
 	###
 	Configure `stop` app command handler. Stops app or stop all apps
 	@example `marie stop dc-web`
 	@example `marie stop`
 	###
-	stop: =>
-		App.live (err, apps) =>
+	stop: (arg) =>
+		App.live (err, app) =>
 			if err then utils.throwError err
-			else if apps
-				@_stop app for app in apps
-			else
-				return @_run 'stop'
+			else if app then @_stop app
+			else return @_run 'stop', arg
 
 	###
 	Configure `restart` app command handler. Restarts current live app
 	@example `marie restart`
 	###
-	restart: =>
+	restart: (arg) =>
 		App.live (err, app) =>
 			if err then utils.throwError err
 			else if app
 				@_stop app
 				@_start app
 			else
-				return @_run 'start'
+				if not arg then ui.notice 'No app is live.'
 
 	###
 	Configure system start app method
@@ -519,9 +552,9 @@ class Marie
 	Configure system run app method.
 	@param [String] cmd command sart/stop/restart
 	###
-	_run: (cmd) ->
-		if not not @args[3]
-			App.find @args[3], (err, app) =>
+	_run: (cmd, arg) ->
+		if not not arg
+			App.find arg, (err, app) =>
 				if err then utils.throwError err
 				if app
 					if cmd.match /^stop/i
@@ -535,7 +568,10 @@ class Marie
 						@_start app
 
 		else
-			ui.error 'Missing argument.'
+			if cmd.match /^stop/i
+				ui.notice 'No app is live.'
+			else
+				ui.error 'Missing argument.'
 
 	###
 	Configure add api method
@@ -654,17 +690,6 @@ class Marie
 					@configureDB app, true
 				else if key.match /frontend/i
 					@configureFrontEndFramework app, true
-
-	###
-	Process app route
-	###
-	route: ->
-		len = @args.length - 1
-		if len >= 2
-			route = @args[2]
-			if @routes[route]? then @routes[route](@args[3]) else @add route
-		else
-			@add null
 
 # export marie module
 module.exports = Marie

@@ -119,16 +119,10 @@ class App
 	@live: (cb) ->
 		@::db.serialize =>
 			@::db.all @::query.LIVE, (err, rows) =>
-				if cb and rows
-					size = rows.length
-					if size == 1
-						app = new @ rows[0]
-						cb err, app
-					else
-						apps = []
-						apps.push new @ row for row in rows
-						cb err, apps
-				else if cb and not rows
+				if cb and rows and rows.length > 0
+					app = new @ rows[0]
+					cb err, app
+				else
 					cb err, null
 
 	###
@@ -204,7 +198,8 @@ class App
 			app.stop()
 			app.save (err, app) =>
 				if cb then cb err, app
-		else return true
+		else
+			if cb then cb null, app
 
 	###
 	Add api to app
