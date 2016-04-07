@@ -52,9 +52,6 @@ class Marie
 			'api':
 				'add': @addApi
 				'remove': @removeApi
-			'list': @list
-			'db':
-				'set': @configureStorage
 			'module':
 				'add': @addModule
 				'remove': @removeModule
@@ -77,9 +74,7 @@ class Marie
 			if cmd and cmd is 'list' then @list route, arg, key, opt
 			else if cmd and cmd is 'set' then @configureMore route, arg, key, opt
 			else if cmd and arg and @commands[arg][cmd]? then @commands[arg][cmd] route, key, opt
-			else
-				ui.notice 'Invalid command.'
-				ui.notice 'load help'
+			else @listHelp()
 
 	###
 	Confgiure the default express/sails application framework
@@ -411,6 +406,9 @@ class Marie
 
 	###
 	Configure `list` app command handler. Retrive and List all apps or single app method
+	@param [String] arg 
+	@param [String] key
+	@param [String] opt
 	@example `marie list`
 	@example `marie list dc-web`
 	@returns [Array<App>, App] apps return apps or app
@@ -528,6 +526,7 @@ class Marie
 
 	###
 	Configure system run app method.
+	@param [String] arg 
 	@param [String] cmd command sart/stop/restart
 	###
 	_run: (cmd, arg) ->
@@ -553,6 +552,7 @@ class Marie
 
 	###
 	Configure add api method
+	@param [String] arg 
 	@param [String] api api to add
 	@example `marie dc-web add api user`
 	###
@@ -568,6 +568,7 @@ class Marie
 
 	###
 	Configure remove api method
+	@param [String] arg 
 	@param [String] api api to remove
 	@example `marie dc-web remove api user`
 	###
@@ -583,7 +584,9 @@ class Marie
 
 	###
 	Configure add module method
-	@param [String] pkg module to add
+	@param [String] arg 
+	@param [String] pkg module to remove
+	@param [String] opt
 	@example `marie dc-web add module bower`
 	###
 	addModule: (arg, pkg, opt) =>
@@ -599,7 +602,9 @@ class Marie
 
 	###
 	Configure remove module method
+	@param [String] arg 
 	@param [String] pkg module to remove
+	@param [String] opt
 	@example `marie dc-web remove module bower`
 	###
 	removeModule: (arg, pkg, opt) =>
@@ -615,6 +620,8 @@ class Marie
 
 	###
 	Configure list module method
+	@param [String] arg 
+	@param [String] key
 	@example `marie dc-web remove module bower`
 	###
 	listConfig: (arg, key) =>
@@ -626,6 +633,8 @@ class Marie
 
 	###
 	Configure list module method
+	@param [String] arg 
+	@param [String] opt
 	@example `marie dc-web remove module bower`
 	###
 	listModules: (arg, opt) =>
@@ -637,6 +646,7 @@ class Marie
 
 	###
 	Configure list module method
+	@param [String] arg 
 	@example `marie dc-web remove module bower`
 	###
 	listApis: (arg) =>
@@ -664,6 +674,9 @@ class Marie
 
 	###
 	cli configure command handler
+	@param [String] arg 
+	@param [String] key
+	@param [String] opt
 	###
 	configureMore: (arg, key, opt) =>
 		App.find arg, (error, app) =>
@@ -674,6 +687,13 @@ class Marie
 					@configureDB app, true
 				else if key.match /frontend/i
 					@configureFrontEndFramework app, true
+
+	###
+	display help
+	###
+	listHelp: =>
+		ui.notice 'Invalid command.'
+		ui.notice 'load help'
 
 # export marie module
 module.exports = Marie
