@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "0.0.4",
+  "version": "0.0.401",
   "description": "A Modern Nodejs Application Boilerplate Tool",
   "main": "index.js",
   "bin": {
@@ -12,6 +12,7 @@
   "author": "Dark Codes <teddy.moussignac@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bower": "^1.7.9",
     "cli-color": "^1.1.0",
     "coffee-script": "^1.10.0",
     "fs-extra": "^0.26.6",
