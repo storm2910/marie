@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "0.0.311",
+  "version": "0.0.4",
   "description": "A Modern Nodejs Application Boilerplate Tool",
   "main": "index.js",
   "bin": {
@@ -39,5 +39,5 @@
     "mongo",
     "socket"
   ],
-  "homepage": "https://github.com/storm2910/marie"
+  "homepage": "http://teddyproductions.com/marie"
 }

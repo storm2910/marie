@@ -19,4 +19,3 @@
   set frontend-framework          update app frontend framework
 
 - documentation
-  https://github.com/storm2910/marie

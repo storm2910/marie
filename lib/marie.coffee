@@ -451,7 +451,7 @@ class Marie
 					ui.line()
 					if result[input].match(/^y/i) then @_remove arg
 		else
-			ui.error 'Missing argument.'
+			@missingArgHandler()
 	###
 	remove
 	###
@@ -548,7 +548,7 @@ class Marie
 			if cmd.match /^stop/i
 				ui.notice 'No app is live.'
 			else
-				ui.error 'Missing argument.'
+				@missingArgHandler()
 
 	###
 	Configure add api method
@@ -564,7 +564,7 @@ class Marie
 					@app = app
 					@restart()
 					ui.ok "Added api #{api}"
-		else ui.error 'Missing argument.'
+		else @missingArgHandler()
 
 	###
 	Configure remove api method
@@ -580,7 +580,7 @@ class Marie
 					@app = app
 					@restart()
 					ui.ok "Removed api #{api}"
-		else ui.error 'Missing argument.'
+		else @missingArgHandler()
 
 	###
 	Configure add module method
@@ -598,7 +598,7 @@ class Marie
 					@app = app
 					@restart()
 					ui.ok "Added module #{pkg}"
-		else ui.error 'Missing argument.'
+		else @missingArgHandler()
 
 	###
 	Configure remove module method
@@ -616,7 +616,7 @@ class Marie
 					@app = app
 					@restart()
 					ui.ok "Removed module #{pkg}"
-		else ui.error 'Missing argument.'
+		else @missingArgHandler()
 
 	###
 	Configure list module method
@@ -686,15 +686,24 @@ class Marie
 				if key.match /db/i
 					@configureDB app, true
 				else
-					ui.notice 'invalid argument.'
+					@missingArgHandler()
+
+	###
+	configure missing/invalid arg handler
+	###
+	missingArgHandler: ->
+		ui.notice 'invalid or missing argument.'
 
 	###
 	display help
 	###
 	listHelp: =>
-		ui.notice 'Valid commands:'
 		help = utils.fs.readFileSync utils.path.join(utils.root, 'help.txt'), utils.UTF8
+		homepage = JSON.parse(utils.fs.readFileSync(utils.path.join(utils.root, 'package.json'), utils.encoding.UTF8)).homepage or ''
+		ui.notice 'Valid commands:'
 		console.log '%s', help
+		console.log '  %s', homepage
+		console.log ''
 
 # export marie module
 module.exports = Marie
