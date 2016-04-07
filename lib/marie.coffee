@@ -685,15 +685,16 @@ class Marie
 				@app = app
 				if key.match /db/i
 					@configureDB app, true
-				else if key.match /frontend/i
-					@configureFrontEndFramework app, true
+				else
+					ui.notice 'invalid argument.'
 
 	###
 	display help
 	###
 	listHelp: =>
-		ui.notice 'Invalid command.'
-		ui.notice 'load help'
+		ui.notice 'Valid commands:'
+		help = utils.fs.readFileSync utils.path.join(utils.root, 'help.txt'), utils.UTF8
+		console.log '%s', help
 
 # export marie module
 module.exports = Marie

@@ -30,8 +30,12 @@ class Utils
 	Construct app
 	###
 	constructor: ->
+		@configureProcess()
 		@configurePrompt()
 		@configureFs()
+
+	configureProcess: ->
+		process.on 'uncaughtException', (err) ->
 
 	###
 	Configure config file path
@@ -58,9 +62,9 @@ class Utils
 	@param [String, Object] error 
 	###
 	throwError: (error) ->
-		if error then console.log error else 'An error occured.'
+		if error then console.log error else console.log 'an error occured.'
 		setTimeout ->
-			process.exit()
+			process.exit(1)
 		, 300
 
 	###
