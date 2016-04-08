@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "0.0.2",
+  "version": "0.0.401",
   "description": "A Modern Nodejs Application Boilerplate Tool",
   "main": "index.js",
   "bin": {
@@ -12,10 +12,12 @@
   "author": "Dark Codes <teddy.moussignac@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bower": "^1.7.9",
     "cli-color": "^1.1.0",
     "coffee-script": "^1.10.0",
     "fs-extra": "^0.26.6",
-    "prompt": "^1.0.0"
+    "prompt": "^1.0.0",
+    "sqlite3": "^3.1.2"
   },
   "devDependencies": {
     "coffee-script": "^1.10.0"
@@ -38,5 +40,5 @@
     "mongo",
     "socket"
   ],
-  "homepage": "https://github.com/storm2910/marie"
+  "homepage": "http://teddyproductions.com/marie"
 }

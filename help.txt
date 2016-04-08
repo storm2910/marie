@@ -1,0 +1,21 @@
+- marie
+  add [app]       create new app
+  help            display help
+  list            show all apps
+  log             view log
+  live            show live app
+  remove [app]    delete app
+  restart         restart live app
+  start [app]     start app
+  stop [app]      stop app
+
+- [app]
+  list [attr]                     show app [attribute]
+  add module [module] [opt]       add module to app
+  remove module [module] [opt]    remove module from app
+  add api [api]                   add api to app
+  remove api [api]                remove api from app
+  set db                          update app database config
+  set frontend-framework          update app frontend framework
+
+- documentation
