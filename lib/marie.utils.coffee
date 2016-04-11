@@ -7,19 +7,20 @@
 ###
 
 class Utils
-	fs: require 'fs'
-	path: require 'path'
-	prompt: require 'prompt'
-	exe: require('child_process').execFile
-	spawn: require('child_process').spawn
-	spawnSync: require('child_process').spawnSync
 	bower: require 'bower'
-	root: __dirname.replace '/marie/lib', '/marie'
 	encoding:
 		UTF8: 'utf8'
+	exe: require('child_process').execFile
 	framework:
 		BOOTSTRAP: 'bootstrap'
 		FOUNDATION: 'foundation'
+	fs: require 'fs'
+	path: require 'path'
+	prompt: require 'prompt'
+	root: __dirname.replace '/marie/lib', '/marie'
+	spawn: require('child_process').spawn
+	spawnSync: require('child_process').spawnSync
+	sqlite: require 'sqlite3'
 	storageType:
 		DISK: 'localDiskDb'
 		LOCAL: 'localMongodbServer'
@@ -43,7 +44,7 @@ class Utils
 	###
 	config: (path) ->
 		if not path.match /\./g then path = path + '.js'
-		return @path.join @root, "/config/#{ path }"
+		return @path.join @root, "/config/#{path}"
 
 	###
 	Extend the fs module with fs-extra
@@ -141,7 +142,7 @@ class Utils
 	@param [Array<String>] api api to install
 	@param [App] app app to install apis for
 	###
-	installApis: (apis)->
+	installApis: (apis) ->
 		for api in apis then @installApi api
 
 	###
@@ -149,7 +150,7 @@ class Utils
 	@param [Array<String>] api api to install
 	@param [App] app app to remove apis from
 	###
-	uninstallApis: (apis, app)->
+	uninstallApis: (apis, app) ->
 		for api in apis then @uninstallApi api, app
 
 	###
@@ -166,7 +167,7 @@ class Utils
 	@returns sqlite verbose
 	###
 	configureStorage: ->
-		return require('sqlite3').verbose()
+		return @sqlite.verbose()
 
 	###
 	Remove package to app
@@ -259,12 +260,20 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureFrontEndFrameworkFor: (app, cb) ->
-		ccpath = "#{@root}/config/#{app.frontEndFramework}-#{app.cssProcessor}"
-		cjpath = "#{@root}/config/#{app.frontEndFramework}-js"
-		dcpath = app.file "/assets/styles/#{app.frontEndFramework}"
-		djpath = app.file "/assets/js/dependencies/#{app.frontEndFramework}"
-		@fs.copySync ccpath, dcpath, { clobber: true }
-		@fs.copySync cjpath, djpath, { clobber: true }
+		frameworks = ['foundation', 'bootstrap']
+		for framework in frameworks
+			try 
+				@fs.removeSync app.file "/assets/styles/#{framework}"
+				@fs.removeSync app.file "/assets/js/dependencies/#{framework}"
+			catch e
+				# ...
+		if not not app.frontEndFramework
+			ccpath = "#{@root}/config/#{app.frontEndFramework}-#{app.cssProcessor}"
+			cjpath = "#{@root}/config/#{app.frontEndFramework}-js"
+			dcpath = app.file "/assets/styles/#{app.frontEndFramework}"
+			djpath = app.file "/assets/js/dependencies/#{app.frontEndFramework}"
+			@fs.copySync ccpath, dcpath, { clobber: true }
+			@fs.copySync cjpath, djpath, { clobber: true }
 		cb null, app
 
 	###
@@ -275,8 +284,12 @@ class Utils
 	configureBundlesFor: (app, cb) ->
 		ext = '.styl'
 		styles = if not not app.frontEndFramework then "@import '../#{app.frontEndFramework}'" else ''
+		try
+			@fs.removeSync app.file('/assets/styles/importer.less')
+			@fs.removeSync app.file('/assets/styles/bundles')
+		catch e
+			# ...
 		@fs.mkdirSync app.file('/assets/styles/bundles')
-		@fs.removeSync app.file('/assets/styles/importer.less')
 		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), styles
 		@fs.writeFileSync app.file("/assets/styles/bundles/admin#{ext}"), styles
 		cb null, app

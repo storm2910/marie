@@ -18,22 +18,23 @@
 ###
 
 utils = require './marie.utils'
+query = require './marie.query'
 storage = utils.configureStorage()
 
 class App
-	@name
-	@path
+	@created
 	@cssProcessor
 	@frontEndFramework 
+	@lastActive
+	@live
+	@name
+	@path
+	@pid
 	@storage
 	@templateEngine
-	@live
-	@created
-	@lastActive
-	@pid
 
-	db: new storage.Database utils.path.join __dirname.replace('/marie/lib', '/marie/config'), '/.db'
-	query: require './marie.query'
+	db: new storage.Database utils.config '.db'
+	query: query
 
 	###
 	Construct App

@@ -15,8 +15,8 @@ ui = require './marie.ui'
 App = require './marie.app'
 
 class Marie
-	@args
 	@app
+	@args
 	@root
 	@routes
 
@@ -65,7 +65,7 @@ class Marie
 		if @routes[route]?
 			arg = @args[3] or null
 			opt = @args[4] or null
-			if @routes[route]? then @routes[route] arg, opt
+			@routes[route] arg, opt
 		else
 			cmd = @args[3] or null
 			arg = @args[4] or null
@@ -82,19 +82,19 @@ class Marie
 	@param [String] app app name
 	###
 	new: (app) ->
-		ui.header 'Creating', app
 		path = utils.path.join @root, app
 		utils.fs.stat path, (err, stats) =>
 			if err
-				@app = new App { 
+				ui.header 'Creating', app
+				@app = new App
 					name: app 
 					path: path
 					cssProcessor: 'stylus'
 					templateEngine: 'jade'
-					created: new Date()
-				}
+					created: new Date 
+
 				@generateFiles()
-			else ui.warn "#{app} app exists."
+			else ui.error "#{app} already exists."
 
 	###
 	Confgiure the default express/sails application framework
@@ -175,7 +175,7 @@ class Marie
 	@param [App] 
 	@example foundation/bootstrap
 	###
-	configureFrontEndFramework: (app) ->
+	configureFrontEndFramework: (app, skip) ->
 		ui.warn 'Choose your style framework.'
 		utils.prompt.start()
 		ui.line()
@@ -183,21 +183,21 @@ class Marie
 		utils.prompt.get [input], (err, result) =>
 			ui.line()
 			if result[input].match(/^f/i)
-				@configureFramework app, utils.framework.FOUNDATION
+				@configureFramework app, utils.framework.FOUNDATION, skip
 			else if result[input].match(/^b/i)
-				@configureFramework app, utils.framework.BOOTSTRAP
+				@configureFramework app, utils.framework.BOOTSTRAP, skip
 			else
-				@configureBundles app
+				@configureFramework app, null, skip
 			
 	###
 	Configure foundation or bootstrap as the default frontend framewok
 	@param [App] 
 	@param [String] framework bootstrap or foundation
 	###
-	configureFramework: (app, framework) ->
+	configureFramework: (app, framework, skip) ->
 		App.configureFrontEndFramework app, framework, (err, app) =>
 			if err then utils.throwError err 
-			else @configureBundles app
+			else @configureBundles app, skip
 
 	###
 	Configure default bundle files
@@ -205,12 +205,16 @@ class Marie
 	@example /assets/styles/bundles/default.styl
 	@example /assets/styles/bundles/admin.styl
 	###
-	configureBundles: (app) ->
+	configureBundles: (app, skip) ->
 		App.configureBundles app, (err, app) =>
 			if err then utils.throwError err 
 			else
 				ui.ok 'Frontend configuration done.'
-				@configureDB app
+				if not not skip
+					app.save (err, app) =>
+						@restart()
+					return false
+				else @configureDB app
 
 	###
 	Data storage form prompt configuration
@@ -417,11 +421,15 @@ class Marie
 		App.find arg, (err, apps) =>
 			if err then utils.throwError err
 			else
+				key = key.toLowerCase()
 				if not not key
 					if key is 'api' then @listApis arg
 					else if key is 'module' then @listModules arg, opt
 					else if key is 'config' then @listConfig arg, opt
-					else ui.notice apps[key] 
+					else
+						for k of apps
+							_k = k.toLowerCase()
+							if key is _k then ui.notice apps[k]
 				else console.log apps
 
 	###
@@ -683,8 +691,10 @@ class Marie
 			if error then utils.throwError error
 			else if app 
 				@app = app
-				if key.match /db/i
+				if key.match /storage/i
 					@configureDB app, true
+				else if key.match /frontend/
+					@configureFrontEndFramework app, true
 				else
 					@missingArgHandler()
 
