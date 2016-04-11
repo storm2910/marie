@@ -36,7 +36,7 @@ class Utils
 		@configureFs()
 
 	configureProcess: ->
-		# process.on 'uncaughtException', (err) ->
+		process.on 'uncaughtException', (err) ->
 
 	###
 	Configure config file path
