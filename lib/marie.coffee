@@ -171,7 +171,7 @@ class Marie
 			if err then utils.throwError err 
 			else
 				ui.ok 'Stylus configuration done.'
-				@configureFrontEndFramework app
+				@configureFrontendFramework app
 
 	###
 	Frontend framework form prompt configuration
@@ -179,7 +179,7 @@ class Marie
 	@param [App] 
 	@example foundation/bootstrap
 	###
-	configureFrontEndFramework: (app, skip) ->
+	configureFrontendFramework: (app, skip) ->
 		ui.warn 'Choose your style framework.'
 		utils.prompt.start()
 		ui.line()
@@ -199,7 +199,7 @@ class Marie
 	@param [String] framework bootstrap or foundation
 	###
 	configureFramework: (app, framework, skip) ->
-		App.configureFrontEndFramework app, framework, (err, app) =>
+		App.configureFrontendFramework app, framework, (err, app) =>
 			if err then utils.throwError err 
 			else @configureBundles app, skip
 
@@ -425,7 +425,6 @@ class Marie
 		App.find arg, (err, apps) =>
 			if err then utils.throwError err
 			else
-				key = key.toLowerCase()
 				if not not key
 					if key is 'api' then @listApis arg
 					else if key is 'module' then @listModules arg, opt
@@ -710,7 +709,7 @@ class Marie
 				if key.match /storage/i
 					@configureDB app, true
 				else if key.match /frontend/
-					@configureFrontEndFramework app, true
+					@configureFrontendFramework app, true
 				else
 					@missingArgHandler()
 

@@ -4,7 +4,7 @@
 @property [String] name app name
 @property [String] path app path
 @property [String] cssProcessor app css processor
-@property [String] frontEndFramework  app frontEnd framework
+@property [String] frontendFramework  app frontEnd framework
 @property [String] storage  app storage
 @property [String] templateEngine app template Engine
 @property [Bool] live boolean showing if app is running
@@ -24,7 +24,7 @@ storage = utils.configureStorage()
 class App
 	@created
 	@cssProcessor
-	@frontEndFramework 
+	@frontendFramework 
 	@lastActive
 	@live
 	@name
@@ -33,7 +33,7 @@ class App
 	@storage
 	@templateEngine
 
-	db: new storage.Database utils.config '.db'
+	db: new storage.Database utils.path.join process.env.HOME, '.marie_db'
 	query: query
 
 	###
@@ -41,7 +41,7 @@ class App
 	@param [String] name app name
 	@param [String] path app path
 	@param [String] cssProcessor app css processor
-	@param [String] frontEndFramework  app frontEnd framework
+	@param [String] frontendFramework  app frontEnd framework
 	@param [String] storage  app storage
 	@param [String] templateEngine app template Engine
 	@param [Bool] live boolean showing if app is running
@@ -49,7 +49,7 @@ class App
 	@param [String, Date] lastActive app last active date
 	@param [Number] pid app pid
 	###
-	constructor: ({@name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
+	constructor: ({@name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
 
 	###
 	Add app shim method 
@@ -75,10 +75,10 @@ class App
 			@db.run @.query.INIT
 			if cmd.match /save/
 				stmt = @db.prepare @.query.SAVE
-				stmt.run @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
+				stmt.run @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
 			else
 				stmt = @db.prepare @.query.ADD
-				stmt.run @name, @path, @cssProcessor, @frontEndFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
+				stmt.run @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
 
@@ -376,9 +376,9 @@ class App
 	@param [String] framework
 	@param [Function] cb callback function
 	###
-	@configureFrontEndFramework: (app, framework, cb) ->
-		app.frontEndFramework = framework
-		utils.configureFrontEndFrameworkFor app, cb
+	@configureFrontendFramework: (app, framework, cb) ->
+		app.frontendFramework = framework
+		utils.configureFrontendFrameworkFor app, cb
 
 	###
 	Remove package to app
