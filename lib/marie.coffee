@@ -17,6 +17,7 @@ App = require './marie.app'
 class Marie
 	@app
 	@args
+	@config
 	@root
 	@routes
 
@@ -26,6 +27,7 @@ class Marie
 	@param [String] root directory 
 	###
 	constructor: (@args, @root) ->
+		@config = JSON.parse(utils.fs.readFileSync(utils.path.join(utils.root, 'package.json'), utils.encoding.UTF8))
 		@configureRoutes()
 		@configureCommands()
 		@route()
@@ -36,6 +38,7 @@ class Marie
 	configureRoutes: ->	
 		@routes =
 			'add': @add
+			'doc': @doc
 			'list': @list
 			'log': @log
 			'live': @live
@@ -43,6 +46,7 @@ class Marie
 			'restart': @restart
 			'start': @start
 			'stop': @stop
+			'version': @version
 
 	###
 	Configure application route commands
@@ -444,6 +448,18 @@ class Marie
 			else ui.notice 'No app is live.'
 
 	###
+	Configure `doc` method
+	###
+	doc: =>
+		ui.notice @config.homepage
+
+	###
+	Configure `version` method
+	###
+	version: =>
+		ui.notice @config.version
+
+	###
 	Configure `remove` app command handler. Remove app from system
 	@example `marie remove dc-web`
 	###
@@ -709,10 +725,9 @@ class Marie
 	###
 	listHelp: =>
 		help = utils.fs.readFileSync utils.path.join(utils.root, 'help.txt'), utils.UTF8
-		homepage = JSON.parse(utils.fs.readFileSync(utils.path.join(utils.root, 'package.json'), utils.encoding.UTF8)).homepage or ''
 		ui.notice 'Valid commands:'
 		console.log '%s', help
-		console.log '  %s', homepage
+		console.log '  %s', @config.homepage
 		console.log ''
 
 # export marie module
