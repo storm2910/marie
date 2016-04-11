@@ -89,16 +89,24 @@ class Marie
 		path = utils.path.join @root, app
 		utils.fs.stat path, (err, stats) =>
 			if err
-				ui.header 'Creating', app
-				@app = new App
-					name: app 
-					path: path
-					cssProcessor: 'stylus'
-					templateEngine: 'jade'
-					created: new Date 
-
-				@generateFiles()
-			else ui.error "#{app} already exists."
+				App.find app, (err, exists) =>
+					if not exists
+						ui.header 'Creating', app
+						@app = new App
+							name: app 
+							path: path
+							cssProcessor: 'stylus'
+							templateEngine: 'jade'
+							created: new Date 
+						@generateFiles()
+					else 
+						ui.notice "#{exists.name} already exists."
+						ui.notice "Path: #{exists.path}"
+						ui.notice "Name Suggestion: #{exists.name}-2"
+			else 
+				ui.notice "#{app} already exists."
+				ui.notice "Path: #{path}"
+				ui.notice "Name Suggestion: #{app}-2"
 
 	###
 	Confgiure the default express/sails application framework
