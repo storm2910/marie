@@ -36,7 +36,7 @@ class Utils
 		@configureFs()
 
 	configureProcess: ->
-		process.on 'uncaughtException', (err) ->
+		# process.on 'uncaughtException', (err) ->
 
 	###
 	Configure config file path
@@ -259,7 +259,7 @@ class Utils
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	configureFrontEndFrameworkFor: (app, cb) ->
+	configureFrontendFrameworkFor: (app, cb) ->
 		frameworks = ['foundation', 'bootstrap']
 		for framework in frameworks
 			try 
@@ -267,11 +267,11 @@ class Utils
 				@fs.removeSync app.file "/assets/js/dependencies/#{framework}"
 			catch e
 				# ...
-		if not not app.frontEndFramework
-			ccpath = "#{@root}/config/#{app.frontEndFramework}-#{app.cssProcessor}"
-			cjpath = "#{@root}/config/#{app.frontEndFramework}-js"
-			dcpath = app.file "/assets/styles/#{app.frontEndFramework}"
-			djpath = app.file "/assets/js/dependencies/#{app.frontEndFramework}"
+		if not not app.frontendFramework
+			ccpath = "#{@root}/config/#{app.frontendFramework}-#{app.cssProcessor}"
+			cjpath = "#{@root}/config/#{app.frontendFramework}-js"
+			dcpath = app.file "/assets/styles/#{app.frontendFramework}"
+			djpath = app.file "/assets/js/dependencies/#{app.frontendFramework}"
 			@fs.copySync ccpath, dcpath, { clobber: true }
 			@fs.copySync cjpath, djpath, { clobber: true }
 		cb null, app
@@ -283,7 +283,7 @@ class Utils
 	###
 	configureBundlesFor: (app, cb) ->
 		ext = '.styl'
-		styles = if not not app.frontEndFramework then "@import '../#{app.frontEndFramework}'" else ''
+		styles = if not not app.frontendFramework then "@import '../#{app.frontendFramework}'" else ''
 		try
 			@fs.removeSync app.file('/assets/styles/importer.less')
 			@fs.removeSync app.file('/assets/styles/bundles')
