@@ -15,7 +15,7 @@
   remove module [module] [opt]    remove module from app
   add api [api]                   add api to app
   remove api [api]                remove api from app
-  set db                          update app database config
+  set storage                     update app database config
   set frontend-framework          update app frontend framework
 
 - documentation
