@@ -135,11 +135,16 @@ class App
 		@::db.serialize =>
 			@::db.run @::query.INIT
 			if not not name
-				@::db.each @::query.FIND_ONE, name, (err, row) =>
-					if cb then cb err, new @ row
+				@::db.all @::query.FIND_ONE, name, (err, row) =>
+					if err then utils.throwError err 
+					else if not not row.length
+						if cb then cb err, new @ row[0]
+					else
+						if cb then cb err, null
 			else
 				@::db.all @::query.FIND, (err, rows) =>
-					if cb and rows
+					if err then utils.throwError err 
+					else if cb and rows
 						apps = []
 						apps.push new @ row for row in rows
 						cb err, apps
