@@ -19,7 +19,7 @@ $ npm install marie -g
 $ marie add app-name
 ```
 
-Creates a custom Sails application with Socket.io, CoffeeScript, Stylus, Jade, a powerful file include system with support for coffeeScript files, and Bower for managing your frontend modules.
+Creates a custom Sails application with Socket.io, CoffeeScript, Stylus, Jade, a powerful File Include system for easy bundle, and Bower for managing your frontend modules.
 
 ######  Frontend CoffeeScript file include example
 
@@ -42,10 +42,20 @@ user.greet() # -> Hello, Steeve Jobs
 ```
 
 ######  Frontend Stylus file include example
+user.styl
+```scss
+.user-name
+  font: 12px Helvetica, Arial, sans-serif
+
+a.button
+  border-radius: 5px
+
+```
+
 page.styl
-```css
-@import "../bootstrap/alerts"
-@import "../bootstrap/buttons"
+```scss
+@import '../bootstrap'
+@import 'user'
 ```
 
 
