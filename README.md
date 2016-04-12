@@ -78,7 +78,7 @@ $ marie stop app-name
 #### Delete an app
 
 ```bash
-$ marie add app-name
+$ marie remove app-name
 ```
 
 
