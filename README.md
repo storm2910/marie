@@ -61,27 +61,6 @@ page.styl
 
 ## Application Management
 
-#### Display help
-
-```bash
-$ marie help
-```
-
-
-#### Show all apps
-
-```bash
-$ marie list
-```
-
-
-#### Show live app
-
-```bash
-$ marie live
-```
-
-
 #### Start an app
 
 ```bash
@@ -207,5 +186,28 @@ $ marie app-name set frontendFramework
 
 ```bash
 $ marie app-name set storage
+```
+
+
+## Marie utility commands
+
+#### Display help
+
+```bash
+$ marie help
+```
+
+
+#### Show all apps
+
+```bash
+$ marie list
+```
+
+
+#### Show live app
+
+```bash
+$ marie live
 ```
 
