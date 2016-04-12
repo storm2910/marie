@@ -6,7 +6,9 @@
 $ npm install marie -g
 ```
 
-*npm is a builtin CLI when you install Node.js - [Installing Node.js with NVM](https://keymetrics.io/2015/02/03/installing-node-js-and-io-js-with-nvm/)*
+*npm is a builtin CLI when you install Node.js - 
+[Install Node.js](https://nodejs.org)*
+[Install Node.js with NVM](https://keymetrics.io/2015/02/03/installing-node-js-and-io-js-with-nvm/)*
 
 
 #### Create new App
