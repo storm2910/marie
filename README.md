@@ -75,13 +75,6 @@ $ marie stop app-name
 ```
 
 
-#### Restart live app
-
-```bash
-$ marie restart
-```
-
-
 #### Delete an app
 
 ```bash
@@ -189,14 +182,7 @@ $ marie app-name set storage
 ```
 
 
-## Marie utility commands
-
-#### Display help
-
-```bash
-$ marie help
-```
-
+## Utility Commands
 
 #### Show all apps
 
@@ -210,4 +196,20 @@ $ marie list
 ```bash
 $ marie live
 ```
+
+
+#### Restart live app
+
+```bash
+$ marie restart
+```
+
+
+#### Display help
+
+```bash
+$ marie help
+```
+
+
 
