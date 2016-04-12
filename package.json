@@ -1,7 +1,7 @@
 {
   "name": "marie",
-  "version": "0.1.1",
-  "description": "A Modern Nodejs Application Boilerplate Tool",
+  "version": "0.1.215",
+  "description": "A Modern Nodejs Application Management and Boilerplate Tool",
   "main": "index.js",
   "bin": {
     "marie": "bin/marie"
