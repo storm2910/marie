@@ -260,8 +260,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureFrontendFrameworkFor: (app, cb) ->
-		frameworks = ['foundation', 'bootstrap']
-		for framework in frameworks
+		for framework of @framework
 			try 
 				@fs.removeSync app.file "/assets/styles/#{framework}"
 				@fs.removeSync app.file "/assets/js/dependencies/#{framework}"

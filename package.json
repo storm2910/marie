@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "0.1.220",
+  "version": "0.1.222",
   "description": "A Modern Nodejs Application Management and Boilerplate Tool",
   "main": "index.js",
   "bin": {

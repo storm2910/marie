@@ -146,8 +146,9 @@ class App
 					if err then utils.throwError err 
 					else if cb and rows
 						apps = []
-						apps.push new @ row for row in rows
-						cb err, apps
+						# apps.push new @ row for row in rows
+						apps.push row for row in rows
+						cb err, JSON.stringify(apps)
 					else if cb and not rows
 						cb err, null
 
