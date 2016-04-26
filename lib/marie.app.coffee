@@ -25,6 +25,7 @@ class App
 	@created
 	@cssProcessor
 	@frontendFramework 
+	@id
 	@lastActive
 	@live
 	@name
@@ -50,6 +51,16 @@ class App
 	@param [Number] pid app pid
 	###
 	constructor: ({@name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
+		@configureId()
+
+	###
+	configure id
+	###
+	configureId: ->
+		id = utils.trim @name
+		id = id.toLowerCase()
+		id = id.replace /\s/g, '-'
+		@id = id
 
 	###
 	Add app shim method 
@@ -75,10 +86,10 @@ class App
 			@db.run @.query.INIT
 			if cmd.match /save/
 				stmt = @db.prepare @.query.SAVE
-				stmt.run @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
+				stmt.run @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @id 
 			else
 				stmt = @db.prepare @.query.ADD
-				stmt.run @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
+				stmt.run @id, @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
 
@@ -110,7 +121,7 @@ class App
 	###
 	start: (pid) ->
 		@live = true
-		@lastActive = new Date().getTime()
+		@lastActive = utils.now()
 		@pid = pid
 
 	###
@@ -121,8 +132,9 @@ class App
 		@::db.serialize =>
 			@::db.all @::query.LIVE, (err, rows) =>
 				if cb and rows and rows.length > 0
-					app = new @ rows[0]
-					cb err, app
+					# app = new @ rows[0]
+					cb err, JSON.stringify(rows[0])
+					# cb err, app
 				else
 					cb err, null
 

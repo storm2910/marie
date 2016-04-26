@@ -97,7 +97,7 @@ class Marie
 							path: path
 							cssProcessor: 'stylus'
 							templateEngine: 'jade'
-							created: new Date 
+							created: utils.now()
 						@generateFiles()
 					else 
 						ui.notice "#{exists.name} already exists."

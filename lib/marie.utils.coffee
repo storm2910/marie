@@ -76,6 +76,9 @@ class Utils
 		s = s.replace /^[.\s]+|[.\s]+$/g, ''
 		return s
 
+	now: ->
+		return Date.now() / 100 | 0
+
 	###
 	Install package method definition
 	@param [String] pkg package to install
