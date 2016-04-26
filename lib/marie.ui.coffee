@@ -38,8 +38,9 @@ class UI
 	@param [String] msg string message to output
 	###
 	write: (msg) ->
-		@clear()
-		process.stdout.write @clc.blackBright "#{@BULLET}" + @clc.blackBright msg
+		# @clear()
+		# process.stdout.write @clc.blackBright "#{@BULLET}" + @clc.blackBright msg
+		console.log msg
 
 	###
 	Configure clear console method
@@ -94,9 +95,10 @@ class UI
 	Configure write line to output method
 	###
 	line: ->
-		stdout = ''
-		for i in [0..@XPIXELS] then stdout = stdout + @DASH
-		console.log @clc.blackBright stdout
+		# stdout = ''
+		# for i in [0..@XPIXELS] then stdout = stdout + @DASH
+		# console.log @clc.blackBright stdout
+		console.log ''
 
 	###
 	Configure console header style method
@@ -105,9 +107,10 @@ class UI
 	@example ui.header 'a', 'b'
 	###
 	header: (a,b) ->
-		@line()
-		console.log @clc.yellowBright "#{a}" + @clc.whiteBright " #{b}"
-		@line()
+		# @line()
+		# console.log @clc.yellowBright "#{a}" + @clc.whiteBright " #{b}"
+		# @line()
+		console.log "#{a} #{b}"
 
 # export ui module
 module.exports = new UI 
