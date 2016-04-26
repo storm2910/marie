@@ -83,17 +83,19 @@ class Marie
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
-	@param [String] app app name
+	@param [String] name app name
 	###
-	new: (app) ->
-		path = utils.path.join @root, app
+	new: (name) ->
+		id = utils.configureId name
+		path = utils.path.join @root, id
 		utils.fs.stat path, (err, stats) =>
 			if err
-				App.find app, (err, exists) =>
+				App.find id, (err, exists) =>
 					if not exists
-						ui.header 'Creating', app
+						ui.header 'Creating', name
 						@app = new App
-							name: app 
+							id: id
+							name: name 
 							path: path
 							cssProcessor: 'stylus'
 							templateEngine: 'jade'
@@ -104,9 +106,9 @@ class Marie
 						ui.notice "Path: #{exists.path}"
 						ui.notice "Name Suggestion: #{exists.name}-2"
 			else 
-				ui.notice "#{app} already exists."
+				ui.notice "#{name} already exists."
 				ui.notice "Path: #{path}"
-				ui.notice "Name Suggestion: #{app}-2"
+				ui.notice "Name Suggestion: #{name}-2"
 
 	###
 	Confgiure the default express/sails application framework
@@ -115,7 +117,7 @@ class Marie
 	###
 	generateFiles: ->
 		ui.write 'Configuring Sails...'
-		utils.exe 'sails', ['generate', 'new', @app.name], (error, stdout, stderr) =>
+		utils.exe 'sails', ['generate', 'new', @app.id], (error, stdout, stderr) =>
 			if error
 				utils.exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
 					if error 
@@ -358,7 +360,7 @@ class Marie
 		utils.fs.stat @app.path, (err, stats) =>
 			if not err
 				utils.fs.removeSync @app.path
-				App.remove @app.name
+				App.remove @app.id
 				utils.throwError error
 			else
 				utils.throwError error

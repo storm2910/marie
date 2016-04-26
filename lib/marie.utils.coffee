@@ -80,6 +80,15 @@ class Utils
 		return Date.now() / 100 | 0
 
 	###
+	configure id
+	###
+	configureId: (name) ->
+		id = @trim name
+		id = id.toLowerCase()
+		id = id.replace /\s/g, '-'
+		return id
+
+	###
 	Install package method definition
 	@param [String] pkg package to install
 	@param [String] opt option --save-dev
