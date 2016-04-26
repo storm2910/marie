@@ -53,37 +53,42 @@ class UI
 	@param [String] msg string message to output
 	@maram [String] symbol symbol to preprend to message
 	###
-	log: (msg, symbol) ->
-		@clear()
-		console.log @clc.white  (symbol or @CARET) + msg
+	# log: (msg, symbol) ->
+	# 	@clear()
+	# 	console.log msg
+		# console.log @clc.white  (symbol or @CARET) + msg
 
 	###
 	Configure warning message output method
 	@param [String] msg string message to output
 	###
 	warn: (msg) ->
-		@log @styles.WARN msg
+		# @log @styles.WARN msg
+		console.log msg
 
 	###
 	Configure notice message output method
 	@param [String] msg string message to output
 	###
 	notice: (msg) ->
-		@log @styles.INFO msg
+		# @log @styles.INFO msg
+		console.log msg
 
 	###
 	Configure okay message output method
 	@param [String] msg string message to output
 	###
 	ok: (msg) ->
-		@log @styles.OK(msg), @CHECK
+		# @log @styles.OK(msg), @CHECK
+		console.log msg
 
 	###
 	Configure error message output method
 	@param [String] msg string message to output
 	###
 	error: (msg) ->
-		@log @styles.INFO msg
+		# @log @styles.INFO msg
+		console.log msg
 
 	###
 	Configure write line to output method
