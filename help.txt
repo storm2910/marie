@@ -1,13 +1,13 @@
 - marie
-  add [app]       create new app
+  add [name]       create new app
   help            display help
   list            show all apps
   log             view log
   live            show live app
-  remove [app]    delete app
+  remove [id]    delete app
   restart         restart live app
-  start [app]     start app
-  stop [app]      stop app
+  start [id]     start app
+  stop [id]      stop app
 
 - [app]
   list [attr]                     show app [attribute]
