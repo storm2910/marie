@@ -717,14 +717,14 @@ class Marie
 	@param [String] opt
 	###
 	configureMore: (arg, key, opt) =>
-		App.find arg, (error, app) =>
+		App.find arg, (error, data) =>
 			if error then utils.throwError error
-			else if app 
-				@app = app
+			else if data
+				@app = new App JSON.parse data
 				if key.match /storage/i
-					@configureDB app, true
+					@configureDB @app, true
 				else if key.match /frontend/
-					@configureFrontendFramework app, true
+					@configureFrontendFramework @app, true
 				else
 					@missingArgHandler()
 
