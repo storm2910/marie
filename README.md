@@ -82,19 +82,23 @@ $ marie remove app-name
 ```
 
 
-#### Show app config
+#### Show app attributes
 
 ```bash
 $ marie app-name list
 ```
 
-
-#### Show app config value
+#### Show app attribute value
 
 ```bash
 $ marie app-name list path
 ```
 
+### Show app config
+```bash
+$ marie app-name list config
+$ marie app-name list config name
+```
 
 #### Show app modules
 

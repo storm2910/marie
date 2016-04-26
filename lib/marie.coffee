@@ -432,7 +432,7 @@ class Marie
 	@returns [Array<App>, App] apps return apps or app
 	###
 	list: (arg, key, opt) =>
-		App.find arg, (err, apps) =>
+		App.find arg, (err, data) =>
 			if err then utils.throwError err
 			else
 				if not not key
@@ -440,10 +440,11 @@ class Marie
 					else if key is 'module' then @listModules arg, opt
 					else if key is 'config' then @listConfig arg, opt
 					else
-						for k of apps
+						app = new App JSON.parse data
+						for k of app
 							_k = k.toLowerCase()
-							if key is _k then ui.notice apps[k]
-				else console.log apps
+							if key is _k then ui.notice app[k]
+				else console.log data
 
 	###
 	Configure `live` app command handler. Get all live app

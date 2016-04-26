@@ -254,7 +254,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ row
+				app = new @ JSON.parse row
 				app.cwd()
 				option = '--save'
 				if not not opt
@@ -274,7 +274,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ row
+				app = new @ JSON.parse row
 				process.chdir app.path
 				option = '--save'
 				if not not opt
@@ -284,7 +284,7 @@ class App
 					cb error, app
 
 	###
-	Remove package to app
+	Get app config
 	@param [String] id app id
 	@param [String] key to get
 	@param [Function] cb callback function
@@ -293,14 +293,14 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ row
+				app = new @ JSON.parse row
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
 				cb null, config
 
 	###
-	Remove package to app
+	Get app modules
 	@param [String] name app id name
 	@param [String] key to get
 	@param [Function] cb callback function
@@ -309,7 +309,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ row
+				app = new @ JSON.parse row
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				modules = 
@@ -336,7 +336,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			else if row
-				app = new @ row
+				app = new @ JSON.parse row
 				apis = []
 				file = app.file '/api/controllers'
 				ctrls = utils.fs.readdirSync file
