@@ -498,9 +498,9 @@ class Marie
 	@example `marie start dc-web`
 	###
 	start: (arg) =>
-		App.live (err, app) =>
+		App.live (err, data) =>
 			if err then utils.throwError err
-			else if app
+			else if data
 				@stop()
 				@_run 'start', arg
 			else
@@ -512,9 +512,11 @@ class Marie
 	@example `marie stop`
 	###
 	stop: (arg) =>
-		App.live (err, app) =>
+		App.live (err, data) =>
 			if err then utils.throwError err
-			else if app then @_stop app
+			else if data 
+				app = new App JSON.parse data
+				@_stop app
 			else return @_run 'stop', arg
 
 	###
@@ -522,9 +524,10 @@ class Marie
 	@example `marie restart`
 	###
 	restart: (arg) =>
-		App.live (err, app) =>
+		App.live (err, data) =>
 			if err then utils.throwError err
-			else if app
+			else if data
+				app = new App JSON.parse data
 				@_stop app
 				@_start app
 			else
@@ -564,9 +567,10 @@ class Marie
 	###
 	_run: (cmd, arg) ->
 		if not not arg
-			App.find arg, (err, app) =>
+			App.find arg, (err, data) =>
 				if err then utils.throwError err
-				if app
+				if data
+					app = new App JSON.parse data
 					if cmd.match /^stop/i
 						@_stop app
 						app.stop()

@@ -166,7 +166,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			else if row
-				app = new @ row
+				app = new @ JSON.parse row
 				remove = =>
 					@::db.run @::query.REMOVE, app.id, (err, success) =>
 						if not err
@@ -223,7 +223,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ row
+				app = new @ JSON.parse row
 				app.cwd()
 				utils.installApi api, (error, stdout, stderr) ->
 					cb error, app
@@ -238,7 +238,8 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ row
+				app = new @ JSON.parse row
+				app.cwd()
 				utils.uninstallApi api, app, (error, stdout, stderr) ->
 					cb error, app
 
