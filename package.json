@@ -12,14 +12,14 @@
   "author": "Dark Codes <teddy.moussignac@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bower": "^1.7.9",
-    "coffee-script": "^1.10.0",
-    "fs-extra": "^0.26.6",
-    "prompt": "^1.0.0",
-    "sqlite3": "^3.1.2"
+    "bower": "1.7.9",
+    "coffee-script": "1.10.0",
+    "fs-extra": "0.26.6",
+    "prompt": "1.0.0",
+    "sqlite3": "3.1.2"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0"
+    "coffee-script": "1.10.0"
   },
   "repository": {
     "type": "git",

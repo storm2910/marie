@@ -229,7 +229,6 @@ class Marie
 				else @configureDB app
 
 	###
-	Data storage form prompt configuration
 	Let you choose between localDisk and a mongo database
 	@param [App] 
 	@example localDisk/mongo
@@ -412,18 +411,9 @@ class Marie
 	@example `marie remove dc-web`
 	###
 	remove: (arg, opt) =>
-		if not not arg
-			if not not opt and opt.match /\-f/ then @_remove arg
-			else 
-				ui.warn 'Are you sure?'
-				utils.prompt.start()
-				input = ' Yes/No'
-				ui.line()
-				utils.prompt.get [input], (err, result) =>
-					ui.line()
-					if result[input].match(/^y/i) then @_remove arg
-		else
-			@missingArgHandler()
+		if not not arg then @_remove arg
+		else @missingArgHandler()
+		
 	###
 	remove
 	###
@@ -519,7 +509,6 @@ class Marie
 					else if cmd.match /^restart/i
 						@_stop app
 						@_start app
-
 		else
 			if cmd.match /^stop/i
 				ui.notice 'No app is live.'

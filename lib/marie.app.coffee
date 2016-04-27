@@ -50,9 +50,9 @@ class App
 	@param [String] created app creation date
 	@param [String, Date] lastActive app last active date
 	@param [Number] pid app pid
+	@todo remove frontendFramework
 	###
 	constructor: ({@id, @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
-
 
 	###
 	Add app shim method 
@@ -418,6 +418,5 @@ class App
 		app.cwd()
 		utils.configureLocalMongoDBFor app, cb
 
-			
 # export ap module
 module.exports = App
