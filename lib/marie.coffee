@@ -83,6 +83,7 @@ class Marie
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
+	add @name, @cssProcessor, @templateEngine, @storage
 	@param [String] name app name
 	###
 	new: (name) ->

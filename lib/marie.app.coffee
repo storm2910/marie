@@ -297,6 +297,7 @@ class App
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
+				else config = JSON.stringify config
 				cb null, config
 
 	###
@@ -326,7 +327,7 @@ class App
 							file = app.file "#{assets}/#{dir}/.bower.json"
 							config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 							modules["#{config.name}@#{config.version}"] = "/modules/#{dir}/#{config.main}"
-				cb null, modules
+				cb null, JSON.stringify modules
 
 	###
 	@param [String] id app id
@@ -344,7 +345,7 @@ class App
 					if not ctrl.match /^\./
 						api = (ctrl.replace /controller|\.coffee/gi, '').toLowerCase()
 						apis.push api
-				cb null, apis
+				cb null, JSON.stringify apis
 
 	###
 	Remove package to app
