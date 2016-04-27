@@ -260,12 +260,6 @@ class Marie
 	@param [App] 
 	###
 	configureMongoDB: (app, skip) ->
-	# 	ui.warn 'Configure MongoDB database.'
-	# 	input = [' Local/Remote']
-	# 	ui.line()
-	# 	utils.prompt.get input, (err, result) =>
-	# 		ui.line()
-	# 		if result[input].match(/^r/i) then @configureRemoteMongoDB(app, skip) else @configureLocalMongoDB(app, skip)
 
 	###
 	Local mongodb database configuration
@@ -342,18 +336,17 @@ class Marie
 	save: (app) ->
 		app.add (err, app) =>
 			if err then @throwFatalError err
-			else
-				ui.ok "#{app.name} was successfully created."
-				ui.notice "Path: #{app.path}"
-				@onSave()
+			else @onSave app
 
 	###
 	App creation callback method
 	Will ask to start newly created app
 	###
-	onSave: ->
-		console.log '-->'
-		console.log @app
+	onSave: (app) ->
+		ui.notice "#{app.name} was successfully created."
+		ui.notice "Id: #{app.id}"
+		ui.notice "Path: #{app.path}"
+		ui.notice "Done."
 	
 	###
 	Configure `add` app method. Creates new app
