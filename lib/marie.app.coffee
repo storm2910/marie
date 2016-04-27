@@ -104,7 +104,7 @@ class App
 	###
 	stop: ->
 		@live = false
-		@lastActive = new Date().getTime()
+		@lastActive = utils.now()
 		@pid = 0
 
 	###
@@ -124,8 +124,6 @@ class App
 		@::db.serialize =>
 			@::db.all @::query.LIVE, (err, rows) =>
 				if cb and rows and rows.length > 0
-					# app = new @ rows[0]
-					# cb err, app
 					cb err, JSON.stringify(rows[0])
 				else
 					cb err, null
@@ -142,7 +140,6 @@ class App
 				@::db.all @::query.FIND_ONE, id, (err, rows) =>
 					if err then utils.throwError err 
 					else if not not rows.length
-						# if cb then cb err, new @ row[0]
 						cb err, JSON.stringify(rows[0])
 					else
 						if cb then cb err, null
@@ -151,7 +148,6 @@ class App
 					if err then utils.throwError err 
 					else if cb and rows
 						apps = []
-						# apps.push new @ row for row in rows
 						apps.push row for row in rows
 						cb err, JSON.stringify(apps)
 					else if cb and not rows
@@ -385,16 +381,6 @@ class App
 
 	###
 	Remove package to app
-	@param [String] app id
-	@param [String] framework
-	@param [Function] cb callback function
-	###
-	@configureFrontendFramework: (app, framework, cb) ->
-		app.frontendFramework = framework
-		utils.configureFrontendFrameworkFor app, cb
-
-	###
-	Remove package to app
 	@param [String] app
 	@param [Function] cb callback function
 	###
@@ -432,16 +418,6 @@ class App
 		app.cwd()
 		utils.configureLocalMongoDBFor app, cb
 
-	###
-	Remove package to app
-	@param [String] app
-	@param [String,...,String] apis
-	@param [Function] cb callback function
-	###
-	@configureApis: (app, apis, cb) ->
-		app.cwd()
-		utils.installApis apis, @app
-		cb null, app
 			
 # export ap module
 module.exports = App

@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "0.1.222",
+  "version": "0.1.3",
   "description": "A Modern Nodejs Application Management and Boilerplate Tool",
   "main": "index.js",
   "bin": {
@@ -13,7 +13,6 @@
   "license": "MIT",
   "dependencies": {
     "bower": "^1.7.9",
-    "cli-color": "^1.1.0",
     "coffee-script": "^1.10.0",
     "fs-extra": "^0.26.6",
     "prompt": "^1.0.0",

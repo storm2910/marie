@@ -211,36 +211,6 @@ class Marie
 				@configureBundles app
 
 	###
-	Frontend framework form prompt configuration
-	Let you choose betwen bootstrap and foundation
-	@param [App] 
-	@example foundation/bootstrap
-	###
-	# configureFrontendFramework: (app, skip) ->
-	# 	ui.warn 'Choose your style framework.'
-	# 	utils.prompt.start()
-	# 	ui.line()
-	# 	input = ' Foundation/Bootstrap/None'
-	# 	utils.prompt.get [input], (err, result) =>
-	# 		ui.line()
-	# 		if result[input].match(/^f/i)
-	# 			@configureFramework app, utils.framework.FOUNDATION, skip
-	# 		else if result[input].match(/^b/i)
-	# 			@configureFramework app, utils.framework.BOOTSTRAP, skip
-	# 		else
-	# 			@configureFramework app, null, skip
-			
-	###
-	Configure foundation or bootstrap as the default frontend framewok
-	@param [App] 
-	@param [String] framework bootstrap or foundation
-	###
-	# configureFramework: (app, framework, skip) ->
-	# 	App.configureFrontendFramework app, framework, (err, app) =>
-	# 		if err then utils.throwError err 
-	# 		else @configureBundles app, skip
-
-	###
 	Configure default bundle files
 	@param [App] 
 	@example /assets/styles/bundles/default.styl
@@ -283,7 +253,7 @@ class Marie
 			if err then utils.throwError err 
 			else
 				ui.ok "Local disk database configuration done."
-				@configureAPIs app, skip
+				@save app
 
 	###
 	Configure mongoDB as the default data storage and choose between local or remote mongo
@@ -307,7 +277,7 @@ class Marie
 			if err then utils.throwError err 
 			else
 				ui.ok "Local MongoDB database configuration done."
-				@configureAPIs app, skip
+				@save app
 
 	###
 	Remote mongodb database configuration
@@ -325,7 +295,7 @@ class Marie
 		# 			if err then utils.throwError err 
 		# 			else
 		# 				ui.ok "MongoDB database configuration done."
-		# 				@configureAPIs app, skip
+		# 				@save app
 		# 	else
 		# 		@configureRemoteMongoDBWithConfig app, skip
 
@@ -349,41 +319,6 @@ class Marie
 		# 		if err then utils.throwError err 
 		# 		else
 		# 			ui.ok "MongoDB database configuration done."
-		# 			@configureAPIs app, skip
-
-	###
-	Configure default app APIs
-	A `user` api will create both a user model and a user conftroller
-	file in the api directory
-	@param [App] 
-	@example user, article, image
-	@example /api/models/User.coffee
-	@example /api/controllers/UserController.coffee
-	###
-	configureAPIs: (app, skip) ->
-		@save app
-		# app.save (err, app) =>
-		# 	@restart()
-		# if not not skip
-		# 	app.save (err, app) =>
-		# 		@restart()
-		# 	return false
-		# else
-		# 	ui.warn 'Configure APIs.'
-		# 	utils.prompt.start()
-		# 	input = ' APIs'
-		# 	ui.line()
-		# 	utils.prompt.get [input], (err, result) =>
-		# 		ui.line()
-		# 		res = if result[input] then utils.trim(result[input]) else null
-		# 		if not not res and res.length > 0
-		# 			apis = res.split ','
-		# 			App.configureApis app, apis, (err, app) =>
-		# 				if err then utils.throwError err 
-		# 				else 
-		# 					ui.ok 'API configuration done.'
-		# 					@save app
-		# 		else
 		# 			@save app
 
 	###
@@ -405,39 +340,20 @@ class Marie
 	@example marie list some-app
 	###
 	save: (app) ->
-		@endTime = new Date 
 		app.add (err, app) =>
 			if err then @throwFatalError err
 			else
-				ui.ok "#{app.name} was successfully added."
-		total = (@endTime - @app.created) / 1000
-		if total < 60 
-			@initTime = "#{Math.round(total)} seconds" 
-		else
-			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.notice "Path: #{app.path}"
-		ui.notice "Creation Time: #{@initTime}"
-		@onSave()
+				ui.ok "#{app.name} was successfully created."
+				ui.notice "Path: #{app.path}"
+				@onSave()
 
 	###
 	App creation callback method
 	Will ask to start newly created app
 	###
 	onSave: ->
+		console.log '-->'
 		console.log @app
-	# 	ui.warn 'Start app?'
-	# 	utils.prompt.start()
-	# 	input = ' Yes/No'
-	# 	ui.line()
-	# 	utils.prompt.get [input], (err, result) =>
-	# 		ui.line()
-	# 		if result[input].match(/^y/i)
-	# 			App.live (err, app) =>
-	# 				if app
-	# 					@stop()
-	# 					@_start @app
-	# 				else
-	# 					return @_start @app
 	
 	###
 	Configure `add` app method. Creates new app

@@ -270,27 +270,6 @@ class Utils
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	configureFrontendFrameworkFor: (app, cb) ->
-		for framework of @framework
-			try 
-				@fs.removeSync app.file "/assets/styles/#{framework}"
-				@fs.removeSync app.file "/assets/js/dependencies/#{framework}"
-			catch e
-				# ...
-		if not not app.frontendFramework
-			ccpath = "#{@root}/config/#{app.frontendFramework}-#{app.cssProcessor}"
-			cjpath = "#{@root}/config/#{app.frontendFramework}-js"
-			dcpath = app.file "/assets/styles/#{app.frontendFramework}"
-			djpath = app.file "/assets/js/dependencies/#{app.frontendFramework}"
-			@fs.copySync ccpath, dcpath, { clobber: true }
-			@fs.copySync cjpath, djpath, { clobber: true }
-		cb null, app
-
-	###
-	Remove package to app
-	@param [App] app
-	@param [Function] cb callback function
-	###
 	configureBundlesFor: (app, cb) ->
 		ext = '.styl'
 		try
