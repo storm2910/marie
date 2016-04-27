@@ -7,6 +7,8 @@
 ###
 
 class Utils
+	sails: 'sails@0.12.1'
+	sailsVersion: '0.12.1'
 	bower: require 'bower'
 	encoding:
 		UTF8: 'utf8'
@@ -187,7 +189,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureTasManagerFor: (app, cb) ->
-		@install 'grunt-includes', '--save-dev', (error, stdout, stderr) =>
+		@install 'grunt-includes@0.5.4', '--save-dev', (error, stdout, stderr) =>
 			@fs.copySync @config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
@@ -201,8 +203,8 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureCoffeeScriptFor: (app, cb) ->
-		@install 'coffee-script', '--save-dev', (error, stdout, stderr) =>
-			pkgs = ['sails-generate-controller-coffee', 'sails-generate-model-coffee']
+		@install 'coffee-script@1.10.0', '--save-dev', (error, stdout, stderr) =>
+			pkgs = ['sails-generate-controller-coffee@0.0.0', 'sails-generate-model-coffee@0.10.9']
 			@installPackages pkgs
 			@fs.copySync @config('/tasks/coffee'), app.file('/tasks/config/coffee.js'), { clobber: true }
 			@fs.writeFileSync app.file('/assets/js/app.coffee'), ''
@@ -214,15 +216,13 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureJadeFor: (app, cb) ->
-		@install 'jade', '--save-dev', (error, stdout, stderr) =>
+		@install 'jade@1.11.0', '--save-dev', (error, stdout, stderr) =>
 			viewSrc = app.file '/config/views.js'
 			stream = @fs.readFileSync viewSrc, @encoding.UTF8
 			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
 			@fs.writeFileSync viewSrc, stream
-			
 			dirs = ['/views/modules', '/views/partials', '/views/layouts']
 			for dir in dirs then @fs.mkdirSync app.file dir
-			
 			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
 			@fs.unlinkSync app.file "/#{file}.ejs" for file in files
 			files.splice files.indexOf('views/layout'), 1
@@ -232,7 +232,6 @@ class Utils
 				sfile = @config "/templates/#{file}.jade"
 				dfile = app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
 				@fs.copySync sfile, dfile
-
 			masterPath = @config '/templates/views/master.jade'
 			masterData = @fs.readFileSync masterPath, @encoding.UTF8
 			masterData = masterData.replace /\$APP_NAME/gi, app.name
@@ -245,8 +244,8 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureStylusFor: (app, cb) ->
-		@install 'stylus', '--save-dev', =>
-			pkgs = ['grunt-contrib-stylus']
+		@install 'stylus@0.54.3', '--save-dev', =>
+			pkgs = ['grunt-contrib-stylus@1.2.0']
 			@installPackages pkgs
 			stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
 			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
@@ -294,15 +293,14 @@ class Utils
 	###
 	configureBundlesFor: (app, cb) ->
 		ext = '.styl'
-		styles = if not not app.frontendFramework then "@import '../#{app.frontendFramework}'" else ''
 		try
 			@fs.removeSync app.file('/assets/styles/importer.less')
 			@fs.removeSync app.file('/assets/styles/bundles')
 		catch e
 			# ...
 		@fs.mkdirSync app.file('/assets/styles/bundles')
-		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), styles
-		@fs.writeFileSync app.file("/assets/styles/bundles/admin#{ext}"), styles
+		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), "/** default styles **/"
+		@fs.writeFileSync app.file("/assets/styles/bundles/admin#{ext}"), "/** admin styles **/"
 		cb null, app
 
 	###
@@ -315,7 +313,7 @@ class Utils
 		lconfig = @fs.readFileSync @config "/databases/#{@storageType.LOCAL}.js", @encoding.UTF8
 		cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
-		@install 'sails-mongo', '--save', (error, stdout, stderr) =>
+		@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
 			@setupDBWithConfigFor app, cconfig, cb
 
 	###
@@ -334,7 +332,7 @@ class Utils
 		cconfig = cconfig.replace /\$MONGO\.USER/gi, @trim config.user
 		cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, @trim config.password
 		cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, @trim config.database
-		@install 'sails-mongo', '--save', (error, stdout, stderr) =>
+		@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
 			@setupDBWithConfigFor app, cconfig, cb
 
 	###
@@ -349,7 +347,7 @@ class Utils
 		cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
 		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
 		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
-		@install 'sails-mongo', '--save', (error, stdout, stderr) =>
+		@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
 			@setupDBWithConfigFor app, cconfig, cb
 
 	###

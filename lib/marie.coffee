@@ -66,7 +66,13 @@ class Marie
 	route: ->
 		len = @args.length - 1
 		route = @args[2]
-		if @routes[route]?
+		if route == 'add'
+			name = @args[3]
+			cssProcessor = @args[4]
+			templateEngine = @args[5]
+			storage = @args[6]
+			@add name, cssProcessor, templateEngine, storage
+		else if @routes[route]?
 			arg = @args[3] or null
 			opt = @args[4] or null
 			@routes[route] arg, opt
@@ -83,53 +89,73 @@ class Marie
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
-	add @name, @cssProcessor, @templateEngine, @storage
 	@param [String] name app name
+	@param [String] cssProcessor app cssProcessor
+	@param [String] templateEngine app templateEngine
+	@param [String] storage app storage
 	###
-	new: (name) ->
+	new: (name, cssProcessor, templateEngine, storage) ->
 		id = utils.configureId name
-		path = utils.path.join @root, id
-		utils.fs.stat path, (err, stats) =>
+		config =
+			id: id
+			name: name
+			path: utils.path.join @root, id
+			cssProcessor: cssProcessor or 'less'
+			frontendFramework: null
+			templateEngine: templateEngine or 'ejs'
+			live: 0
+			storage: storage or 'localDisk'
+			created: utils.now()
+			lastActive: null
+			pid: null
+		utils.fs.stat config.path, (err, stats) =>
 			if err
-				App.find id, (err, exists) =>
+				App.find config.id, (err, exists) =>
 					if not exists
-						ui.header 'Creating', name
-						@app = new App
-							id: id
-							name: name 
-							path: path
-							cssProcessor: 'stylus'
-							templateEngine: 'jade'
-							created: utils.now()
-						@generateFiles()
+						ui.header 'Creating', config.name
+						@app = new App config
+						@configureSails()
 					else 
 						ui.notice "#{exists.name} already exists."
 						ui.notice "Path: #{exists.path}"
 						ui.notice "Name Suggestion: #{exists.name}-2"
 			else 
-				ui.notice "#{name} already exists."
-				ui.notice "Path: #{path}"
-				ui.notice "Name Suggestion: #{name}-2"
+				ui.notice "#{config.name} already exists."
+				ui.notice "Path: #{config.path}"
+				ui.notice "Name Suggestion: #{config.name}-2"
 
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
 	@exmaple `npm install sails -g`
 	###
-	generateFiles: ->
+	configureSails: ->
 		ui.write 'Configuring Sails...'
-		utils.exe 'sails', ['generate', 'new', @app.id], (error, stdout, stderr) =>
+		utils.exe 'sails', ['--version', @app.id], (error, stdout, stderr) =>
 			if error
-				utils.exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
+				utils.exe 'npm', ['install', utils.sails, '-g'], (error, stdout, stderr) =>
 					if error 
 						ui.error 'An error occured.'
-						ui.notice "Run `sudo npm install sails -g` then try again."
+						ui.notice "Run `sudo npm #{utils.sails} sails -g` then try again."
 					else
 						@configureSails()
 			else
-				ui.ok 'Sails configuration done.'
-				process.chdir @app.path
-				@configureTasManager @app
+				version = utils.trim stdout
+				isSails = version == utils.sailsVersion
+				if isSails
+					utils.exe 'sails', ['generate', 'new', @app.id], (error, stdout, stderr) =>
+						if error
+							utils.throwError error
+						else
+							ui.ok 'Sails configuration done.'
+							process.chdir @app.path
+							@configureTasManager @app
+				else
+					utils.exe 'npm', ['uninstall', 'sails', '-g'], (error, stdout, stderr) =>
+						if error 
+							utils.throwError error
+						else
+							@configureSails()
 
 	###
 	Configure grunt as the default task manager
@@ -182,7 +208,7 @@ class Marie
 			if err then utils.throwError err 
 			else
 				ui.ok 'Stylus configuration done.'
-				@configureFrontendFramework app
+				@configureBundles app
 
 	###
 	Frontend framework form prompt configuration
@@ -190,29 +216,29 @@ class Marie
 	@param [App] 
 	@example foundation/bootstrap
 	###
-	configureFrontendFramework: (app, skip) ->
-		ui.warn 'Choose your style framework.'
-		utils.prompt.start()
-		ui.line()
-		input = ' Foundation/Bootstrap/None'
-		utils.prompt.get [input], (err, result) =>
-			ui.line()
-			if result[input].match(/^f/i)
-				@configureFramework app, utils.framework.FOUNDATION, skip
-			else if result[input].match(/^b/i)
-				@configureFramework app, utils.framework.BOOTSTRAP, skip
-			else
-				@configureFramework app, null, skip
+	# configureFrontendFramework: (app, skip) ->
+	# 	ui.warn 'Choose your style framework.'
+	# 	utils.prompt.start()
+	# 	ui.line()
+	# 	input = ' Foundation/Bootstrap/None'
+	# 	utils.prompt.get [input], (err, result) =>
+	# 		ui.line()
+	# 		if result[input].match(/^f/i)
+	# 			@configureFramework app, utils.framework.FOUNDATION, skip
+	# 		else if result[input].match(/^b/i)
+	# 			@configureFramework app, utils.framework.BOOTSTRAP, skip
+	# 		else
+	# 			@configureFramework app, null, skip
 			
 	###
 	Configure foundation or bootstrap as the default frontend framewok
 	@param [App] 
 	@param [String] framework bootstrap or foundation
 	###
-	configureFramework: (app, framework, skip) ->
-		App.configureFrontendFramework app, framework, (err, app) =>
-			if err then utils.throwError err 
-			else @configureBundles app, skip
+	# configureFramework: (app, framework, skip) ->
+	# 	App.configureFrontendFramework app, framework, (err, app) =>
+	# 		if err then utils.throwError err 
+	# 		else @configureBundles app, skip
 
 	###
 	Configure default bundle files
@@ -221,6 +247,7 @@ class Marie
 	@example /assets/styles/bundles/admin.styl
 	###
 	configureBundles: (app, skip) ->
+		ui.ok "configure bundles"
 		App.configureBundles app, (err, app) =>
 			if err then utils.throwError err 
 			else
@@ -238,13 +265,14 @@ class Marie
 	@example localDisk/mongo
 	###
 	configureDB: (app, skip) ->
-		ui.warn 'Choose your database.'
-		utils.prompt.start()
-		input = ' Mongo/Disk'
-		ui.line()
-		utils.prompt.get [input], (err, result) =>
-			ui.line()
-			if result[input].match(/^m/i) then @configureMongoDB(app, skip) else @configureNativeDB(app, skip)
+		@configureNativeDB app, skip
+		# ui.warn 'Choose your database.'
+		# utils.prompt.start()
+		# input = ' Mongo/Disk'
+		# ui.line()
+		# utils.prompt.get [input], (err, result) =>
+		# 	ui.line()
+		# 	if result[input].match(/^m/i) then @configureMongoDB(app, skip) else @configureNativeDB(app, skip)
 
 	###
 	Configure localDisk as the default data storage
@@ -262,12 +290,12 @@ class Marie
 	@param [App] 
 	###
 	configureMongoDB: (app, skip) ->
-		ui.warn 'Configure MongoDB database.'
-		input = [' Local/Remote']
-		ui.line()
-		utils.prompt.get input, (err, result) =>
-			ui.line()
-			if result[input].match(/^r/i) then @configureRemoteMongoDB(app, skip) else @configureLocalMongoDB(app, skip)
+	# 	ui.warn 'Configure MongoDB database.'
+	# 	input = [' Local/Remote']
+	# 	ui.line()
+	# 	utils.prompt.get input, (err, result) =>
+	# 		ui.line()
+	# 		if result[input].match(/^r/i) then @configureRemoteMongoDB(app, skip) else @configureLocalMongoDB(app, skip)
 
 	###
 	Local mongodb database configuration
@@ -283,43 +311,45 @@ class Marie
 
 	###
 	Remote mongodb database configuration
+	@todo
 	@param [App] 
 	###
 	configureRemoteMongoDB: (app, skip) ->
-		input = [' mongodb uri']
-		utils.prompt.get input, (err, result) =>
-			ui.line()
-			uri = utils.trim result[input]
-			if uri.match(/\:|@/g)
-				ui.write "Configuring MongoDB..."
-				App.configureMongoDB app, uri, (err, app) =>
-					if err then utils.throwError err 
-					else
-						ui.ok "MongoDB database configuration done."
-						@configureAPIs app, skip
-			else
-				@configureRemoteMongoDBWithConfig app, skip
+		# input = [' mongodb uri']
+		# utils.prompt.get input, (err, result) =>
+		# 	ui.line()
+		# 	uri = utils.trim result[input]
+		# 	if uri.match(/\:|@/g)
+		# 		ui.write "Configuring MongoDB..."
+		# 		App.configureMongoDB app, uri, (err, app) =>
+		# 			if err then utils.throwError err 
+		# 			else
+		# 				ui.ok "MongoDB database configuration done."
+		# 				@configureAPIs app, skip
+		# 	else
+		# 		@configureRemoteMongoDBWithConfig app, skip
 
 	###
 	Remote mongodb database configuration
+	@todo
 	@param [App] 
 	###
 	configureRemoteMongoDBWithConfig: (app, skip) ->
-		inputs = [' host', ' port', ' user', ' password', ' database']
-		utils.prompt.get inputs, (err, result) =>
-			ui.line()
-			config =
-				host: result[' host'] or ''
-				port: result[' port'] or ''
-				user: result[' user'] or ''
-				password: result[' password'] or ''
-				database: result[' database'] or ''
-			ui.write "Configuring MongoDB..."
-			App.configureMongoDB app, config, (err, app) =>
-				if err then utils.throwError err 
-				else
-					ui.ok "MongoDB database configuration done."
-					@configureAPIs app, skip
+		# inputs = [' host', ' port', ' user', ' password', ' database']
+		# utils.prompt.get inputs, (err, result) =>
+		# 	ui.line()
+		# 	config =
+		# 		host: result[' host'] or ''
+		# 		port: result[' port'] or ''
+		# 		user: result[' user'] or ''
+		# 		password: result[' password'] or ''
+		# 		database: result[' database'] or ''
+		# 	ui.write "Configuring MongoDB..."
+		# 	App.configureMongoDB app, config, (err, app) =>
+		# 		if err then utils.throwError err 
+		# 		else
+		# 			ui.ok "MongoDB database configuration done."
+		# 			@configureAPIs app, skip
 
 	###
 	Configure default app APIs
@@ -331,27 +361,30 @@ class Marie
 	@example /api/controllers/UserController.coffee
 	###
 	configureAPIs: (app, skip) ->
-		if not not skip
-			app.save (err, app) =>
-				@restart()
-			return false
-		else
-			ui.warn 'Configure APIs.'
-			utils.prompt.start()
-			input = ' APIs'
-			ui.line()
-			utils.prompt.get [input], (err, result) =>
-				ui.line()
-				res = if result[input] then utils.trim(result[input]) else null
-				if not not res and res.length > 0
-					apis = res.split ','
-					App.configureApis app, apis, (err, app) =>
-						if err then utils.throwError err 
-						else 
-							ui.ok 'API configuration done.'
-							@save app
-				else
-					@save app
+		@save app
+		# app.save (err, app) =>
+		# 	@restart()
+		# if not not skip
+		# 	app.save (err, app) =>
+		# 		@restart()
+		# 	return false
+		# else
+		# 	ui.warn 'Configure APIs.'
+		# 	utils.prompt.start()
+		# 	input = ' APIs'
+		# 	ui.line()
+		# 	utils.prompt.get [input], (err, result) =>
+		# 		ui.line()
+		# 		res = if result[input] then utils.trim(result[input]) else null
+		# 		if not not res and res.length > 0
+		# 			apis = res.split ','
+		# 			App.configureApis app, apis, (err, app) =>
+		# 				if err then utils.throwError err 
+		# 				else 
+		# 					ui.ok 'API configuration done.'
+		# 					@save app
+		# 		else
+		# 			@save app
 
 	###
 	If something goes really bad. Stop everything, remove everything and exit process
@@ -391,19 +424,20 @@ class Marie
 	Will ask to start newly created app
 	###
 	onSave: ->
-		ui.warn 'Start app?'
-		utils.prompt.start()
-		input = ' Yes/No'
-		ui.line()
-		utils.prompt.get [input], (err, result) =>
-			ui.line()
-			if result[input].match(/^y/i)
-				App.live (err, app) =>
-					if app
-						@stop()
-						@_start @app
-					else
-						return @_start @app
+		console.log @app
+	# 	ui.warn 'Start app?'
+	# 	utils.prompt.start()
+	# 	input = ' Yes/No'
+	# 	ui.line()
+	# 	utils.prompt.get [input], (err, result) =>
+	# 		ui.line()
+	# 		if result[input].match(/^y/i)
+	# 			App.live (err, app) =>
+	# 				if app
+	# 					@stop()
+	# 					@_start @app
+	# 				else
+	# 					return @_start @app
 	
 	###
 	Configure `add` app method. Creates new app
@@ -411,17 +445,11 @@ class Marie
 	@example `marie add dc-web`
 	@example `marie new dc-web`
 	###
-	add: (arg) =>
-		if not not arg then @new arg
+	add: (name, cssProcessor, templateEngine, storage) =>
+		if not not name then @new name, cssProcessor, templateEngine, storage
 		else
-			ui.warn 'Enter app name.'
-			utils.prompt.start()
-			ui.line()
-			utils.prompt.get ['name'], (error, result) =>
-				if error 
-					ui.error 'An error occured.'
-				else
-					@add result.name
+			utils.throwError 'Missing field: app name.'
+			return false
 
 	###
 	Configure `list` app command handler. Retrive and List all apps or single app method
