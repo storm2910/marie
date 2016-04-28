@@ -23,6 +23,7 @@ class Utils
 	bundleExt: 
 		less: '.less'
 		scss: '.scss'
+		sass: '.scss'
 		stylus: '.styl'
 	processors: [
 		'less', 
@@ -298,6 +299,21 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureScssFor: (app, cb) ->
+		@resetCssProcessor app, =>
+			@install 'sass@0.5.0', '--save-dev', =>
+				pkgs = ['grunt-contrib-sass@1.0.0']
+				@installPackages pkgs
+				stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
+				stream = stream.replace(/less/gi, 'sass').replace(/importer.sass/gi,'bundles\/*')
+				@fs.writeFileSync app.file('/tasks/config/sass.js'), stream
+				for task in @tasks
+					stream = @fs.readFileSync app.file("#{task}.js"), @encoding.UTF8
+					if task.match /register/
+						stream = stream.replace("'',", "'sass:dev',")
+					else
+						stream = stream.replace("coffee|", "coffee|scss")
+					@fs.writeFileSync app.file("#{task}.js"), stream
+				cb null, app
 
 	###
 	Remove package to app

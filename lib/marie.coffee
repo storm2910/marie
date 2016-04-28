@@ -196,7 +196,6 @@ class Marie
 			if err then utils.throwError err 
 			else 
 				ui.ok 'Jade configuration done.'
-				# @configureStylus app
 				@configureCssProcessor app
 
 	###
@@ -206,6 +205,7 @@ class Marie
 	configureCssProcessor: (app) ->
 		processors =
 			'less': @configureLess
+			'sass': @configureScss
 			'scss': @configureScss
 			'stylus': @configureStylus
 		processors[app.cssProcessor] app
@@ -227,7 +227,7 @@ class Marie
 	@param [App] 
 	###
 	configureScss:(app) =>
-		ui.write 'Configuring Less...'
+		ui.write 'Configuring Sass...'
 		App.configureScss app, (err, app) =>
 			if err then utils.throwError err 
 			else
