@@ -20,6 +20,10 @@ class Utils
 	spawn: require('child_process').spawn
 	spawnSync: require('child_process').spawnSync
 	sqlite: require 'sqlite3'
+	bundleExt: 
+		less: '.less'
+		scss: '.scss'
+		stylus: '.styl'
 	processors: [
 		'less', 
 		'scss', 
@@ -274,22 +278,19 @@ class Utils
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	configureLessFor: (cb) ->
-		configs = [
-			'/tasks/register/compileAssets'
-			'/tasks/register/syncAssets'
-			'/tasks/config/sync'
-			'/tasks/config/copy'
-		]
-
-		for config in configs
-			stream = @fs.readFileSync app.file("#{config}.js"), @encoding.UTF8
-			if config.match /register/
-				stream = stream.replace(/less:dev/gi, 'stylus:dev')
-			else
-				stream = stream.replace(/less/gi, 'stylus')
-			@fs.writeFileSync app.file("#{config}.js"), stream
-		cb null, app
+	configureLessFor: (app, cb) ->
+		@resetCssProcessor app, =>
+			stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
+			stream = stream.replace(/importer.less/gi,'bundles\/*')
+			@fs.writeFileSync app.file('/tasks/config/less.js'), stream
+			for task in @tasks
+				stream = @fs.readFileSync app.file("#{task}.js"), @encoding.UTF8
+				if task.match /register/
+					stream = stream.replace("'',", "'less:dev',")
+				else
+					stream = stream.replace("coffee|", "coffee|less")
+				@fs.writeFileSync app.file("#{task}.js"), stream
+			cb null, app
 
 	###
 	Remove package to app
@@ -326,7 +327,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureBundlesFor: (app, cb) ->
-		ext = '.styl'
+		ext = @bundleExt[app.cssProcessor]
 		try
 			@fs.removeSync app.file('/assets/styles/importer.less')
 			@fs.removeSync app.file('/assets/styles/bundles')
