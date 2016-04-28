@@ -150,6 +150,7 @@ class Marie
 							ui.ok 'Sails configuration done.'
 							process.chdir @app.path
 							@configureTasManager @app
+							# @configureStylus @app
 				else
 					utils.exe 'npm', ['uninstall', 'sails', '-g'], (error, stdout, stderr) =>
 						if error 
@@ -197,9 +198,43 @@ class Marie
 			else 
 				ui.ok 'Jade configuration done.'
 				@configureStylus app
+				# @configureCssProcessor app
 
 	###
-	Configure stylus as the default css pre-processor
+	Configure css pre-processor
+	@param [App] 
+	###
+	configureCssProcessor: (app) ->
+		console.log app.cssProcessor
+		@throwFatalError null
+		return false
+
+	###
+	Configure less as css pre-processor
+	@param [App] 
+	###
+	configureLess:(app) ->
+		ui.write 'Configuring Less...'
+		App.configureLess app, (err, app) =>
+			if err then utils.throwError err 
+			else
+				ui.ok 'Less configuration done.'
+				@configureBundles app
+
+	###
+	Configure less as css pre-processor
+	@param [App] 
+	###
+	configureScss:(app) ->
+		ui.write 'Configuring Less...'
+		App.configureScss app, (err, app) =>
+			if err then utils.throwError err 
+			else
+				ui.ok 'Sass configuration done.'
+				@configureBundles app
+
+	###
+	Configure stylus as css pre-processor
 	@param [App] 
 	###
 	configureStylus:(app) ->
@@ -207,7 +242,9 @@ class Marie
 		App.configureStylus app, (err, app) =>
 			if err then utils.throwError err 
 			else
-				ui.ok 'Stylus configuration done.'
+				# ui.ok 'Stylus configuration done.'
+				# utils.throwError null
+				# @throwFatalError null
 				@configureBundles app
 
 	###
@@ -413,7 +450,7 @@ class Marie
 	remove: (arg, opt) =>
 		if not not arg then @_remove arg
 		else @missingArgHandler()
-		
+
 	###
 	remove
 	###

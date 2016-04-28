@@ -13,9 +13,6 @@ class Utils
 	encoding:
 		UTF8: 'utf8'
 	exe: require('child_process').execFile
-	framework:
-		BOOTSTRAP: 'bootstrap'
-		FOUNDATION: 'foundation'
 	fs: require 'fs'
 	path: require 'path'
 	prompt: require 'prompt'
@@ -23,6 +20,22 @@ class Utils
 	spawn: require('child_process').spawn
 	spawnSync: require('child_process').spawnSync
 	sqlite: require 'sqlite3'
+	processors: [
+		'less', 
+		'scss', 
+		'stylus'
+	]
+	templates: [
+		'ejs'
+		'jade'
+		'handlebars'
+	]
+	tasks: [
+		'/tasks/register/compileAssets'
+		'/tasks/register/syncAssets'
+		'/tasks/config/sync'
+		'/tasks/config/copy'
+	]
 	storageType:
 		DISK: 'localDiskDb'
 		LOCAL: 'localMongodbServer'
@@ -39,6 +52,7 @@ class Utils
 
 	configureProcess: ->
 		process.on 'uncaughtException', (err) ->
+			console.log err.stack
 
 	###
 	Configure config file path
@@ -239,31 +253,72 @@ class Utils
 			cb null, app
 
 	###
+	Reset cssProcessor
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	resetCssProcessor: (app, cb) ->
+		for task in @tasks
+			stream = @fs.readFileSync app.file("#{task}.js"), @encoding.UTF8
+			for processor in @processors
+				if task.match /register/
+					regex = new RegExp "#{processor}:dev", 'gi'
+				else
+					regex = new RegExp "#{processor}", 'gi'
+				stream = stream.replace regex, ''
+				@fs.writeFileSync app.file("#{task}.js"), stream
+		cb()
+
+	###
+	Remove package to app
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	configureLessFor: (cb) ->
+		configs = [
+			'/tasks/register/compileAssets'
+			'/tasks/register/syncAssets'
+			'/tasks/config/sync'
+			'/tasks/config/copy'
+		]
+
+		for config in configs
+			stream = @fs.readFileSync app.file("#{config}.js"), @encoding.UTF8
+			if config.match /register/
+				stream = stream.replace(/less:dev/gi, 'stylus:dev')
+			else
+				stream = stream.replace(/less/gi, 'stylus')
+			@fs.writeFileSync app.file("#{config}.js"), stream
+		cb null, app
+
+	###
+	Remove package to app
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	configureScssFor: (app, cb) ->
+
+	###
 	Remove package to app
 	@param [App] app
 	@param [Function] cb callback function
 	###
 	configureStylusFor: (app, cb) ->
-		@install 'stylus@0.54.3', '--save-dev', =>
-			pkgs = ['grunt-contrib-stylus@1.2.0']
-			@installPackages pkgs
-			stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
-			stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
-			@fs.writeFileSync app.file('/tasks/config/stylus.js'), stream
-			configs = [
-				'/tasks/register/compileAssets'
-				'/tasks/register/syncAssets'
-				'/tasks/config/sync'
-				'/tasks/config/copy'
-			]
-			for config in configs
-				stream = @fs.readFileSync app.file("#{config}.js"), @encoding.UTF8
-				if config.match /register/
-					stream = stream.replace(/less:dev/gi, 'stylus:dev')
-				else
-					stream = stream.replace(/less/gi, 'stylus')
-				@fs.writeFileSync app.file("#{config}.js"), stream
-			cb null, app
+		@resetCssProcessor app, =>
+			@install 'stylus@0.54.3', '--save-dev', =>
+				pkgs = ['grunt-contrib-stylus@1.2.0']
+				@installPackages pkgs
+				stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
+				stream = stream.replace(/less/gi, 'stylus').replace(/importer.stylus/gi,'bundles\/*')
+				@fs.writeFileSync app.file('/tasks/config/stylus.js'), stream
+				for task in @tasks
+					stream = @fs.readFileSync app.file("#{task}.js"), @encoding.UTF8
+					if task.match /register/
+						stream = stream.replace("'',", "'stylus:dev',")
+					else
+						stream = stream.replace("coffee|", "coffee|stylus")
+					@fs.writeFileSync app.file("#{task}.js"), stream
+				cb null, app
 
 	###
 	Remove package to app

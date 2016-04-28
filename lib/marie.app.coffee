@@ -375,6 +375,24 @@ class App
 	@param [String] app
 	@param [Function] cb callback function
 	###
+	@configureLess: (app, cb) ->
+		app.cwd()
+		utils.configureLessFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
+	@param [Function] cb callback function
+	###
+	@configureScss: (app, cb) ->
+		app.cwd()
+		utils.configureScssFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
+	@param [Function] cb callback function
+	###
 	@configureStylus: (app, cb) ->
 		app.cwd()
 		utils.configureStylusFor app, cb
