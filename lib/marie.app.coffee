@@ -366,9 +366,27 @@ class App
 	@param [String] app
 	@param [Function] cb callback function
 	###
+	@configureEJS: (app, cb) ->
+		app.cwd()
+		utils.configureEJSFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
+	@param [Function] cb callback function
+	###
 	@configureJade: (app, cb) ->
 		app.cwd()
 		utils.configureJadeFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
+	@param [Function] cb callback function
+	###
+	@configureHandlebars: (app, cb) ->
+		app.cwd()
+		utils.configureHandlebarsFor app, cb
 
 	###
 	Remove package to app

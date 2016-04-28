@@ -230,6 +230,15 @@ class Utils
 			cb null, app
 
 	###
+	Reset resetTemplateEngine
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	resetTemplateEngine: (app, cb) ->
+		@fs.unlinkSync app.file "/views"
+		config = app.file '/config/views.js'
+
+	###
 	Remove package to app
 	@param [App] app
 	@param [Function] cb callback function
@@ -256,6 +265,20 @@ class Utils
 			masterData = masterData.replace /\$APP_NAME/gi, app.name
 			@fs.writeFileSync app.file('/views/layouts/master.jade'), masterData
 			cb null, app
+
+	###
+	Remove package to app
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	configureEJS: (app, cb) ->
+
+	###
+	Remove package to app
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	configureHandlebars: (app, cb) ->
 
 	###
 	Reset cssProcessor

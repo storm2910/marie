@@ -1,0 +1,20 @@
+extends ./layouts/master.jade
+
+block head
+	//- page head data
+
+block topStyles
+	//- page styles goes here
+	link( rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" )
+	link( rel="stylesheet" href="/styles/bundles/admin.css" )
+
+block topScripts
+	//- page top js goes heere
+
+block content
+	//- body content goes here
+	h2 home
+	include ./partials/partial.jade
+
+block bottomScripts
+	//- bottom page js goes here

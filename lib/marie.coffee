@@ -102,7 +102,7 @@ class Marie
 			path: utils.path.join @root, id
 			cssProcessor: cssProcessor or 'less'
 			frontendFramework: null
-			templateEngine: templateEngine or 'ejs'
+			templateEngine: templateEngine or 'jade'
 			live: 0
 			storage: storage or 'localDisk'
 			created: utils.now()
@@ -185,6 +185,17 @@ class Marie
 				@configureJade app
 
 	###
+	Configure app template engine
+	@param [App] 
+	###
+	configureTemplateEngine: (app) ->
+		engines =
+			'jade': @configureLess
+			'ejs': @configureScss
+			'handlebars': @configureScss
+		processors[app.templateEngine.toLowerCase()] app
+
+	###
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
 	@param [App] 
@@ -199,6 +210,34 @@ class Marie
 				@configureCssProcessor app
 
 	###
+	Configure jade as the default view templating engine
+	Disable `ejs` + add the default jade template files
+	@param [App] 
+	@example /views/partials/partial.jade
+	###
+	configureEJS: (app) ->
+		ui.write 'Configuring EJs...'
+		App.configureEJS app, (err, app) =>
+			if err then utils.throwError err 
+			else 
+				ui.ok 'EJs configuration done.'
+				@configureCssProcessor app
+
+	###
+	Configure jade as the default view templating engine
+	Disable `ejs` + add the default jade template files
+	@param [App] 
+	@example /views/partials/partial.jade
+	###
+	configureHandlerbars: (app) ->
+		ui.write 'Configuring Handlebars...'
+		App.configureHandlebars app, (err, app) =>
+			if err then utils.throwError err 
+			else 
+				ui.ok 'Handlebars configuration done.'
+				@configureCssProcessor app
+
+	###
 	Configure css pre-processor
 	@param [App] 
 	###
@@ -208,7 +247,7 @@ class Marie
 			'sass': @configureScss
 			'scss': @configureScss
 			'stylus': @configureStylus
-		processors[app.cssProcessor] app
+		processors[app.cssProcessor.toLowerCase()] app
 
 	###
 	Configure less as css pre-processor
@@ -243,6 +282,7 @@ class Marie
 		App.configureStylus app, (err, app) =>
 			if err then utils.throwError err 
 			else
+				ui.ok 'Stylus configuration done.'
 				@configureBundles app
 
 	###
