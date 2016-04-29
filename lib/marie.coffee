@@ -182,7 +182,7 @@ class Marie
 			if err then utils.throwError err 
 			else 
 				ui.ok 'CoffeeScript configuration done.'
-				@configureJade app
+				@configureTemplateEngine app
 
 	###
 	Configure app template engine
@@ -190,10 +190,10 @@ class Marie
 	###
 	configureTemplateEngine: (app) ->
 		engines =
-			'jade': @configureLess
-			'ejs': @configureScss
-			'handlebars': @configureScss
-		processors[app.templateEngine.toLowerCase()] app
+			'jade': @configureJade
+			'ejs': @configureEJS
+			'handlebars': @configureHandlerbars
+		engines[app.templateEngine.toLowerCase()] app
 
 	###
 	Configure jade as the default view templating engine
@@ -201,7 +201,7 @@ class Marie
 	@param [App] 
 	@example /views/partials/partial.jade
 	###
-	configureJade: (app) ->
+	configureJade: (app) =>
 		ui.write 'Configuring Jade...'
 		App.configureJade app, (err, app) =>
 			if err then utils.throwError err 
@@ -215,7 +215,7 @@ class Marie
 	@param [App] 
 	@example /views/partials/partial.jade
 	###
-	configureEJS: (app) ->
+	configureEJS: (app) =>
 		ui.write 'Configuring EJs...'
 		App.configureEJS app, (err, app) =>
 			if err then utils.throwError err 
@@ -229,7 +229,7 @@ class Marie
 	@param [App] 
 	@example /views/partials/partial.jade
 	###
-	configureHandlerbars: (app) ->
+	configureHandlerbars: (app) =>
 		ui.write 'Configuring Handlebars...'
 		App.configureHandlebars app, (err, app) =>
 			if err then utils.throwError err 
@@ -288,8 +288,8 @@ class Marie
 	###
 	Configure default bundle files
 	@param [App] 
-	@example /assets/styles/bundles/default.styl
-	@example /assets/styles/bundles/admin.styl
+	@example /assets/styles/bundles/default.ext
+	@example /assets/styles/bundles/admin.ext
 	###
 	configureBundles: (app, skip) ->
 		ui.ok "configure bundles"

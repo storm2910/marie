@@ -20,26 +20,44 @@ class Utils
 	spawn: require('child_process').spawn
 	spawnSync: require('child_process').spawnSync
 	sqlite: require 'sqlite3'
-	bundleExt: 
-		less: '.less'
-		scss: '.scss'
-		sass: '.scss'
-		stylus: '.styl'
-	processors: [
-		'less', 
-		'scss', 
-		'stylus'
-	]
-	templates: [
-		'ejs'
-		'jade'
-		'handlebars'
-	]
 	tasks: [
 		'/tasks/register/compileAssets'
 		'/tasks/register/syncAssets'
 		'/tasks/config/sync'
 		'/tasks/config/copy'
+	]
+	processors: [
+		'less', 
+		'scss', 
+		'stylus'
+	]
+	processorExt: 
+		less: '.less'
+		scss: '.scss'
+		sass: '.scss'
+		stylus: '.styl'
+	engines: [
+		'ejs'
+		'jade'
+		'handlebars'
+	]
+	engineExt:
+		ejs: '.ejs'
+		jade: '.jade'
+		handlebars: '.hbs'
+	viewDirs: [
+		'/views/modules' 
+		'/views/partials'
+		'/views/layouts'
+	]
+	views: [
+		'/views/homepage'
+		'/views/admin'
+		'/views/403'
+		'/views/404'
+		'/views/500'
+		'/views/partials/partial'
+		'/views/layouts/master'
 	]
 	storageType:
 		DISK: 'localDiskDb'
@@ -213,7 +231,7 @@ class Utils
 			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
 			@fs.copySync @config('/tasks/.bowerrc'), app.file('/.bowerrc'), { clobber: true }
-			@fs.mkdirSync app.file('/assets/modules')
+			@fs.mkdirsSync app.file('/assets/modules')
 			cb null, app
 
 	###
@@ -234,9 +252,36 @@ class Utils
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	resetTemplateEngine: (app, cb) ->
-		@fs.unlinkSync app.file "/views"
+	resetViewEngine: (engine, layout, app, cb) ->
 		config = app.file '/config/views.js'
+		dir = app.file '/views'
+		@fs.removeSync dir
+		stream = @fs.readFileSync config, @encoding.UTF8
+		for eng in @engines
+			regex = new RegExp "#{eng}", 'gi'
+			stream = stream.replace regex, "#{engine}"
+			stream = stream.replace /'layout'/gi, layout
+			@fs.writeFileSync config, stream
+		@fs.mkdirsSync app.file dir
+		for vdir in @viewDirs then @fs.mkdirsSync app.file vdir
+		cb()
+
+	###
+	Reset resetTemplateEngine
+	@param [App] app
+	@param [Function] cb callback function
+	###
+	generateViews: (engine, app, cb) ->
+		ext = @engineExt[engine]
+		for view in @views
+			sfile = @config "/templates/#{engine}#{view}#{ext}"
+			dfile = app.file "#{view}#{ext}"
+			@fs.copySync sfile, dfile
+		master = app.file "/views/layouts/master#{ext}"
+		data = @fs.readFileSync master, @encoding.UTF8
+		data = data.replace /\$APP_NAME/gi, app.name
+		@fs.writeFileSync master, data
+		cb()
 
 	###
 	Remove package to app
@@ -244,41 +289,34 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureJadeFor: (app, cb) ->
-		@install 'jade@1.11.0', '--save-dev', (error, stdout, stderr) =>
-			viewSrc = app.file '/config/views.js'
-			stream = @fs.readFileSync viewSrc, @encoding.UTF8
-			stream = stream.replace(/ejs/gi, 'jade').replace(/'layout'/gi, false)
-			@fs.writeFileSync viewSrc, stream
-			dirs = ['/views/modules', '/views/partials', '/views/layouts']
-			for dir in dirs then @fs.mkdirSync app.file dir
-			files = ['views/403', 'views/404', 'views/500', 'views/layout', 'views/homepage']
-			@fs.unlinkSync app.file "/#{file}.ejs" for file in files
-			files.splice files.indexOf('views/layout'), 1
-			partial = 'views/partial'
-			files.push partial 
-			for file in files
-				sfile = @config "/templates/#{file}.jade"
-				dfile = app.file(if file == partial then '/views/partials/partial.jade' else "/#{file}.jade")
-				@fs.copySync sfile, dfile
-			masterPath = @config '/templates/views/master.jade'
-			masterData = @fs.readFileSync masterPath, @encoding.UTF8
-			masterData = masterData.replace /\$APP_NAME/gi, app.name
-			@fs.writeFileSync app.file('/views/layouts/master.jade'), masterData
-			cb null, app
+		engine = 'jade'
+		@resetViewEngine engine, false, app, =>
+			@install "#{engine}@1.11.0", '--save-dev', (error, stdout, stderr) =>
+				@generateViews engine, app, =>
+					cb null, app
 
 	###
 	Remove package to app
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	configureEJS: (app, cb) ->
+	configureEJSFor: (app, cb) ->
+		engine = 'ejs'
+		@resetViewEngine engine, "'layout'", app, =>
+			@generateViews engine, app, =>
+				cb null, app
 
 	###
 	Remove package to app
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	configureHandlebars: (app, cb) ->
+	configureHandlebarsFor: (app, cb) ->
+		engine = 'handlebars'
+		@resetViewEngine engine, false, app, =>
+			@install "#{engine}", '--save', (error, stdout, stderr) =>
+				@generateViews engine, app, =>
+					cb null, app
 
 	###
 	Reset cssProcessor
@@ -366,7 +404,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureBundlesFor: (app, cb) ->
-		ext = @bundleExt[app.cssProcessor]
+		ext = @processorExt[app.cssProcessor]
 		try
 			@fs.removeSync app.file('/assets/styles/importer.less')
 			@fs.removeSync app.file('/assets/styles/bundles')
