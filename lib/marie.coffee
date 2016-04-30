@@ -68,10 +68,10 @@ class Marie
 		route = @args[2]
 		if route == 'add'
 			name = @args[3]
-			cssProcessor = @args[4]
-			templateEngine = @args[5]
+			cssPreProcessor = @args[4]
+			viewEngine = @args[5]
 			storage = @args[6]
-			@add name, cssProcessor, templateEngine, storage
+			@add name, cssPreProcessor, viewEngine, storage
 		else if @routes[route]?
 			arg = @args[3] or null
 			opt = @args[4] or null
@@ -90,19 +90,18 @@ class Marie
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
 	@param [String] name app name
-	@param [String] cssProcessor app cssProcessor
-	@param [String] templateEngine app templateEngine
+	@param [String] cssPreProcessor app cssPreProcessor
+	@param [String] viewEngine app viewEngine
 	@param [String] storage app storage
 	###
-	new: (name, cssProcessor, templateEngine, storage) ->
+	new: (name, cssPreProcessor, viewEngine, storage) ->
 		id = utils.configureId name
 		config =
 			id: id
 			name: name
 			path: utils.path.join @root, id
-			cssProcessor: cssProcessor or 'less'
-			frontendFramework: null
-			templateEngine: templateEngine or 'jade'
+			cssPreProcessor: cssPreProcessor or 'less'
+			viewEngine: viewEngine or 'jade'
 			live: 0
 			storage: storage or 'localDisk'
 			created: utils.now()
@@ -182,18 +181,18 @@ class Marie
 			if err then utils.throwError err 
 			else 
 				ui.ok 'CoffeeScript configuration done.'
-				@configureTemplateEngine app
+				@configureViewEngine app
 
 	###
 	Configure app template engine
 	@param [App] 
 	###
-	configureTemplateEngine: (app) ->
+	configureViewEngine: (app) ->
 		engines =
 			'jade': @configureJade
 			'ejs': @configureEJS
 			'handlebars': @configureHandlerbars
-		engines[app.templateEngine.toLowerCase()] app
+		engines[app.viewEngine.toLowerCase()] app
 
 	###
 	Configure jade as the default view templating engine
@@ -207,7 +206,7 @@ class Marie
 			if err then utils.throwError err 
 			else 
 				ui.ok 'Jade configuration done.'
-				@configureCssProcessor app
+				@configureCssPreProcessor app
 
 	###
 	Configure jade as the default view templating engine
@@ -221,7 +220,7 @@ class Marie
 			if err then utils.throwError err 
 			else 
 				ui.ok 'EJs configuration done.'
-				@configureCssProcessor app
+				@configureCssPreProcessor app
 
 	###
 	Configure jade as the default view templating engine
@@ -235,19 +234,19 @@ class Marie
 			if err then utils.throwError err 
 			else 
 				ui.ok 'Handlebars configuration done.'
-				@configureCssProcessor app
+				@configureCssPreProcessor app
 
 	###
 	Configure css pre-processor
 	@param [App] 
 	###
-	configureCssProcessor: (app) ->
+	configureCssPreProcessor: (app) ->
 		processors =
 			'less': @configureLess
 			'sass': @configureScss
 			'scss': @configureScss
 			'stylus': @configureStylus
-		processors[app.cssProcessor.toLowerCase()] app
+		processors[app.cssPreProcessor.toLowerCase()] app
 
 	###
 	Configure less as css pre-processor
@@ -428,8 +427,8 @@ class Marie
 	@example `marie add dc-web`
 	@example `marie new dc-web`
 	###
-	add: (name, cssProcessor, templateEngine, storage) =>
-		if not not name then @new name, cssProcessor, templateEngine, storage
+	add: (name, cssPreProcessor, viewEngine, storage) =>
+		if not not name then @new name, cssPreProcessor, viewEngine, storage
 		else
 			utils.throwError 'Missing field: app name.'
 			return false
@@ -725,8 +724,6 @@ class Marie
 				@app = new App JSON.parse data
 				if key.match /storage/i
 					@configureDB @app, true
-				else if key.match /frontend/
-					@configureFrontendFramework @app, true
 				else
 					@missingArgHandler()
 

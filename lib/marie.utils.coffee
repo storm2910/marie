@@ -248,7 +248,7 @@ class Utils
 			cb null, app
 
 	###
-	Reset resetTemplateEngine
+	Reset resetViewEngine
 	@param [App] app
 	@param [Function] cb callback function
 	###
@@ -267,7 +267,7 @@ class Utils
 		cb()
 
 	###
-	Reset resetTemplateEngine
+	Configure viewEngine
 	@param [App] app
 	@param [Function] cb callback function
 	###
@@ -319,11 +319,11 @@ class Utils
 					cb null, app
 
 	###
-	Reset cssProcessor
+	Reset cssPreProcessor
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	resetCssProcessor: (app, cb) ->
+	resetCssPreProcessor: (app, cb) ->
 		for task in @tasks
 			stream = @fs.readFileSync app.file("#{task}.js"), @encoding.UTF8
 			for processor in @processors
@@ -341,7 +341,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureLessFor: (app, cb) ->
-		@resetCssProcessor app, =>
+		@resetCssPreProcessor app, =>
 			stream = @fs.readFileSync app.file('/tasks/config/less.js'), @encoding.UTF8
 			stream = stream.replace(/importer.less/gi,'bundles\/*')
 			@fs.writeFileSync app.file('/tasks/config/less.js'), stream
@@ -360,7 +360,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureScssFor: (app, cb) ->
-		@resetCssProcessor app, =>
+		@resetCssPreProcessor app, =>
 			@install 'sass@0.5.0', '--save-dev', =>
 				pkgs = ['grunt-contrib-sass@1.0.0']
 				@installPackages pkgs
@@ -382,7 +382,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureStylusFor: (app, cb) ->
-		@resetCssProcessor app, =>
+		@resetCssPreProcessor app, =>
 			@install 'stylus@0.54.3', '--save-dev', =>
 				pkgs = ['grunt-contrib-stylus@1.2.0']
 				@installPackages pkgs
@@ -404,7 +404,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureBundlesFor: (app, cb) ->
-		ext = @processorExt[app.cssProcessor]
+		ext = @processorExt[app.cssPreProcessor]
 		try
 			@fs.removeSync app.file('/assets/styles/importer.less')
 			@fs.removeSync app.file('/assets/styles/bundles')

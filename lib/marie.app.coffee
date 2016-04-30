@@ -3,11 +3,10 @@
 @include marie.query
 @property [String] name app name
 @property [String] path app path
-@property [String] cssProcessor app css processor
-@property [String] frontendFramework  app frontEnd framework
+@property [String] cssPreProcessor app css processor
 @property [String] id app id
 @property [String] storage  app storage
-@property [String] templateEngine app template Engine
+@property [String] viewEngine app template Engine
 @property [Bool] live boolean showing if app is running
 @property [String] created app creation date
 @property [String, Date] lastActive app last active date
@@ -24,8 +23,7 @@ storage = utils.configureStorage()
 
 class App
 	@created
-	@cssProcessor
-	@frontendFramework 
+	@cssPreProcessor
 	@id
 	@lastActive
 	@live
@@ -33,7 +31,7 @@ class App
 	@path
 	@pid
 	@storage
-	@templateEngine
+	@viewEngine
 
 	db: new storage.Database utils.path.join process.env.HOME, '.marie_db'
 	query: query
@@ -42,17 +40,15 @@ class App
 	Construct App
 	@param [String] name app name
 	@param [String] path app path
-	@param [String] cssProcessor app css processor
-	@param [String] frontendFramework  app frontEnd framework
+	@param [String] cssPreProcessor app css processor
 	@param [String] storage  app storage
-	@param [String] templateEngine app template Engine
+	@param [String] viewEngine app template Engine
 	@param [Bool] live boolean showing if app is running
 	@param [String] created app creation date
 	@param [String, Date] lastActive app last active date
 	@param [Number] pid app pid
-	@todo remove frontendFramework
 	###
-	constructor: ({@id, @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
+	constructor: ({@id, @name, @path, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid}) ->
 
 	###
 	Add app shim method 
@@ -78,10 +74,10 @@ class App
 			@db.run @.query.INIT
 			if cmd.match /save/
 				stmt = @db.prepare @.query.SAVE
-				stmt.run @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @id 
+				stmt.run @path, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid, @id 
 			else
 				stmt = @db.prepare @.query.ADD
-				stmt.run @id, @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
+				stmt.run @id, @name, @path, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
 
