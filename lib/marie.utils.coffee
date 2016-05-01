@@ -7,7 +7,6 @@
 ###
 
 class Utils
-	sails: 'sails@0.12.1'
 	sailsVersion: '0.12.1'
 	bower: require 'bower'
 	encoding:
@@ -52,7 +51,6 @@ class Utils
 	]
 	views: [
 		'/views/homepage'
-		'/views/admin'
 		'/views/403'
 		'/views/404'
 		'/views/500'
@@ -227,6 +225,7 @@ class Utils
 	###
 	configureTasManagerFor: (app, cb) ->
 		@install 'grunt-includes@0.5.4', '--save-dev', (error, stdout, stderr) =>
+			@fs.copySync @config('/tasks/pipeline'), app.file('/tasks/pipeline.js'), { clobber: true }
 			@fs.copySync @config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
@@ -302,7 +301,7 @@ class Utils
 	###
 	configureEJSFor: (app, cb) ->
 		engine = 'ejs'
-		@resetViewEngine engine, "'layout'", app, =>
+		@resetViewEngine engine, "'layouts/master'", app, =>
 			@generateViews engine, app, =>
 				cb null, app
 

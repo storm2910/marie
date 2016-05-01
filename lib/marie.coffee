@@ -103,7 +103,7 @@ class Marie
 			cssPreProcessor: cssPreProcessor or 'less'
 			viewEngine: viewEngine or 'jade'
 			live: 0
-			storage: storage or 'localDisk'
+			storage: storage or 'localDiskDb'
 			created: utils.now()
 			lastActive: null
 			pid: null
@@ -132,10 +132,10 @@ class Marie
 		ui.write 'Configuring Sails...'
 		utils.exe 'sails', ['--version', @app.id], (error, stdout, stderr) =>
 			if error
-				utils.exe 'npm', ['install', utils.sails, '-g'], (error, stdout, stderr) =>
+				utils.exe 'npm', ['install', "sails@#{utils.sailsVersion}", '-g'], (error, stdout, stderr) =>
 					if error 
 						ui.error 'An error occured.'
-						ui.notice "Run `sudo npm #{utils.sails} sails -g` then try again."
+						ui.notice "Run `sudo npm install sails@#{utils.sailsVersion} -g` then try again."
 					else
 						@configureSails()
 			else
@@ -158,7 +158,8 @@ class Marie
 
 	###
 	Configure grunt as the default task manager
-	Also configure coffee files importer module + setup for assets coffee files in `/assets/js`
+	Also configure coffee files importer module
+	Setup for assets coffee files in `/assets/js`
 	@param [App] 
 	@example #import User
 	@example #import Page.coffee
@@ -308,38 +309,31 @@ class Marie
 	@example localDisk/mongo
 	###
 	configureDB: (app, skip) ->
-		@configureNativeDB app, skip
-		# ui.warn 'Choose your database.'
-		# utils.prompt.start()
-		# input = ' Mongo/Disk'
-		# ui.line()
-		# utils.prompt.get [input], (err, result) =>
-		# 	ui.line()
-		# 	if result[input].match(/^m/i) then @configureMongoDB(app, skip) else @configureNativeDB(app, skip)
+		dbs =
+			'localDiskDb': @configureLocalDiskDB
+			'localMongodbServer': @configureLocalMongoDB
+			'remoteMongodbServer': @configureRemoteMongoDB
+			'remoteMongodbServerWithURL': @configureRemoteMongoDBWithConfig
+		dbs[app.storage] app
 
 	###
 	Configure localDisk as the default data storage
 	@param [App] 
 	###
-	configureNativeDB: (app, skip) ->
-		App.configureNativeDB app, (err, app) =>
+	configureLocalDiskDB: (app, skip) =>
+		ui.write "Configuring Local Disk..."
+		App.configureLocalDiskDB app, (err, app) =>
 			if err then utils.throwError err 
 			else
 				ui.ok "Local disk database configuration done."
 				@save app
 
 	###
-	Configure mongoDB as the default data storage and choose between local or remote mongo
-	@param [App] 
-	###
-	configureMongoDB: (app, skip) ->
-
-	###
 	Local mongodb database configuration
 	@param [App] 
 	###
-	configureLocalMongoDB: (app, skip) ->
-		ui.write "Configuring MongoDB..."
+	configureLocalMongoDB: (app, skip) =>
+		ui.write "Configuring Local MongoDB..."
 		App.configureLocalMongoDB app, (err, app) =>
 			if err then utils.throwError err 
 			else
@@ -351,7 +345,7 @@ class Marie
 	@todo
 	@param [App] 
 	###
-	configureRemoteMongoDB: (app, skip) ->
+	configureRemoteMongoDB: (app, skip) =>
 		# input = [' mongodb uri']
 		# utils.prompt.get input, (err, result) =>
 		# 	ui.line()
@@ -371,7 +365,7 @@ class Marie
 	@todo
 	@param [App] 
 	###
-	configureRemoteMongoDBWithConfig: (app, skip) ->
+	configureRemoteMongoDBWithConfig: (app, skip) =>
 		# inputs = [' host', ' port', ' user', ' password', ' database']
 		# utils.prompt.get inputs, (err, result) =>
 		# 	ui.line()
@@ -389,7 +383,8 @@ class Marie
 		# 			@save app
 
 	###
-	If something goes really bad. Stop everything, remove everything and exit process
+	If something goes really bad. Stop everything
+	Remove everything and exit process
 	@param [Object, String] error 
 	###
 	throwFatalError: (error) ->
@@ -434,7 +429,8 @@ class Marie
 			return false
 
 	###
-	Configure `list` app command handler. Retrive and List all apps or single app method
+	Configure `list` app command handler. 
+	Retrive and List all apps or single app method
 	@param [String] arg 
 	@param [String] key
 	@param [String] opt

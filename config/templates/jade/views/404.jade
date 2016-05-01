@@ -29,12 +29,15 @@
 
 extends ./layouts/master.jade
 
-block head
-	title 404
-
 block topStyles
+	//- page styles goes here
 	link( rel="stylesheet" href="/styles/bundles/default.css" )
 
 block content
-	h2 404
+	//- body content goes here
+	h2 404 / Not Found
 	include ./partials/partial.jade
+
+block append bottomScripts
+	//- bottom page js goes here
+	script( type="text/javascript" src="/js/app.js" )

@@ -424,7 +424,7 @@ class App
 	@param [String] app
 	@param [Function] cb callback function
 	###
-	@configureNativeDB: (app, cb) ->
+	@configureLocalDiskDB: (app, cb) ->
 		app.storage = utils.storageType.DISK
 		utils.setupDBWithConfigFor app, null, cb
 
