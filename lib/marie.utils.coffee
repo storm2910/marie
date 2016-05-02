@@ -433,7 +433,6 @@ class Utils
 			# ...
 		@fs.mkdirSync app.file('/assets/styles/bundles')
 		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), "/** default styles **/"
-		@fs.writeFileSync app.file("/assets/styles/bundles/admin#{ext}"), "/** admin styles **/"
 		if @isCoffee(app)
 			tpl = '--coffee'
 			ext = '.coffee'
