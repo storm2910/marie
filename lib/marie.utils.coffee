@@ -43,7 +43,7 @@ class Utils
 	engineExt:
 		ejs: '.ejs'
 		jade: '.jade'
-		handlebars: '.hbs'
+		handlebars: '.handlebars'
 	viewDirs: [
 		'/views/modules' 
 		'/views/partials'
@@ -312,10 +312,11 @@ class Utils
 	###
 	configureHandlebarsFor: (app, cb) ->
 		engine = 'handlebars'
-		@resetViewEngine engine, false, app, =>
-			@install "#{engine}", '--save', (error, stdout, stderr) =>
-				@generateViews engine, app, =>
-					cb null, app
+		@install "#{engine}@4.0.5", '--save', (error, stdout, stderr) =>
+			@fs.copySync @config("/templates/#{engine}/views.js"), app.file('/config/views.js'), { clobber: true }
+			@fs.copySync @config("/templates/#{engine}/helpers.js"), app.file('/config/helpers.js'), { clobber: true }
+			@generateViews engine, app, =>
+				cb null, app
 
 	###
 	Reset cssPreProcessor
