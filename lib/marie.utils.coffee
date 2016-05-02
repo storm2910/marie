@@ -261,7 +261,6 @@ class Utils
 			pkgs = ['sails-generate-controller-coffee@0.0.0', 'sails-generate-model-coffee@0.10.9']
 			@installPackages pkgs
 			@fs.copySync @config('/tasks/coffee'), app.file('/tasks/config/coffee.js'), { clobber: true }
-			# @fs.writeFileSync app.file('/assets/js/app.coffee'), ''
 			cb null, app
 
 	###
@@ -302,8 +301,6 @@ class Utils
 		data = @fs.readFileSync home, @encoding.UTF8
 		data = data.replace /\$APP_NAME/gi, app.name
 		@fs.writeFileSync home, data
-		jext = if @isCoffee(app) then '.coffee' else '.js'
-		@fs.writeFileSync app.file("/assets/js/app#{jext}"), ''
 		cb()
 
 	###
@@ -437,6 +434,14 @@ class Utils
 		@fs.mkdirSync app.file('/assets/styles/bundles')
 		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), "/** default styles **/"
 		@fs.writeFileSync app.file("/assets/styles/bundles/admin#{ext}"), "/** admin styles **/"
+		if @isCoffee(app)
+			tpl = '--coffee'
+			ext = '.coffee'
+		else
+			tpl = '--native'
+			ext = '.js'
+		@fs.copySync @config("/templates/#{tpl}/app#{ext}"), app.file("/assets/js/app#{ext}"), { clobber: true }
+		@fs.copySync @config("/templates/#{tpl}/Page#{ext}"), app.file("/assets/js/Page#{ext}"), { clobber: true }
 		cb null, app
 
 	###

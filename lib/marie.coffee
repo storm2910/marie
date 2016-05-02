@@ -178,10 +178,7 @@ class Marie
 	@param [App] 
 	###
 	configureJsCompiler: (app) ->
-		compilers = 
-			'coffeScript': @configureCoffeeScript
-		compiler = compilers[app.jsCompiler] or null
-		if not not compiler then compiler app
+		if utils.isCoffee(app) then @configureCoffeeScript app
 		else @configureViewEngine app
 
 	###
