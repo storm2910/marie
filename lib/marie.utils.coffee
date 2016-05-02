@@ -280,6 +280,10 @@ class Utils
 		data = @fs.readFileSync master, @encoding.UTF8
 		data = data.replace /\$APP_NAME/gi, app.name
 		@fs.writeFileSync master, data
+		home = app.file "/views/homepage#{ext}"
+		data = @fs.readFileSync home, @encoding.UTF8
+		data = data.replace /\$APP_NAME/gi, app.name
+		@fs.writeFileSync home, data
 		cb()
 
 	###

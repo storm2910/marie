@@ -423,19 +423,19 @@ class Marie
 	@example `marie new dc-web`
 	###	
 	add: (name, cssPreProcessor, viewEngine) ->
-		result = true
+		valid = true
 		if not name
 			ui.error 'Missing field: app name.'
-			result = false
+			valid = false
 		if cssPreProcessor and utils.processors.indexOf(cssPreProcessor) < 0
 			ui.error 'invalid css pre-processor argument.'
 			ui.notice "Supported pre-processors: #{utils.processors.join(', ')}"
-			result = false
+			valid = false
 		if viewEngine and utils.engines.indexOf(viewEngine) < 0
 			ui.error 'invalid view engine argument.'
 			ui.notice "Supported engines: #{utils.engines.join(', ')}"
-			result = false
-		if not not result then @new name, cssPreProcessor, viewEngine
+			valid = false
+		if valid then @new name, cssPreProcessor, viewEngine
 
 	###
 	Configure `list` app command handler. 
