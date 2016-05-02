@@ -94,7 +94,7 @@ class Marie
 	@param [String] viewEngine app viewEngine
 	@param [String] storage app storage
 	###
-	new: (name, cssPreProcessor, viewEngine, storage) ->
+	new: (name, cssPreProcessor, viewEngine) ->
 		id = utils.configureId name
 		config =
 			id: id
@@ -103,7 +103,7 @@ class Marie
 			cssPreProcessor: cssPreProcessor or 'less'
 			viewEngine: viewEngine or 'jade'
 			live: 0
-			storage: storage or 'localDiskDb'
+			storage: utils.storageType.DISK
 			created: utils.now()
 			lastActive: null
 			pid: null
@@ -422,7 +422,7 @@ class Marie
 	@example `marie add dc-web`
 	@example `marie new dc-web`
 	###	
-	add: (name, cssPreProcessor, viewEngine, storage) ->
+	add: (name, cssPreProcessor, viewEngine) ->
 		result = true
 		if not name
 			ui.error 'Missing field: app name.'
@@ -435,7 +435,7 @@ class Marie
 			ui.error 'invalid view engine argument.'
 			ui.notice "Supported engines: #{utils.engines.join(', ')}"
 			result = false
-		if not not result then @new name, cssPreProcessor, viewEngine, storage
+		if not not result then @new name, cssPreProcessor, viewEngine
 
 	###
 	Configure `list` app command handler. 
