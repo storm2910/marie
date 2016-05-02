@@ -242,10 +242,11 @@ class Utils
 	###
 	configureTasManagerFor: (app, cb) ->
 		@install 'grunt-includes@0.5.4', '--save-dev', (error, stdout, stderr) =>
+			includeConfig = if @isCoffee(app) then '/tasks/includes-coffee' else '/tasks/includes'
 			@fs.copySync @config('/tasks/pipeline'), app.file('/tasks/pipeline.js'), { clobber: true }
 			@fs.copySync @config('/tasks/compileAssets'), app.file('/tasks/register/compileAssets.js'), { clobber: true }
 			@fs.copySync @config('/tasks/syncAssets'), app.file('/tasks/register/syncAssets.js'), { clobber: true }
-			@fs.copySync @config('/tasks/includes'), app.file('/tasks/config/includes.js'), { clobber: true }
+			@fs.copySync @config(includeConfig), app.file('/tasks/config/includes.js'), { clobber: true }
 			@fs.copySync @config('/tasks/.bowerrc'), app.file('/.bowerrc'), { clobber: true }
 			@fs.mkdirsSync app.file('/assets/modules')
 			cb null, app
@@ -260,7 +261,7 @@ class Utils
 			pkgs = ['sails-generate-controller-coffee@0.0.0', 'sails-generate-model-coffee@0.10.9']
 			@installPackages pkgs
 			@fs.copySync @config('/tasks/coffee'), app.file('/tasks/config/coffee.js'), { clobber: true }
-			@fs.writeFileSync app.file('/assets/js/app.coffee'), ''
+			# @fs.writeFileSync app.file('/assets/js/app.coffee'), ''
 			cb null, app
 
 	###
@@ -301,6 +302,8 @@ class Utils
 		data = @fs.readFileSync home, @encoding.UTF8
 		data = data.replace /\$APP_NAME/gi, app.name
 		@fs.writeFileSync home, data
+		jext = if @isCoffee(app) then '.coffee' else '.js'
+		@fs.writeFileSync app.file("/assets/js/app#{jext}"), ''
 		cb()
 
 	###

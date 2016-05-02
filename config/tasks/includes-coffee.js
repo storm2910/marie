@@ -15,17 +15,17 @@ module.exports = function(grunt) {
   grunt.config.set('includes', {
     dev: {
       options: {
-        includeRegexp: /^\/\/*import\s+['"]?([^'"]+)['"]?\s*$/,
+        includeRegexp: /^\#*import\s+['"]?([^'"]+)['"]?\s*$/,
         debug: false,
         duplicates: false,
-        filenameSuffix: '.js'
+        filenameSuffix: '.coffee'
       },
       files: [{
         expand: true,
         cwd: 'assets/js/',
-        src: ['**/*.js'],
+        src: ['**/*.coffee'],
         dest: '.tmp/public/js/bundles/',
-        ext: '.js'
+        ext: '.coffee'
       }]
     }
   });
