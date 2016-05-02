@@ -120,7 +120,7 @@ class App
 		@::db.serialize =>
 			@::db.all @::query.LIVE, (err, rows) =>
 				if cb and rows and rows.length > 0
-					cb err, JSON.stringify(rows[0])
+					cb err, rows[0]
 				else
 					cb err, null
 
@@ -136,7 +136,7 @@ class App
 				@::db.all @::query.FIND_ONE, id, (err, rows) =>
 					if err then utils.throwError err 
 					else if not not rows.length
-						cb err, JSON.stringify(rows[0])
+						cb err, rows[0]
 					else
 						if cb then cb err, null
 			else
@@ -145,9 +145,20 @@ class App
 					else if cb and rows
 						apps = []
 						apps.push row for row in rows
-						cb err, JSON.stringify(apps)
+						cb err, apps
 					else if cb and not rows
 						cb err, null
+
+	###
+	Reset database. Remove all apps
+	@param [Function] cb callback function
+	###
+	@reset:(cb) ->
+		@find null, (err, rows) =>
+			if err then utils.throwError err 
+			else if rows
+				for row in rows
+					@remove row.id, cb
 
 	###
 	Remove app by id from db
@@ -158,7 +169,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			else if row
-				app = new @ JSON.parse row
+				app = new @ row
 				remove = =>
 					@::db.run @::query.REMOVE, app.id, (err, success) =>
 						if not err
@@ -215,7 +226,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ JSON.parse row
+				app = new @ row
 				app.cwd()
 				utils.installApi api, (error, stdout, stderr) ->
 					cb error, app
@@ -230,7 +241,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ JSON.parse row
+				app = new @ row
 				app.cwd()
 				utils.uninstallApi api, app, (error, stdout, stderr) ->
 					cb error, app
@@ -246,7 +257,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ JSON.parse row
+				app = new @ row
 				app.cwd()
 				option = '--save'
 				if not not opt
@@ -266,7 +277,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ JSON.parse row
+				app = new @ row
 				process.chdir app.path
 				option = '--save'
 				if not not opt
@@ -285,7 +296,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ JSON.parse row
+				app = new @ row
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
@@ -302,7 +313,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			if row
-				app = new @ JSON.parse row
+				app = new @ row
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				modules = 
@@ -329,7 +340,7 @@ class App
 		@find id, (err, row) =>
 			if err then cb err, row
 			else if row
-				app = new @ JSON.parse row
+				app = new @ row
 				apis = []
 				file = app.file '/api/controllers'
 				ctrls = utils.fs.readdirSync file

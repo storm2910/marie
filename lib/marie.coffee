@@ -456,7 +456,7 @@ class Marie
 					else if key is 'module' then @listModules arg, opt
 					else if key is 'config' then @listConfig arg, opt
 					else
-						app = new App JSON.parse data
+						app = new App data
 						for k of app
 							_k = k.toLowerCase()
 							if key is _k then ui.notice app[k]
@@ -490,16 +490,27 @@ class Marie
 	@example `marie remove dc-web`
 	###
 	remove: (arg, opt) =>
-		if not not arg then @_remove arg
+		# if not not arg then @_remove arg
+		# else @missingArgHandler()
+		if not not arg
+			if arg == '--reset'
+				App.reset (err, success) =>
+					if err then utils.throwError err
+					else ui.ok success
+			else
+				App.remove arg, (err, success) =>
+					if err then utils.throwError err
+					else ui.ok success
 		else @missingArgHandler()
 
+
 	###
-	remove
-	###
-	_remove: (arg) =>
-		App.remove arg, (err, success) =>
-			if err then utils.throwError err
-			else ui.ok success
+	# remove
+	# ###
+	# _remove: (arg) =>
+	# 	App.remove arg, (err, success) =>
+	# 		if err then utils.throwError err
+	# 		else ui.ok success
 
 	###
 	Configure `start` app command handler. start app
@@ -523,7 +534,7 @@ class Marie
 		App.live (err, data) =>
 			if err then utils.throwError err
 			else if data 
-				app = new App JSON.parse data
+				app = new App data
 				@_stop app
 			else return @_run 'stop', arg
 
@@ -535,7 +546,7 @@ class Marie
 		App.live (err, data) =>
 			if err then utils.throwError err
 			else if data
-				app = new App JSON.parse data
+				app = new App data
 				@_stop app
 				@_start app
 			else
@@ -578,7 +589,7 @@ class Marie
 			App.find arg, (err, data) =>
 				if err then utils.throwError err
 				if data
-					app = new App JSON.parse data
+					app = new App data
 					if cmd.match /^stop/i
 						@_stop app
 						app.stop()
@@ -726,7 +737,7 @@ class Marie
 		App.find arg, (error, data) =>
 			if error then utils.throwError error
 			else if data
-				@app = new App JSON.parse data
+				@app = new App data
 				if key.match /storage/i
 					@configureDB @app, true
 				else
