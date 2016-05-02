@@ -25,6 +25,9 @@ class Utils
 		'/tasks/config/sync'
 		'/tasks/config/copy'
 	]
+	compilers:
+		'--coffee': 'CoffeeScript'
+		'--native': 'native'
 	processors: [
 		'less', 
 		'scss', 
@@ -113,8 +116,18 @@ class Utils
 		s = s.replace /^[.\s]+|[.\s]+$/g, ''
 		return s
 
+	###
+	Get unix timestamp
+	###
 	now: ->
 		return Date.now() / 100 | 0
+
+	###
+	Detect if app is coffee
+	@param [App] app app to install apis for
+	###
+	isCoffee: (app) ->
+		return  app.jsCompiler == @compilers['--coffee']
 
 	###
 	configure id
@@ -170,9 +183,12 @@ class Utils
 	@param [String] api api to install
 	@param [Function] cb callback function
 	###
-	installApi: (api, cb) ->
+	installApi: (api, app, cb) ->
 		api = @trim api.toLowerCase()
-		@exe 'sails', ['generate', 'api', api, '--coffee'], cb
+		if @isCoffee(app)
+			@exe 'sails', ['generate', 'api', api, '--coffee'], cb
+		else
+			@exe 'sails', ['generate', 'api', api], cb
 
 	###
 	Uninstall api method definition
@@ -182,8 +198,9 @@ class Utils
 	###
 	uninstallApi: (api, app, cb) ->
 		api = api.toLowerCase().replace /^[.\s]+|[.\s]+$/g, ''
-		@fs.unlink app.file("/api/controllers/#{api}controller.coffee"), (err) =>
-			@fs.unlink app.file("/api/models/#{api}.coffee"), (err) ->
+		ext = if @isCoffee(app) then '.coffee' else '.js'
+		@fs.unlink app.file("/api/controllers/#{api}controller#{ext}"), (err) =>
+			@fs.unlink app.file("/api/models/#{api}#{ext}"), (err) ->
 				if cb then cb err, app
 
 	###

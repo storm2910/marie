@@ -40,6 +40,7 @@ class App
 	Construct App
 	@param [String] name app name
 	@param [String] path app path
+	@param [String] jsCompiler app js compiler
 	@param [String] cssPreProcessor app css processor
 	@param [String] storage  app storage
 	@param [String] viewEngine app template Engine
@@ -48,7 +49,7 @@ class App
 	@param [String, Date] lastActive app last active date
 	@param [Number] pid app pid
 	###
-	constructor: ({@id, @name, @path, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid}) ->
+	constructor: ({@id, @name, @path, @jsCompiler, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid}) ->
 
 	###
 	Add app shim method 
@@ -74,10 +75,10 @@ class App
 			@db.run @.query.INIT
 			if cmd.match /save/
 				stmt = @db.prepare @.query.SAVE
-				stmt.run @path, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid, @id 
+				stmt.run @path, @jsCompiler, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid, @id 
 			else
 				stmt = @db.prepare @.query.ADD
-				stmt.run @id, @name, @path, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid
+				stmt.run @id, @name, @path, @jsCompiler, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
 
@@ -228,7 +229,7 @@ class App
 			if row
 				app = new @ row
 				app.cwd()
-				utils.installApi api, (error, stdout, stderr) ->
+				utils.installApi api, app, (error, stdout, stderr) ->
 					cb error, app
 
 	###
@@ -346,7 +347,10 @@ class App
 				ctrls = utils.fs.readdirSync file
 				for ctrl in ctrls
 					if not ctrl.match /^\./
-						api = (ctrl.replace /controller|\.coffee/gi, '').toLowerCase()
+						if utils.isCoffee(app)
+							api = (ctrl.replace /controller|\.coffee/gi, '').toLowerCase()
+						else
+							api = (ctrl.replace /controller|\.js/gi, '').toLowerCase()
 						apis.push api
 				cb null, JSON.stringify apis
 

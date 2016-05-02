@@ -70,8 +70,8 @@ class Marie
 			name = @args[3]
 			cssPreProcessor = @args[4]
 			viewEngine = @args[5]
-			storage = @args[6]
-			@add name, cssPreProcessor, viewEngine, storage
+			jsCompiler = @args[6]
+			@add name, cssPreProcessor, viewEngine, jsCompiler
 		else if @routes[route]?
 			arg = @args[3] or null
 			opt = @args[4] or null
@@ -94,12 +94,13 @@ class Marie
 	@param [String] viewEngine app viewEngine
 	@param [String] storage app storage
 	###
-	new: (name, cssPreProcessor, viewEngine) ->
+	new: (name, cssPreProcessor, viewEngine, jsCompiler) ->
 		id = utils.configureId name
 		config =
 			id: id
 			name: name
 			path: utils.path.join @root, id
+			jsCompiler: jsCompiler or 'native'
 			cssPreProcessor: cssPreProcessor or 'less'
 			viewEngine: viewEngine or 'jade'
 			live: 0
@@ -170,13 +171,24 @@ class Marie
 			if err then utils.throwError err 
 			if app 
 				ui.ok 'Grunt configuration done.'
-				@configureCoffeeScript app
+				@configureJsCompiler app
+
+	###
+	Configure app js Compiler
+	@param [App] 
+	###
+	configureJsCompiler: (app) ->
+		compilers = 
+			'coffeScript': @configureCoffeeScript
+		compiler = compilers[app.jsCompiler] or null
+		if not not compiler then compiler app
+		else @configureViewEngine app
 
 	###
 	Configure coffeScript as the default js compiler
 	@param [App] 
 	###
-	configureCoffeeScript: (app) ->
+	configureCoffeeScript: (app) =>
 		ui.write 'Configuring CoffeeScript...'
 		App.configureCoffeeScript app, (err, app) =>
 			if err then utils.throwError err 
@@ -422,20 +434,28 @@ class Marie
 	@example `marie add dc-web`
 	@example `marie new dc-web`
 	###	
-	add: (name, cssPreProcessor, viewEngine) ->
+	add: (name, cssPreProcessor, viewEngine, jsCompiler) ->
 		valid = true
 		if not name
 			ui.error 'Missing field: app name.'
 			valid = false
 		if cssPreProcessor and utils.processors.indexOf(cssPreProcessor) < 0
-			ui.error 'invalid css pre-processor argument.'
+			ui.error 'Invalid css pre-processor argument.'
 			ui.notice "Supported pre-processors: #{utils.processors.join(', ')}"
 			valid = false
 		if viewEngine and utils.engines.indexOf(viewEngine) < 0
-			ui.error 'invalid view engine argument.'
+			ui.error 'Invalid view engine argument.'
 			ui.notice "Supported engines: #{utils.engines.join(', ')}"
 			valid = false
-		if valid then @new name, cssPreProcessor, viewEngine
+		if jsCompiler and not utils.compilers[jsCompiler]
+			compilers = []
+			for key of utils.compilers
+				compilers.push key
+			ui.error 'Invalid JS compiler argument.'
+			ui.notice "Supported compilers: #{compilers.join(', ')}"
+			valid = false
+		compiler = utils.compilers[jsCompiler] or utils.compilers['--native']
+		if valid then @new name, cssPreProcessor, viewEngine, compiler
 
 	###
 	Configure `list` app command handler. 
