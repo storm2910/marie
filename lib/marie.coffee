@@ -92,7 +92,7 @@ class Marie
 	@param [String] name app name
 	@param [String] cssPreProcessor app cssPreProcessor
 	@param [String] viewEngine app viewEngine
-	@param [String] storage app storage
+	@param [String] jsCompiler app compiler
 	###
 	new: (name, cssPreProcessor, viewEngine, jsCompiler) ->
 		id = utils.configureId name
@@ -104,7 +104,7 @@ class Marie
 			cssPreProcessor: cssPreProcessor or 'less'
 			viewEngine: viewEngine or 'jade'
 			live: 0
-			storage: utils.storageType.DISK
+			storage: utils.storage.DISK
 			created: utils.now()
 			lastActive: null
 			pid: null
@@ -127,7 +127,6 @@ class Marie
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
-	@exmaple `npm install sails -g`
 	###
 	configureSails: ->
 		ui.write 'Configuring Sails...'
@@ -162,8 +161,6 @@ class Marie
 	Also configure coffee files importer module
 	Setup for assets coffee files in `/assets/js`
 	@param [App] 
-	@example #import User
-	@example #import Page.coffee
 	###
 	configureTasManager: (app) ->
 		ui.write 'Configuring Grunt...'
@@ -208,7 +205,6 @@ class Marie
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
 	@param [App] 
-	@example /views/partials/partial.jade
 	###
 	configureJade: (app) =>
 		ui.write 'Configuring Jade...'
@@ -222,7 +218,6 @@ class Marie
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
 	@param [App] 
-	@example /views/partials/partial.jade
 	###
 	configureEJS: (app) =>
 		ui.write 'Configuring EJs...'
@@ -236,7 +231,6 @@ class Marie
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
 	@param [App] 
-	@example /views/partials/partial.jade
 	###
 	configureHandlerbars: (app) =>
 		ui.write 'Configuring Handlebars...'
@@ -297,8 +291,7 @@ class Marie
 	###
 	Configure default bundle files
 	@param [App] 
-	@example /assets/styles/bundles/default.ext
-	@example /assets/styles/bundles/admin.ext
+	@param [Boolean] skip 
 	###
 	configureBundles: (app, skip) ->
 		ui.ok "configure bundles"
@@ -315,81 +308,84 @@ class Marie
 	###
 	Let you choose between localDisk and a mongo database
 	@param [App] 
-	@example localDisk/mongo
+	@param [Boolean] skip 
 	###
-	configureDB: (app, skip) ->
-		dbs =
-			'localDiskDb': @configureLocalDiskDB
-			'localMongodbServer': @configureLocalMongoDB
-			'remoteMongodbServer': @configureRemoteMongoDB
-			'remoteMongodbServerWithURL': @configureRemoteMongoDBWithConfig
-		dbs[app.storage] app
+	configureDB: (app, db, url, skip) ->
+		dbs = 
+			'disk': @configureLocalDisk
+			'mongodb': @configureMongoDb
+			'mysql': @configureMySQL
+			'postgresql': @configurePostgreSQL
+			'redis': @configureRedis
+		app.storage = db
+		dbs[app.storage] url, app, skip
 
 	###
 	Configure localDisk as the default data storage
 	@param [App] 
+	@param [Boolean] skip 
 	###
-	configureLocalDiskDB: (app, skip) =>
+	configureLocalDisk: (url, app, skip) =>
 		ui.write "Configuring Local Disk..."
-		App.configureLocalDiskDB app, (err, app) =>
+		App.configureLocalDisk app, (err, app) =>
 			if err then utils.throwError err 
 			else
 				ui.ok "Local disk database configuration done."
-				@save app
+				@save app, skip
 
 	###
-	Local mongodb database configuration
-	@param [App] 
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
 	###
-	configureLocalMongoDB: (app, skip) =>
-		ui.write "Configuring Local MongoDB..."
-		App.configureLocalMongoDB app, (err, app) =>
+	configureMongoDb: (url, app, skip) =>
+		ui.write "Configuring MongoDb..."
+		@configureDBWithURL url, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureMySQL: (url, app, skip) =>
+		ui.write "Configuring MySQL..."
+		@configureDBWithURL url, app, skip
+	
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configurePostgreSQL: (url, app, skip) =>
+		ui.write "Configuring PostgreSQL..."
+		@configureDBWithURL url, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureRedis: (url, app, skip) =>
+		ui.write "Configuring Redis..."
+		@configureDBWithURL url, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureDBWithURL:(url, app, skip) =>
+		App.configureDBWithURL app, url, (err, app) =>
 			if err then utils.throwError err 
 			else
-				ui.ok "Local MongoDB database configuration done."
-				@save app
+				ui.ok "#{app.storage} database configuration done."
+				@save app, skip
 
-	###
-	Remote mongodb database configuration
-	@todo
-	@param [App] 
-	###
-	configureRemoteMongoDB: (app, skip) =>
-		# input = [' mongodb uri']
-		# utils.prompt.get input, (err, result) =>
-		# 	ui.line()
-		# 	uri = utils.trim result[input]
-		# 	if uri.match(/\:|@/g)
-		# 		ui.write "Configuring MongoDB..."
-		# 		App.configureMongoDB app, uri, (err, app) =>
-		# 			if err then utils.throwError err 
-		# 			else
-		# 				ui.ok "MongoDB database configuration done."
-		# 				@save app
-		# 	else
-		# 		@configureRemoteMongoDBWithConfig app, skip
-
-	###
-	Remote mongodb database configuration
-	@todo
-	@param [App] 
-	###
-	configureRemoteMongoDBWithConfig: (app, skip) =>
-		# inputs = [' host', ' port', ' user', ' password', ' database']
-		# utils.prompt.get inputs, (err, result) =>
-		# 	ui.line()
-		# 	config =
-		# 		host: result[' host'] or ''
-		# 		port: result[' port'] or ''
-		# 		user: result[' user'] or ''
-		# 		password: result[' password'] or ''
-		# 		database: result[' database'] or ''
-		# 	ui.write "Configuring MongoDB..."
-		# 	App.configureMongoDB app, config, (err, app) =>
-		# 		if err then utils.throwError err 
-		# 		else
-		# 			ui.ok "MongoDB database configuration done."
-		# 			@save app
 
 	###
 	If something goes really bad. Stop everything
@@ -408,12 +404,16 @@ class Marie
 	###
 	Save app to marie database
 	@param [App] 
-	@example marie list some-app
 	###
-	save: (app) ->
-		app.add (err, app) =>
-			if err then @throwFatalError err
-			else @onSave app
+	save: (app, skip) ->
+		if not not skip
+			app.save (err, app) =>
+				@restart()
+			return false
+		else
+			app.add (err, app) =>
+				if err then @throwFatalError err
+				else @onSave app
 
 	###
 	App creation callback method
@@ -427,9 +427,10 @@ class Marie
 
 	###
 	Configure `add` app method. Creates new app
-	@pparam [String] arg or app name
-	@example `marie add dc-web`
-	@example `marie new dc-web`
+	@param [String] name app name
+	@param [String] cssPreProcessor app cssPreProcessor
+	@param [String] viewEngine app viewEngine
+	@param [String] jsCompiler app compiler
 	###	
 	add: (name, cssPreProcessor, viewEngine, jsCompiler) ->
 		valid = true
@@ -460,9 +461,6 @@ class Marie
 	@param [String] arg 
 	@param [String] key
 	@param [String] opt
-	@example `marie list`
-	@example `marie list dc-web`
-	@returns [Array<App>, App] apps return apps or app
 	###
 	list: (arg, key, opt) =>
 		App.find arg, (err, data) =>
@@ -482,7 +480,6 @@ class Marie
 	###
 	Configure `live` app command handler. Get all live app
 	@example `marie live`
-	@returns [App] app return live app
 	###
 	live: =>
 		App.live (err, app) =>
@@ -504,7 +501,6 @@ class Marie
 
 	###
 	Configure `remove` app command handler. Remove app from system
-	@example `marie remove dc-web`
 	###
 	remove: (arg, opt) =>
 		# if not not arg then @_remove arg
@@ -520,18 +516,9 @@ class Marie
 					else ui.ok success
 		else @missingArgHandler()
 
-
-	###
-	# remove
-	# ###
-	# _remove: (arg) =>
-	# 	App.remove arg, (err, success) =>
-	# 		if err then utils.throwError err
-	# 		else ui.ok success
-
 	###
 	Configure `start` app command handler. start app
-	@example `marie start dc-web`
+	@param [String] arg app id
 	###
 	start: (arg) =>
 		App.live (err, data) =>
@@ -544,8 +531,7 @@ class Marie
 
 	###
 	Configure `stop` app command handler. Stops app or stop all apps
-	@example `marie stop dc-web`
-	@example `marie stop`
+	@param [String?] arg optional app id
 	###
 	stop: (arg) =>
 		App.live (err, data) =>
@@ -557,7 +543,7 @@ class Marie
 
 	###
 	Configure `restart` app command handler. Restarts current live app
-	@example `marie restart`
+	@param [String?] arg optional app id
 	###
 	restart: (arg) =>
 		App.live (err, data) =>
@@ -572,7 +558,6 @@ class Marie
 	###
 	Configure system start app method
 	@param [App] app app to start
-	@example `_start app`
 	###
 	_start: (app) ->
 		App.start app, (err, app) =>
@@ -626,7 +611,6 @@ class Marie
 	Configure add api method
 	@param [String] arg 
 	@param [String] api api to add
-	@example `marie dc-web add api user`
 	###
 	addApi: (arg, api) =>
 		if not not api 
@@ -642,7 +626,6 @@ class Marie
 	Configure remove api method
 	@param [String] arg 
 	@param [String] api api to remove
-	@example `marie dc-web remove api user`
 	###
 	removeApi: (arg, api) =>
 		if not not api 
@@ -659,7 +642,6 @@ class Marie
 	@param [String] arg 
 	@param [String] pkg module to remove
 	@param [String] opt
-	@example `marie dc-web add module bower`
 	###
 	addModule: (arg, pkg, opt) =>
 		if not not pkg
@@ -677,7 +659,6 @@ class Marie
 	@param [String] arg 
 	@param [String] pkg module to remove
 	@param [String] opt
-	@example `marie dc-web remove module bower`
 	###
 	removeModule: (arg, pkg, opt) =>
 		if not not pkg
@@ -694,7 +675,6 @@ class Marie
 	Configure list module method
 	@param [String] arg 
 	@param [String] key
-	@example `marie dc-web remove module bower`
 	###
 	listConfig: (arg, key) =>
 		App.getConfig arg, key, (err, config) =>
@@ -707,7 +687,6 @@ class Marie
 	Configure list module method
 	@param [String] arg 
 	@param [String] opt
-	@example `marie dc-web remove module bower`
 	###
 	listModules: (arg, opt) =>
 		App.getModules arg, opt, (err, config) =>
@@ -719,7 +698,6 @@ class Marie
 	###
 	Configure list module method
 	@param [String] arg 
-	@example `marie dc-web remove module bower`
 	###
 	listApis: (arg) =>
 		App.getApis arg, (err, config) =>
@@ -750,15 +728,27 @@ class Marie
 	@param [String] key
 	@param [String] opt
 	###
-	configureMore: (arg, key, opt) =>
-		App.find arg, (error, data) =>
-			if error then utils.throwError error
-			else if data
-				@app = new App data
-				if key.match /storage/i
-					@configureDB @app, true
-				else
-					@missingArgHandler()
+	configureMore: (arg, key, opt, value) =>
+		if not not key
+			App.find arg, (error, data) =>
+				if error then utils.throwError error
+				else if data
+					@app = new App data
+					if key.match /db/i
+						if not not opt
+							if opt.toLowerCase() == 'disk'
+								@configureDB @app, opt, null, true
+							else
+								if not not value
+									@configureDB @app, opt, value, true
+								else
+									@missingArgHandler()
+						else
+							@missingArgHandler()
+					else
+						@missingArgHandler()
+		else
+			@missingArgHandler()
 
 	###
 	configure missing/invalid arg handler

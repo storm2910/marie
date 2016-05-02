@@ -60,11 +60,12 @@ class Utils
 		'/views/partials/partial'
 		'/views/layouts/master'
 	]
-	storageType:
-		DISK: 'localDiskDb'
-		LOCAL: 'localMongodbServer'
-		REMOTE: 'remoteMongodbServer'
-		URL: 'remoteMongodbServerWithURL'
+	storage:
+		DISK: 'disk'
+		MONGODB: 'mongodb'
+		MYSQL: 'mysql'
+		POSTGRESQL: 'postgresql'
+		REDIS: 'redis'
 
 	###
 	Construct app
@@ -448,13 +449,13 @@ class Utils
 	@param [App] app
 	@param [Function] cb callback function
 	###
-	configureLocalMongoDBFor: (app, cb) ->
-		app.storage = @storageType.LOCAL
-		lconfig = @fs.readFileSync @config "/databases/#{@storageType.LOCAL}.js", @encoding.UTF8
-		cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
-		@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
-			@setupDBWithConfigFor app, cconfig, cb
+	# configureLocalMongoDBFor: (app, cb) ->
+	# 	app.storage = @storageType.LOCAL
+	# 	lconfig = @fs.readFileSync @config "/databases/#{@storageType.LOCAL}.js", @encoding.UTF8
+	# 	cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
+	# 	cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
+	# 	@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
+	# 		@setupDBWithConfigFor app, cconfig, cb
 
 	###
 	Configure remote mongodb with user, password, host, port and database credentials
@@ -462,18 +463,18 @@ class Utils
 	@param [Object] config
 	@param [Function] cb callback function
 	###
-	configureRemoteMongoDBWithConfigFor: (app, config, cb) ->
-		app.storage = @storageType.REMOTE
-		sconfig = @fs.readFileSync @config "/databases/#{@storageType.REMOTE}.js", @encoding.UTF8
-		cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
-		cconfig = cconfig.replace /\$MONGO\.HOST/gi, @trim config.host
-		cconfig = cconfig.replace /\$MONGO\.PORT/gi, Number config.port
-		cconfig = cconfig.replace /\$MONGO\.USER/gi, @trim config.user
-		cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, @trim config.password
-		cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, @trim config.database
-		@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
-			@setupDBWithConfigFor app, cconfig, cb
+	# configureRemoteMongoDBWithConfigFor: (app, config, cb) ->
+	# 	app.storage = @storageType.REMOTE
+	# 	sconfig = @fs.readFileSync @config "/databases/#{@storageType.REMOTE}.js", @encoding.UTF8
+	# 	cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
+	# 	cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
+	# 	cconfig = cconfig.replace /\$MONGO\.HOST/gi, @trim config.host
+	# 	cconfig = cconfig.replace /\$MONGO\.PORT/gi, Number config.port
+	# 	cconfig = cconfig.replace /\$MONGO\.USER/gi, @trim config.user
+	# 	cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, @trim config.password
+	# 	cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, @trim config.database
+	# 	@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
+	# 		@setupDBWithConfigFor app, cconfig, cb
 
 	###
 	Configure mongodb with URI
@@ -481,14 +482,14 @@ class Utils
 	@param [String] uri databse url 
 	@param [Function] cb callback function
 	###
-	configureRemoteMongoDBWithURIFor: (app, uri, cb) ->
-		app.storage = @storageType.URL
-		uconfig = @fs.readFileSync @config "/databases/#{@storageType.URL}.js", @encoding.UTF8
-		cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
-		cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
-		cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
-		@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
-			@setupDBWithConfigFor app, cconfig, cb
+	# configureRemoteMongoDBWithURIFor: (app, uri, cb) ->
+	# 	app.storage = @storageType.URL
+	# 	uconfig = @fs.readFileSync @config "/databases/#{@storageType.URL}.js", @encoding.UTF8
+	# 	cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
+	# 	cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
+	# 	cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
+	# 	@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
+	# 		@setupDBWithConfigFor app, cconfig, cb
 
 	###
 	Default databse connection configuration

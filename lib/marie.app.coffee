@@ -432,6 +432,7 @@ class App
 	@param [Function] cb callback function
 	###
 	@configureBundles: (app, cb) ->
+		app.cwd()
 		utils.configureBundlesFor app, cb
 
 	###
@@ -439,8 +440,9 @@ class App
 	@param [String] app
 	@param [Function] cb callback function
 	###
-	@configureLocalDiskDB: (app, cb) ->
-		app.storage = utils.storageType.DISK
+	@configureLocalDisk: (app, cb) ->
+		app.cwd()
+		app.storage = utils.storage.DISK
 		utils.setupDBWithConfigFor app, null, cb
 
 	###
@@ -449,21 +451,21 @@ class App
 	@param [Object, String] config
 	@param [Function] cb callback function
 	###
-	@configureMongoDB: (app, config, cb) ->
-		app.cwd()
-		if config.constructor == String 
-			utils.configureRemoteMongoDBWithURIFor app, config, cb
-		else 
-			utils.configureRemoteMongoDBWithConfigFor app, config, cb
+	@configureDBWithURL: (app, url, cb) ->
+		# app.cwd()
+		# if config.constructor == String 
+		# 	utils.configureRemoteMongoDBWithURIFor app, config, cb
+		# else 
+		# 	utils.configureRemoteMongoDBWithConfigFor app, config, cb
 
-	###
-	Remove package to app
-	@param [String] app
-	@param [Function] cb callback function
-	###
-	@configureLocalMongoDB: (app, cb) ->
-		app.cwd()
-		utils.configureLocalMongoDBFor app, cb
+	# ###
+	# Remove package to app
+	# @param [String] app
+	# @param [Function] cb callback function
+	# ###
+	# @configureLocalMongoDB: (app, cb) ->
+	# 	app.cwd()
+	# 	utils.configureLocalMongoDBFor app, cb
 
 # export ap module
 module.exports = App
