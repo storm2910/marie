@@ -415,18 +415,27 @@ class Marie
 		ui.notice "Id: #{app.id}"
 		ui.notice "Path: #{app.path}"
 		ui.notice "Done."
-	
+
 	###
 	Configure `add` app method. Creates new app
 	@pparam [String] arg or app name
 	@example `marie add dc-web`
 	@example `marie new dc-web`
-	###
-	add: (name, cssPreProcessor, viewEngine, storage) =>
-		if not not name then @new name, cssPreProcessor, viewEngine, storage
-		else
-			utils.throwError 'Missing field: app name.'
-			return false
+	###	
+	add: (name, cssPreProcessor, viewEngine, storage) ->
+		result = true
+		if not name
+			ui.error 'Missing field: app name.'
+			result = false
+		if cssPreProcessor and utils.processors.indexOf(cssPreProcessor) < 0
+			ui.error 'invalid css pre-processor argument.'
+			ui.notice "Supported pre-processors: #{utils.processors.join(', ')}"
+			result = false
+		if viewEngine and utils.engines.indexOf(viewEngine) < 0
+			ui.error 'invalid view engine argument.'
+			ui.notice "Supported engines: #{utils.engines.join(', ')}"
+			result = false
+		if not not result then @new name, cssPreProcessor, viewEngine, storage
 
 	###
 	Configure `list` app command handler. 

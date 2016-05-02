@@ -37,8 +37,8 @@ class Utils
 		stylus: '.styl'
 	engines: [
 		'ejs'
-		'jade'
 		'handlebars'
+		'jade'
 	]
 	engineExt:
 		ejs: '.ejs'
