@@ -86,7 +86,7 @@ module.exports.connections = {
   // redisConfig
 
   someRedisServer: {
-    adapter: 'sails-resis',
+    adapter: 'sails-redis',
     url: '$URL'
   },
 

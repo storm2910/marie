@@ -61,11 +61,31 @@ class Utils
 		'/views/layouts/master'
 	]
 	storage:
-		DISK: 'disk'
-		MONGODB: 'mongodb'
-		MYSQL: 'mysql'
-		POSTGRESQL: 'postgresql'
-		REDIS: 'redis'
+		DISK: 
+			name: 'disk'
+			id: 'localDiskDb'
+			adapter: 'sails-disk'
+			version: 'latest'
+		MONGODB: 
+			name: 'mongodb'
+			id: 'someMongodbServer'
+			adapter: 'sails-mongo'
+			version: '0.12.0'
+		MYSQL: 
+			name: 'mysql'
+			id: 'someMysqlServer'
+			adapter: 'sails-mysql'
+			version: 'latest'
+		POSTGRESQL: 
+			name: 'postgresql'
+			id: 'somePostgresqlServer'
+			adapter: 'sails-postgresql'
+			version: 'latest'
+		REDIS: 
+			name: 'redis'
+			id: 'someRedisServer'
+			adapter: 'sails-redis'
+			version: 'latest'
 
 	###
 	Construct app
@@ -445,69 +465,40 @@ class Utils
 		cb null, app
 
 	###
-	Local mongodb database configuration
-	@param [App] app
-	@param [Function] cb callback function
-	###
-	# configureLocalMongoDBFor: (app, cb) ->
-	# 	app.storage = @storageType.LOCAL
-	# 	lconfig = @fs.readFileSync @config "/databases/#{@storageType.LOCAL}.js", @encoding.UTF8
-	# 	cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
-	# 	cconfig = cconfig.replace /\$MONGO\.CONNECTION/, lconfig
-	# 	@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
-	# 		@setupDBWithConfigFor app, cconfig, cb
-
-	###
-	Configure remote mongodb with user, password, host, port and database credentials
-	@param [App] app
-	@param [Object] config
-	@param [Function] cb callback function
-	###
-	# configureRemoteMongoDBWithConfigFor: (app, config, cb) ->
-	# 	app.storage = @storageType.REMOTE
-	# 	sconfig = @fs.readFileSync @config "/databases/#{@storageType.REMOTE}.js", @encoding.UTF8
-	# 	cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
-	# 	cconfig = cconfig.replace /\$MONGO\.CONNECTION/, sconfig
-	# 	cconfig = cconfig.replace /\$MONGO\.HOST/gi, @trim config.host
-	# 	cconfig = cconfig.replace /\$MONGO\.PORT/gi, Number config.port
-	# 	cconfig = cconfig.replace /\$MONGO\.USER/gi, @trim config.user
-	# 	cconfig = cconfig.replace /\$MONGO\.PASSWORD/gi, @trim config.password
-	# 	cconfig = cconfig.replace /\$MONGO\.DATABASE/gi, @trim config.database
-	# 	@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
-	# 		@setupDBWithConfigFor app, cconfig, cb
-
-	###
-	Configure mongodb with URI
+	Configure storage with URI
 	@param [App] app
 	@param [String] uri databse url 
 	@param [Function] cb callback function
 	###
-	# configureRemoteMongoDBWithURIFor: (app, uri, cb) ->
-	# 	app.storage = @storageType.URL
-	# 	uconfig = @fs.readFileSync @config "/databases/#{@storageType.URL}.js", @encoding.UTF8
-	# 	cconfig = @fs.readFileSync @config('/databases/connections.js'), @encoding.UTF8
-	# 	cconfig = cconfig.replace /\$MONGO\.CONNECTION/, uconfig
-	# 	cconfig = cconfig.replace /\$MONGO\.URL/gi, uri
-	# 	@install 'sails-mongo@0.12.0', '--save', (error, stdout, stderr) =>
-	# 		@setupDBWithConfigFor app, cconfig, cb
+	configureStorageFor: (app, url, cb) ->
+		key = app.storage.toUpperCase()
+		storage = @storage[key]
+		@install "#{storage.adapter}@#{storage.version}", '--save', (error, stdout, stderr) =>
+			@fs.copySync @config("/storage/#{key}/connections"), app.file("/config/connections.js"), { clobber: true }
+			if not not url 
+				conn = app.file "/config/connections.js"
+				data = @fs.readFileSync conn, @encoding.UTF8
+				data = data.replace /\$URL/gi, url
+				@fs.writeFileSync conn, data
+			@setupDBWithConfigFor app, cb
 
 	###
 	Default databse connection configuration
 	@param [String] db databse label
 	@param [String] config databse connection config data 
 	###
-	setupDBWithConfigFor: (app, cconfig, cb) ->
+	setupDBWithConfigFor: (app, cb) ->
+		key = app.storage.toUpperCase()
+		storage = @storage[key]
 		mdest = app.file '/config/models.js'
 		mconfig = @fs.readFileSync mdest, @encoding.UTF8
 		mconfig = mconfig.replace(/'alter'/gi, "'safe'").replace(/\/\/ /gi,'').replace(/connection/gi, '// connection')
 		@fs.writeFileSync mdest, mconfig
-		if not not cconfig
-			cdest = app.file '/config/connections.js'
-			@fs.writeFileSync cdest, cconfig
+
 		ddest = app.file '/config/env/development.js'
 		pdest = app.file '/config/env/production.js'
 		dconfig = @fs.readFileSync ddest, @encoding.UTF8
-		dconfig = dconfig.replace(/\/\/ /gi,'').replace(/someMongodbServer|localDiskDb|localMongodbServer|remoteMongodbServerWithURL|remoteMongodbServer/g, app.storage)
+		dconfig = dconfig.replace(/\/\/ /gi,'').replace(/localDiskDb|someMongodbServer|someMysqlServer|somePostgresqlServer|someRedisServer/g, storage.id)
 		@fs.writeFileSync ddest, dconfig
 		@fs.writeFileSync pdest, dconfig
 		cb null, app

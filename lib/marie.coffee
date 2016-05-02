@@ -104,7 +104,7 @@ class Marie
 			cssPreProcessor: cssPreProcessor or 'less'
 			viewEngine: viewEngine or 'jade'
 			live: 0
-			storage: utils.storage.DISK
+			storage: utils.storage.DISK.name
 			created: utils.now()
 			lastActive: null
 			pid: null
@@ -327,11 +327,7 @@ class Marie
 	###
 	configureLocalDisk: (url, app, skip) =>
 		ui.write "Configuring Local Disk..."
-		App.configureLocalDisk app, (err, app) =>
-			if err then utils.throwError err 
-			else
-				ui.ok "Local disk database configuration done."
-				@save app, skip
+		@configureStorage null, app, skip
 
 	###
 	Generic db configuration method
@@ -341,7 +337,7 @@ class Marie
 	###
 	configureMongoDb: (url, app, skip) =>
 		ui.write "Configuring MongoDb..."
-		@configureDBWithURL url, app, skip
+		@configureStorage url, app, skip
 
 	###
 	Generic db configuration method
@@ -351,7 +347,7 @@ class Marie
 	###
 	configureMySQL: (url, app, skip) =>
 		ui.write "Configuring MySQL..."
-		@configureDBWithURL url, app, skip
+		@configureStorage url, app, skip
 	
 	###
 	Generic db configuration method
@@ -361,7 +357,7 @@ class Marie
 	###
 	configurePostgreSQL: (url, app, skip) =>
 		ui.write "Configuring PostgreSQL..."
-		@configureDBWithURL url, app, skip
+		@configureStorage url, app, skip
 
 	###
 	Generic db configuration method
@@ -371,7 +367,7 @@ class Marie
 	###
 	configureRedis: (url, app, skip) =>
 		ui.write "Configuring Redis..."
-		@configureDBWithURL url, app, skip
+		@configureStorage url, app, skip
 
 	###
 	Generic db configuration method
@@ -379,8 +375,8 @@ class Marie
 	@param [App] app
 	@param [Boolean] skip 
 	###
-	configureDBWithURL:(url, app, skip) =>
-		App.configureDBWithURL app, url, (err, app) =>
+	configureStorage:(url, app, skip) =>
+		App.configureStorage app, url, (err, app) =>
 			if err then utils.throwError err 
 			else
 				ui.ok "#{app.storage} database configuration done."
