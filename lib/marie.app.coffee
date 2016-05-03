@@ -301,7 +301,6 @@ class App
 				file = app.file 'package.json'
 				config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 				if key then config = config[key]
-				else config = JSON.stringify config
 				cb null, config
 
 	###

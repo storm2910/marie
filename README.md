@@ -50,19 +50,16 @@ $ marie remove app-id
 
 ```bash
 $ marie app-id list
-```
-
-#### Show app attribute value
-
-```bash
 $ marie app-id list path
 ```
+
 
 ### Show app config
 ```bash
 $ marie app-id list config
 $ marie app-id list config name
 ```
+
 
 #### Show app modules
 
@@ -95,7 +92,7 @@ $ marie app-id list module --frontend
 #### Add a module to an app
 
 ```bash
-$ marie app-id add module bower --save
+$ marie app-id add module gulp --save
 ```
 
 ```bash
@@ -110,7 +107,7 @@ $ marie app-id add module backbone --frontend
 #### Remove a module from an app
 
 ```bash
-$ marie app-id remove module bower --save
+$ marie app-id remove module gulp --save
 ```
 
 ```bash
