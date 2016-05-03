@@ -377,7 +377,6 @@ class Marie
 				ui.ok "#{app.storage} database configuration done."
 				@save app, skip
 
-
 	###
 	If something goes really bad. Stop everything
 	Remove everything and exit process
@@ -429,25 +428,16 @@ class Marie
 			ui.error 'Missing field: app name.'
 			valid = false
 		if cssPreProcessor and not utils.getProcessor cssPreProcessor
-			processors = []
-			for k, v of utils.processors
-				processors.push v.id
 			ui.error 'Invalid css pre-processor argument.'
-			ui.notice "Supported pre-processors: #{processors.join(', ')}"
+			ui.notice "Supported pre-processors: #{utils.processorList().join(', ')}"
 			valid = false
 		if viewEngine and not utils.getEngine viewEngine
-			engines = []
-			for k, v of utils.engines
-				engines.push v.id
 			ui.error 'Invalid view engine argument.'
-			ui.notice "Supported engines: #{engines.join(', ')}"
+			ui.notice "Supported engines: #{utils.engineList().join(', ')}"
 			valid = false
 		if jsCompiler and not utils.getCompiler jsCompiler
-			compilers = []
-			for k, v of utils.compilers
-				compilers.push v.id
 			ui.error 'Invalid JS compiler argument.'
-			ui.notice "Supported compilers: #{compilers.join(', ')}"
+			ui.notice "Supported compilers: #{utils.compilerList().join(', ')}"
 			valid = false
 		preocessor = utils.getProcessor(cssPreProcessor).id or utils.processors.LESS.id
 		engine = utils.getEngine(viewEngine).id or utils.engines.JADE.id

@@ -160,6 +160,15 @@ class Utils
 		return false
 
 	###
+	Get compiler list
+	###
+	compilerList: ->
+		compilers = []
+		for k, v of @compilers
+			compilers.push v.id
+		return compilers
+
+	###
 	Get processor object
 	###
 	getProcessor: (id) ->
@@ -168,12 +177,30 @@ class Utils
 		return false
 
 	###
+	Get processor list
+	###
+	processorList: ->
+		processors = []
+		for k, v of @processors
+			processors.push v.id
+		return processors
+
+	###
 	Get view Engine object
 	###
 	getEngine: (id) ->
 		for k, v of @engines
 			if id == v.id then return v
 		return false
+
+	###
+	Get engine list
+	###
+	engineList: ->
+		engines = []
+		for k, v of @engines
+			engines.push v.id
+		return engines
 
 	###
 	Detect if app is coffee
