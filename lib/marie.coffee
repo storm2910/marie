@@ -102,7 +102,7 @@ class Marie
 			path: utils.path.join @root, id
 			jsCompiler: jsCompiler
 			cssPreProcessor: cssPreProcessor
-			viewEngine: viewEngine or 'jade'
+			viewEngine: viewEngine
 			live: 0
 			storage: utils.storage.DISK.name
 			created: utils.now()
@@ -308,14 +308,12 @@ class Marie
 	@param [Boolean] skip 
 	###
 	configureDB: (app, db, url, skip) ->
-		dbs = 
-			'disk': @configureLocalDisk
-			'mongodb': @configureMongoDb
-			'mysql': @configureMySQL
-			'postgresql': @configurePostgreSQL
-			'redis': @configureRedis
-		if db then app.storage = db
-		dbs[app.storage] url, app, skip
+		switch app.storage
+			when utils.storage.MONGODB.name then @configureMongoDb url, app, skip
+			when utils.storage.MYSQL.name then @configureMySQL url, app, skip
+			when utils.storage.POSTGRESQL.name then @configurePostgreSQL url, app, skip
+			when utils.storage.REDIS.name then @configureRedis url, app, skip
+			else @configureLocalDisk url, app, skip
 
 	###
 	Configure localDisk as the default data storage

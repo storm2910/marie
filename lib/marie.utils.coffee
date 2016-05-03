@@ -54,6 +54,32 @@ class Utils
 		HANDLEBARS:
 			id: 'handlebars'
 			extension: '.handlebars'
+	storage:
+		DISK: 
+			name: 'disk'
+			id: 'localDiskDb'
+			adapter: 'sails-disk'
+			version: 'latest'
+		MONGODB: 
+			name: 'mongodb'
+			id: 'someMongodbServer'
+			adapter: 'sails-mongo'
+			version: '0.12.0'
+		MYSQL: 
+			name: 'mysql'
+			id: 'someMysqlServer'
+			adapter: 'sails-mysql'
+			version: 'latest'
+		POSTGRESQL: 
+			name: 'postgresql'
+			id: 'somePostgresqlServer'
+			adapter: 'sails-postgresql'
+			version: 'latest'
+		REDIS: 
+			name: 'redis'
+			id: 'someRedisServer'
+			adapter: 'sails-redis'
+			version: 'latest'
 	viewDirs: [
 		'/views/modules' 
 		'/views/partials'
@@ -81,32 +107,6 @@ class Utils
 	# 		'/views/partials/partial'
 	# 		'/views/layouts/master'
 	# 	]
-	storage:
-		DISK: 
-			name: 'disk'
-			id: 'localDiskDb'
-			adapter: 'sails-disk'
-			version: 'latest'
-		MONGODB: 
-			name: 'mongodb'
-			id: 'someMongodbServer'
-			adapter: 'sails-mongo'
-			version: '0.12.0'
-		MYSQL: 
-			name: 'mysql'
-			id: 'someMysqlServer'
-			adapter: 'sails-mysql'
-			version: 'latest'
-		POSTGRESQL: 
-			name: 'postgresql'
-			id: 'somePostgresqlServer'
-			adapter: 'sails-postgresql'
-			version: 'latest'
-		REDIS: 
-			name: 'redis'
-			id: 'someRedisServer'
-			adapter: 'sails-redis'
-			version: 'latest'
 
 	###
 	Construct app
