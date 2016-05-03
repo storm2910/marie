@@ -80,33 +80,20 @@ class Utils
 			id: 'someRedisServer'
 			adapter: 'sails-redis'
 			version: 'latest'
-	viewDirs: [
-		'/views/modules' 
-		'/views/partials'
-		'/views/layouts'
-	]
-	views: [
-		'/views/homepage'
-		'/views/403'
-		'/views/404'
-		'/views/500'
-		'/views/partials/partial'
-		'/views/layouts/master'
-	]
-	# views:
-	# 	DIRS: [
-	# 		'/views/modules' 
-	# 		'/views/partials'
-	# 		'/views/layouts'
-	# 	]
-	# 	FILES: [
-	# 		'/views/homepage'
-	# 		'/views/403'
-	# 		'/views/404'
-	# 		'/views/500'
-	# 		'/views/partials/partial'
-	# 		'/views/layouts/master'
-	# 	]
+	views:
+		DIRS: [
+			'/views/modules' 
+			'/views/partials'
+			'/views/layouts'
+		]
+		FILES: [
+			'/views/homepage'
+			'/views/403'
+			'/views/404'
+			'/views/500'
+			'/views/partials/partial'
+			'/views/layouts/master'
+		]
 
 	###
 	Construct app
@@ -345,7 +332,7 @@ class Utils
 			stream = stream.replace /'layout'/gi, layout
 			@fs.writeFileSync config, stream
 		@fs.mkdirsSync app.file dir
-		for vdir in @viewDirs then @fs.mkdirsSync app.file vdir
+		for vdir in @views.DIRS then @fs.mkdirsSync app.file vdir
 		cb()
 
 	###
@@ -354,7 +341,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	generateViews: (engine, app, cb) ->
-		for view in @views
+		for view in @views.FILES
 			sfile = @config "/templates/#{engine.id}#{view}#{engine.extension}"
 			dfile = app.file "#{view}#{engine.extension}"
 			@fs.copySync sfile, dfile
