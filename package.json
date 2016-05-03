@@ -1,7 +1,7 @@
 {
   "name": "marie",
-  "version": "0.1.3",
-  "description": "A Modern Nodejs Application Management and Boilerplate Tool",
+  "version": "1.0.0",
+  "description": "A Modern Nodejs Application Management and Blueprint Tool",
   "main": "index.js",
   "bin": {
     "marie": "bin/marie"
@@ -26,16 +26,27 @@
   },
   "keywords": [
     "sails",
-    "gulp",
+    "grunt",
     "developement",
     "boilerplate",
+    "blueprint",
     "express",
     "stylus",
-    "coffe-script",
+    "sass",
+    "scss",
+    "less",
+    "jade",
+    "ejs",
+    "handlebars",
+    "coffeScript",
     "importer",
     "include",
     "compile",
     "mongo",
+    "mongodb",
+    "mysql",
+    "postgresql",
+    "redis",
     "socket"
   ],
   "homepage": "http://teddyproductions.com/marie"

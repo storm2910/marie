@@ -1,5 +1,5 @@
 - marie
-  add [name]       create new app
+  add [name] [css pre-process] [view template engin]e [jsCompiler]  create new app
   help            display help
   list            show all apps
   log             view log
@@ -15,7 +15,6 @@
   remove module [module] [opt]    remove module from app
   add api [api]                   add api to app
   remove api [api]                remove api from app
-  set storage                     update app database config
-  set frontend-framework          update app frontend framework
+  set db [type] [url]             update app database
 
 - documentation
