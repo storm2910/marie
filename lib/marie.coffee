@@ -101,7 +101,7 @@ class Marie
 			name: name
 			path: utils.path.join @root, id
 			jsCompiler: jsCompiler
-			cssPreProcessor: cssPreProcessor or 'less'
+			cssPreProcessor: cssPreProcessor
 			viewEngine: viewEngine or 'jade'
 			live: 0
 			storage: utils.storage.DISK.name
@@ -195,11 +195,10 @@ class Marie
 	@param [App] 
 	###
 	configureViewEngine: (app) ->
-		engines =
-			'jade': @configureJade
-			'ejs': @configureEJS
-			'handlebars': @configureHandlerbars
-		engines[app.viewEngine.toLowerCase()] app
+		switch app.viewEngine
+			when utils.engines.EJS.id then @configureEJS app
+			when utils.engines.HANDLEBARS.id then @configureHandlerbars app
+			else @configureJade app
 
 	###
 	Configure jade as the default view templating engine
@@ -245,12 +244,10 @@ class Marie
 	@param [App] 
 	###
 	configureCssPreProcessor: (app) ->
-		processors =
-			'less': @configureLess
-			'sass': @configureScss
-			'scss': @configureScss
-			'stylus': @configureStylus
-		processors[app.cssPreProcessor.toLowerCase()] app
+		switch app.cssPreProcessor
+			when utils.processors.SCSS.id then @configureScss app
+			when utils.processors.STYLUS.id then @configureStylus app
+			else @configureLess app
 
 	###
 	Configure less as css pre-processor
@@ -433,23 +430,31 @@ class Marie
 		if not name
 			ui.error 'Missing field: app name.'
 			valid = false
-		if cssPreProcessor and utils.processors.indexOf(cssPreProcessor) < 0
+		if cssPreProcessor and not utils.getProcessor cssPreProcessor
+			processors = []
+			for k, v of utils.processors
+				processors.push v.id
 			ui.error 'Invalid css pre-processor argument.'
-			ui.notice "Supported pre-processors: #{utils.processors.join(', ')}"
+			ui.notice "Supported pre-processors: #{processors.join(', ')}"
 			valid = false
-		if viewEngine and utils.engines.indexOf(viewEngine) < 0
+		if viewEngine and not utils.getEngine viewEngine
+			engines = []
+			for k, v of utils.engines
+				engines.push v.id
 			ui.error 'Invalid view engine argument.'
-			ui.notice "Supported engines: #{utils.engines.join(', ')}"
+			ui.notice "Supported engines: #{engines.join(', ')}"
 			valid = false
-		if jsCompiler and not utils.getCompiler(jsCompiler)
+		if jsCompiler and not utils.getCompiler jsCompiler
 			compilers = []
 			for k, v of utils.compilers
 				compilers.push v.id
 			ui.error 'Invalid JS compiler argument.'
 			ui.notice "Supported compilers: #{compilers.join(', ')}"
 			valid = false
+		preocessor = utils.getProcessor(cssPreProcessor).id or utils.processors.LESS.id
+		engine = utils.getEngine(viewEngine).id or utils.engines.JADE.id
 		compiler = utils.getCompiler(jsCompiler).name or utils.compilers.NATIVE.name
-		if valid then @new name, cssPreProcessor, viewEngine, compiler
+		if valid then @new name, preocessor, engine, compiler
 
 	###
 	Configure `list` app command handler. 

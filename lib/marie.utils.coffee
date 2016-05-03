@@ -34,45 +34,26 @@ class Utils
 			id: '--native'
 			name: 'native'
 			extension: '.js'
-	processors: [
-		'less', 
-		'scss', 
-		'stylus'
-	]
-	processorExt: 
-		less: '.less'
-		scss: '.scss'
-		sass: '.scss'
-		stylus: '.styl'
-	# processors:
-	# 	LESS:
-	# 		id: 'less'
-	# 		extension: '.less'
-	# 	SCSS:
-	# 		id: 'sass'
-	# 		extension: '.scss'
-	# 	STYLUS:
-	# 		id: 'stylus'
-	# 		extension: '.styl'
-	engines: [
-		'ejs'
-		'handlebars'
-		'jade'
-	]
-	engineExt:
-		ejs: '.ejs'
-		jade: '.jade'
-		handlebars: '.handlebars'
-	# engines:
-	# 	EJS:
-	# 		id: 'ejs'
-	# 		extension: '.ejs'
-	# 	JADE:
-	# 		id: 'jade'
-	# 		extension: '.jade'
-	# 	HANDLEBARS:
-	# 		id: 'handlebars'
-	# 		extension: '.handlebars'
+	processors:
+		LESS:
+			id: 'less'
+			extension: '.less'
+		SCSS:
+			id: 'scss'
+			extension: '.scss'
+		STYLUS:
+			id: 'stylus'
+			extension: '.styl'
+	engines:
+		EJS:
+			id: 'ejs'
+			extension: '.ejs'
+		JADE:
+			id: 'jade'
+			extension: '.jade'
+		HANDLEBARS:
+			id: 'handlebars'
+			extension: '.handlebars'
 	viewDirs: [
 		'/views/modules' 
 		'/views/partials'
@@ -183,9 +164,28 @@ class Utils
 	now: ->
 		return Date.now() / 100 | 0
 
-	getCompiler: (jsCompiler) ->
+	###
+	Get compiler object
+	###
+	getCompiler: (name) ->
 		for k, v of @compilers
-			if jsCompiler == v.id or jsCompiler == v.name then return v
+			if name == v.id or name == v.name then return v
+		return false
+
+	###
+	Get processor object
+	###
+	getProcessor: (id) ->
+		for k, v of @processors
+			if id == v.id then return v
+		return false
+
+	###
+	Get view Engine object
+	###
+	getEngine: (id) ->
+		for k, v of @engines
+			if id == v.id then return v
 		return false
 
 	###
@@ -339,9 +339,9 @@ class Utils
 		dir = app.file '/views'
 		@fs.removeSync dir
 		stream = @fs.readFileSync config, @encoding.UTF8
-		for eng in @engines
-			regex = new RegExp "#{eng}", 'gi'
-			stream = stream.replace regex, "#{engine}"
+		for k, eng of @engines
+			regex = new RegExp "#{eng.id}", 'gi'
+			stream = stream.replace regex, "#{engine.id}"
 			stream = stream.replace /'layout'/gi, layout
 			@fs.writeFileSync config, stream
 		@fs.mkdirsSync app.file dir
@@ -354,16 +354,15 @@ class Utils
 	@param [Function] cb callback function
 	###
 	generateViews: (engine, app, cb) ->
-		ext = @engineExt[engine]
 		for view in @views
-			sfile = @config "/templates/#{engine}#{view}#{ext}"
-			dfile = app.file "#{view}#{ext}"
+			sfile = @config "/templates/#{engine.id}#{view}#{engine.extension}"
+			dfile = app.file "#{view}#{engine.extension}"
 			@fs.copySync sfile, dfile
-		master = app.file "/views/layouts/master#{ext}"
+		master = app.file "/views/layouts/master#{engine.extension}"
 		data = @fs.readFileSync master, @encoding.UTF8
 		data = data.replace /\$APP_NAME/gi, app.name
 		@fs.writeFileSync master, data
-		home = app.file "/views/homepage#{ext}"
+		home = app.file "/views/homepage#{engine.extension}"
 		data = @fs.readFileSync home, @encoding.UTF8
 		data = data.replace /\$APP_NAME/gi, app.name
 		@fs.writeFileSync home, data
@@ -375,9 +374,9 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureJadeFor: (app, cb) ->
-		engine = 'jade'
+		engine = @engines.JADE
 		@resetViewEngine engine, false, app, =>
-			@install "#{engine}@1.11.0", '--save-dev', (error, stdout, stderr) =>
+			@install "#{engine.id}@1.11.0", '--save-dev', (error, stdout, stderr) =>
 				@generateViews engine, app, =>
 					cb null, app
 
@@ -387,7 +386,7 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureEJSFor: (app, cb) ->
-		engine = 'ejs'
+		engine = @engines.EJS
 		@resetViewEngine engine, "'layouts/master'", app, =>
 			@generateViews engine, app, =>
 				cb null, app
@@ -398,10 +397,10 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureHandlebarsFor: (app, cb) ->
-		engine = 'handlebars'
-		@install "#{engine}@4.0.5", '--save', (error, stdout, stderr) =>
-			@fs.copySync @config("/templates/#{engine}/views.js"), app.file('/config/views.js'), { clobber: true }
-			@fs.copySync @config("/templates/#{engine}/helpers.js"), app.file('/config/helpers.js'), { clobber: true }
+		engine = @engines.HANDLEBARS
+		@install "#{engine.id}@4.0.5", '--save', (error, stdout, stderr) =>
+			@fs.copySync @config("/templates/#{engine.id}/views.js"), app.file('/config/views.js'), { clobber: true }
+			@fs.copySync @config("/templates/#{engine.id}/helpers.js"), app.file('/config/helpers.js'), { clobber: true }
 			@generateViews engine, app, =>
 				cb null, app
 
@@ -413,11 +412,11 @@ class Utils
 	resetCssPreProcessor: (app, cb) ->
 		for task in @tasks
 			stream = @fs.readFileSync app.file("#{task}.js"), @encoding.UTF8
-			for processor in @processors
+			for k, processor of @processors
 				if task.match /register/
-					regex = new RegExp "#{processor}:dev", 'gi'
+					regex = new RegExp "#{processor.id}:dev", 'gi'
 				else
-					regex = new RegExp "#{processor}", 'gi'
+					regex = new RegExp "#{processor.id}", 'gi'
 				stream = stream.replace regex, ''
 				@fs.writeFileSync app.file("#{task}.js"), stream
 		cb()
@@ -491,17 +490,15 @@ class Utils
 	@param [Function] cb callback function
 	###
 	configureBundlesFor: (app, cb) ->
-		ext = @processorExt[app.cssPreProcessor]
+		processor = @getProcessor app.cssPreProcessor
 		try
 			@fs.removeSync app.file('/assets/styles/importer.less')
 			@fs.removeSync app.file('/assets/styles/bundles')
 		catch e
 			# ...
 		@fs.mkdirSync app.file('/assets/styles/bundles')
-		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), "/** default styles **/"
+		@fs.writeFileSync app.file("/assets/styles/bundles/default#{processor.extension}"), "/** default styles **/"
 		compiler = @getCompiler(app.jsCompiler) or @compilers.NATIVE
-		console.log app.jsCompiler
-		console.log compiler
 		@fs.copySync @config("/templates/#{compiler.id}/app#{compiler.extension}"), app.file("/assets/js/app#{compiler.extension}"), { clobber: true }
 		@fs.copySync @config("/templates/#{compiler.id}/Page#{compiler.extension}"), app.file("/assets/js/Page#{compiler.extension}"), { clobber: true }
 		cb null, app
@@ -536,7 +533,6 @@ class Utils
 		mconfig = @fs.readFileSync mdest, @encoding.UTF8
 		mconfig = mconfig.replace(/'alter'/gi, "'safe'").replace(/\/\/ /gi,'').replace(/connection/gi, '// connection')
 		@fs.writeFileSync mdest, mconfig
-
 		ddest = app.file '/config/env/development.js'
 		pdest = app.file '/config/env/production.js'
 		dconfig = @fs.readFileSync ddest, @encoding.UTF8
