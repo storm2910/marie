@@ -331,7 +331,7 @@ class App
 							file = app.file "#{assets}/#{dir}/.bower.json"
 							config = JSON.parse utils.fs.readFileSync file, utils.encoding.UTF8
 							modules["#{config.name}@#{config.version}"] = "/modules/#{dir}/#{config.main}"
-				cb null, JSON.stringify modules
+				cb null, modules
 
 	###
 	@param [String] id app id
@@ -352,7 +352,7 @@ class App
 						else
 							api = (ctrl.replace /controller|\.js/gi, '').toLowerCase()
 						apis.push api
-				cb null, JSON.stringify apis
+				cb null, apis
 
 	###
 	Remove package to app
