@@ -511,26 +511,26 @@ class Marie
 	Configure `start` app command handler. start app
 	@param [String] arg app id
 	###
-	start: (arg) =>
+	start: (id) =>
 		App.live (err, data) =>
 			if err then utils.throwError err
 			else if data
-				@stop()
-				@_run 'start', arg
+				@stop null, =>
+					@_run 'start', id
 			else
-				return @_run 'start', arg
+				return @_run 'start', id
 
 	###
 	Configure `stop` app command handler. Stops app or stop all apps
 	@param [String?] arg optional app id
 	###
-	stop: (arg) =>
+	stop: (id, cb) =>
 		App.live (err, data) =>
 			if err then utils.throwError err
 			else if data 
 				app = new App data
-				@_stop app
-			else return @_run 'stop', arg
+				@_stop app, cb
+			else return @_run 'stop', id, cb
 
 	###
 	Configure `restart` app command handler. Restarts current live app
@@ -541,8 +541,8 @@ class Marie
 			if err then utils.throwError err
 			else if data
 				app = new App data
-				@_stop app
-				@_start app
+				@_stop app, =>
+					@_start app
 			else
 				if not arg then ui.notice 'No app is live.'
 
@@ -567,31 +567,34 @@ class Marie
 	@param [App] app app to stop
 	@example `_stop app`
 	###
-	_stop: (app) ->
+	_stop: (app, cb) ->
 		ui.write "Stopping #{app.name}..."
 		App.stop app, (err, app) =>
-			if err then utils.throwError err else ui.ok "#{app.name} stopped."
+			if err then utils.throwError err 
+			else 
+				ui.ok "#{app.name} stopped."
+				if cb then cb()
 
 	###
 	Configure system run app method.
 	@param [String] arg 
 	@param [String] cmd command sart/stop/restart
 	###
-	_run: (cmd, arg) ->
+	_run: (cmd, arg, cb) ->
 		if not not arg
 			App.find arg, (err, data) =>
 				if err then utils.throwError err
 				if data
 					app = new App data
 					if cmd.match /^stop/i
-						@_stop app
-						app.stop()
+						@_stop app, =>
+							app.stop()
+							if cb then cb()
 					else if cmd.match /^start/i
-						@_stop app
 						@_start app
 					else if cmd.match /^restart/i
-						@_stop app
-						@_start app
+						@_stop app, =>
+							@_start app
 		else
 			if cmd.match /^stop/i
 				ui.notice 'No app is live.'
