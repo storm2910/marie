@@ -23,13 +23,13 @@ $ marie add "App name" scss jade
 $ marie add "App name" less handlebars --coffee
 ```
 
-Creates a custom [Sails](http://sailsjs.org) application with [Socket.io](http://socket.io), a powerful File Include system for easy bundle, and [Bower](http://bower.io) for managing your frontend modules. Marie takes care of the implemention and configuration of it all, so you can focus on what's really important to you--- building your cool app.
-An app can be created with any combination of any of these css pre-processors, view template engines, javascript compilers and databases:
-Supported css pre-processors: [LESS](http://stylus-lang.com), [SCSS](http://sass-lang.com/documentation/file.SCSS_FOR_SASS_USERS.html), and [Stylus](http://stylus-lang.com)
-Suported view engines: [Jade](http://jade-lang.com), [EJS](http://www.embeddedjs.com), and [Handlebars](http://handlebarsjs.com)
-Supported JS compilers: [CoffeeScript](http://coffeescript.org) and native Javascript
-Supported Databases: [MongoDb](https://www.mongodb.org), [MySql](https://www.mysql.com), [PostgreSql](http://www.postgresql.org) and [Redis](http://redis.io)
-Default configuration: less, jade, nativeJs and disk for local storage
+Creates a custom [Sails](http://sailsjs.org) application with [Socket.io](http://socket.io), a built-in file include system for easy bundle, and [Bower](http://bower.io) for managing your frontend modules. Marie takes care of the implemention and configuration of it all, so you can focus on what's really important to you--- building your app that's going to change the world!  
+An app can be created with any combination of any of these css pre-processors, view template engines, javascript compilers and databases. 
+Supported css pre-processors: [LESS](http://stylus-lang.com), [SCSS](http://sass-lang.com/documentation/file.SCSS_FOR_SASS_USERS.html), and [Stylus](http://stylus-lang.com). 
+Suported view engines: [Jade](http://jade-lang.com), [EJS](http://www.embeddedjs.com), and [Handlebars](http://handlebarsjs.com). 
+Supported JS compilers: [CoffeeScript](http://coffeescript.org) and native Javascript. 
+Supported Databases: [MongoDb](https://www.mongodb.org), [MySql](https://www.mysql.com), [PostgreSql](http://www.postgresql.org) and [Redis](http://redis.io). 
+Default configuration: less, jade, nativeJs and disk for local storage.
 ## Application Management
 
 #### Start an app
