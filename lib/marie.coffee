@@ -100,7 +100,7 @@ class Marie
 			id: id
 			name: name
 			path: utils.path.join @root, id
-			jsCompiler: jsCompiler or 'native'
+			jsCompiler: jsCompiler
 			cssPreProcessor: cssPreProcessor or 'less'
 			viewEngine: viewEngine or 'jade'
 			live: 0
@@ -317,7 +317,7 @@ class Marie
 			'mysql': @configureMySQL
 			'postgresql': @configurePostgreSQL
 			'redis': @configureRedis
-		app.storage = db
+		if db then app.storage = db
 		dbs[app.storage] url, app, skip
 
 	###
@@ -441,14 +441,14 @@ class Marie
 			ui.error 'Invalid view engine argument.'
 			ui.notice "Supported engines: #{utils.engines.join(', ')}"
 			valid = false
-		if jsCompiler and not utils.compilers[jsCompiler]
+		if jsCompiler and not utils.getCompiler(jsCompiler)
 			compilers = []
-			for key of utils.compilers
-				compilers.push key
+			for k, v of utils.compilers
+				compilers.push v.id
 			ui.error 'Invalid JS compiler argument.'
 			ui.notice "Supported compilers: #{compilers.join(', ')}"
 			valid = false
-		compiler = utils.compilers[jsCompiler] or utils.compilers['--native']
+		compiler = utils.getCompiler(jsCompiler).name or utils.compilers.NATIVE.name
 		if valid then @new name, cssPreProcessor, viewEngine, compiler
 
 	###

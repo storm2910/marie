@@ -26,8 +26,14 @@ class Utils
 		'/tasks/config/copy'
 	]
 	compilers:
-		'--coffee': 'CoffeeScript'
-		'--native': 'native'
+		COFFEE:
+			id: '--coffee'
+			name: 'CoffeeScript'
+			extension: '.coffee'
+		NATIVE:
+			id: '--native'
+			name: 'native'
+			extension: '.js'
 	processors: [
 		'less', 
 		'scss', 
@@ -38,6 +44,16 @@ class Utils
 		scss: '.scss'
 		sass: '.scss'
 		stylus: '.styl'
+	# processors:
+	# 	LESS:
+	# 		id: 'less'
+	# 		extension: '.less'
+	# 	SCSS:
+	# 		id: 'sass'
+	# 		extension: '.scss'
+	# 	STYLUS:
+	# 		id: 'stylus'
+	# 		extension: '.styl'
 	engines: [
 		'ejs'
 		'handlebars'
@@ -47,6 +63,16 @@ class Utils
 		ejs: '.ejs'
 		jade: '.jade'
 		handlebars: '.handlebars'
+	# engines:
+	# 	EJS:
+	# 		id: 'ejs'
+	# 		extension: '.ejs'
+	# 	JADE:
+	# 		id: 'jade'
+	# 		extension: '.jade'
+	# 	HANDLEBARS:
+	# 		id: 'handlebars'
+	# 		extension: '.handlebars'
 	viewDirs: [
 		'/views/modules' 
 		'/views/partials'
@@ -60,6 +86,20 @@ class Utils
 		'/views/partials/partial'
 		'/views/layouts/master'
 	]
+	# views:
+	# 	DIRS: [
+	# 		'/views/modules' 
+	# 		'/views/partials'
+	# 		'/views/layouts'
+	# 	]
+	# 	FILES: [
+	# 		'/views/homepage'
+	# 		'/views/403'
+	# 		'/views/404'
+	# 		'/views/500'
+	# 		'/views/partials/partial'
+	# 		'/views/layouts/master'
+	# 	]
 	storage:
 		DISK: 
 			name: 'disk'
@@ -143,12 +183,17 @@ class Utils
 	now: ->
 		return Date.now() / 100 | 0
 
+	getCompiler: (jsCompiler) ->
+		for k, v of @compilers
+			if jsCompiler == v.id or jsCompiler == v.name then return v
+		return false
+
 	###
 	Detect if app is coffee
 	@param [App] app app to install apis for
 	###
 	isCoffee: (app) ->
-		return  app.jsCompiler == @compilers['--coffee']
+		return  app.jsCompiler == @compilers.COFFEE.name
 
 	###
 	configure id
@@ -207,7 +252,7 @@ class Utils
 	installApi: (api, app, cb) ->
 		api = @trim api.toLowerCase()
 		if @isCoffee(app)
-			@exe 'sails', ['generate', 'api', api, '--coffee'], cb
+			@exe 'sails', ['generate', 'api', api, @compilers.COFFEE.id], cb
 		else
 			@exe 'sails', ['generate', 'api', api], cb
 
@@ -454,14 +499,11 @@ class Utils
 			# ...
 		@fs.mkdirSync app.file('/assets/styles/bundles')
 		@fs.writeFileSync app.file("/assets/styles/bundles/default#{ext}"), "/** default styles **/"
-		if @isCoffee(app)
-			tpl = '--coffee'
-			ext = '.coffee'
-		else
-			tpl = '--native'
-			ext = '.js'
-		@fs.copySync @config("/templates/#{tpl}/app#{ext}"), app.file("/assets/js/app#{ext}"), { clobber: true }
-		@fs.copySync @config("/templates/#{tpl}/Page#{ext}"), app.file("/assets/js/Page#{ext}"), { clobber: true }
+		compiler = @getCompiler(app.jsCompiler) or @compilers.NATIVE
+		console.log app.jsCompiler
+		console.log compiler
+		@fs.copySync @config("/templates/#{compiler.id}/app#{compiler.extension}"), app.file("/assets/js/app#{compiler.extension}"), { clobber: true }
+		@fs.copySync @config("/templates/#{compiler.id}/Page#{compiler.extension}"), app.file("/assets/js/Page#{compiler.extension}"), { clobber: true }
 		cb null, app
 
 	###
