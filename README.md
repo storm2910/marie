@@ -17,7 +17,7 @@ $ npm install marie -g
 #### Create new App
 
 ```bash
-$ marie add app-name
+$ marie add app-id
 $ marie add "App name"
 $ marie add "App name" scss jade
 $ marie add "App name" less handlebars --coffee
@@ -29,110 +29,110 @@ Supported css pre-processors: [LESS](http://stylus-lang.com), [SCSS](http://sass
 Suported view engines: [Jade](http://jade-lang.com), [EJS](http://www.embeddedjs.com), and [Handlebars](http://handlebarsjs.com)
 Supported JS compilers: [CoffeeScript](http://coffeescript.org) and native Javascript
 Supported Databases: [MongoDb](https://www.mongodb.org), [MySql](https://www.mysql.com), [PostgreSql](http://www.postgresql.org) and [Redis](http://redis.io)
-
+Default configuration: less, jade, nativeJs and disk for local storage
 ## Application Management
 
 #### Start an app
 
 ```bash
-$ marie start app-name
+$ marie start app-id
 ```
 
 
 #### Delete an app
 
 ```bash
-$ marie remove app-name
+$ marie remove app-id
 ```
 
 
 #### Show app attributes
 
 ```bash
-$ marie app-name list
+$ marie app-id list
 ```
 
 #### Show app attribute value
 
 ```bash
-$ marie app-name list path
+$ marie app-id list path
 ```
 
 ### Show app config
 ```bash
-$ marie app-name list config
-$ marie app-name list config name
+$ marie app-id list config
+$ marie app-id list config name
 ```
 
 #### Show app modules
 
 ```bash
-$ marie app-name list module
+$ marie app-id list module
 ```
 
 
 #### Show 'save' app modules
 
 ```bash
-$ marie app-name list module --save
+$ marie app-id list module --save
 ```
 
 
 #### Show 'dev' app modules
 
 ```bash
-$ marie app-name list module --dev
+$ marie app-id list module --dev
 ```
 
 
 #### Show 'frontend' app modules
 
 ```bash
-$ marie app-name list module --frontend
+$ marie app-id list module --frontend
 ```
 
 
 #### Add a module to an app
 
 ```bash
-$ marie app-name add module bower --save
+$ marie app-id add module bower --save
 ```
 
 ```bash
-$ marie app-name add module gulp --dev
+$ marie app-id add module gulp --dev
 ```
 
 ```bash
-$ marie app-name add module backbone --frontend
+$ marie app-id add module backbone --frontend
 ```
 
 
 #### Remove a module from an app
 
 ```bash
-$ marie app-name remove module bower --save
+$ marie app-id remove module bower --save
 ```
 
 ```bash
-$ marie app-name remove module gulp --dev
+$ marie app-id remove module gulp --dev
 ```
 
 ```bash
-$ marie app-name remove module backbone --frontend
+$ marie app-id remove module backbone --frontend
 ```
 
 
 #### Add an Api to an app
 
 ```bash
-$ marie app-name add api post
+$ marie app-id add api post
 ```
 
 
 #### Remove an Api from an app
 
 ```bash
-$ marie app-name remove api post
+$ marie app-id remove api post
 ```
 
 
@@ -141,16 +141,16 @@ Supported Databases: [MongoDb](https://www.mongodb.org), [MySql](https://www.mys
 Sails/Waterline Adapters: [MongoDb](https://github.com/balderdashy/sails-mongo), [MySql](https://github.com/balderdashy/sails-mysql), [PostgreSql](https://github.com/balderdashy/sails-postgresql) and [Redis](https://github.com/balderdashy/sails-redis)
 
 ```bash
-$ marie app-name set db disk
-$ marie app-name set db mongodb some.mongodb.db.url
-$ marie app-name set db mysql some.mysql.db.url
-$ marie app-name set db postgresql some.postgresql.db.url
-$ marie app-name set db redis some.redis.db.url
+$ marie app-id set db disk
+$ marie app-id set db mongodb some.mongodb.db.url
+$ marie app-id set db mysql some.mysql.db.url
+$ marie app-id set db postgresql some.postgresql.db.url
+$ marie app-id set db redis some.redis.db.url
 ```
 Then add apis that correspond to your database collecions or tables. For example, to view data from the 'post' collection or table of that database:
 
 ```bash
-$ marie app-name add api post
+$ marie app-id add api post
 ```
 Then in your browser, navigate to http://your-localhost-or-host-url/post
 
@@ -192,11 +192,28 @@ $ marie version
 ```
 
 
+#### Display log
+
+```bash
+$ marie log
+```
+
+
+#### Clear log
+
+```bash
+$ marie log clear
+```
+
+
 #### Display help
 
 ```bash
 $ marie help
 ```
 
+
+## GUI Clients
+Mac OSX desktop app coming soon.
 
 

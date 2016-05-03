@@ -413,9 +413,12 @@ class Marie
 	###
 	onSave: (app) ->
 		ui.notice "#{app.name} was successfully created."
-		ui.notice "Id: #{app.id}"
-		ui.notice "Path: #{app.path}"
-		ui.notice "Done."
+		ui.notice "app-id: #{app.id}"
+		ui.notice "Run `marie start #{app.id}` to start app."
+		ui.notice "Run `marie list #{app.id}` to view app."
+		# ui.notice "Id: #{app.id}"
+		# ui.notice "Path: #{app.path}"
+		# ui.notice "Done."
 
 	###
 	Configure `add` app method. Creates new app
@@ -464,8 +467,7 @@ class Marie
 					else
 						app = new App data
 						for k of app
-							_k = k.toLowerCase()
-							if key is _k then ui.notice app[k]
+							if k.toLowerCase() == key.toLowerCase() then ui.notice app[k]
 				else console.log data
 
 	###

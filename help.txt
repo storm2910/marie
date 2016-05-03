@@ -1,20 +1,20 @@
 - marie
-  add [name] [css pre-process] [view template engin]e [jsCompiler]  create new app
-  help            display help
-  list            show all apps
-  log             view log
-  live            show live app
-  remove [id]    delete app
-  restart         restart live app
-  start [id]     start app
-  stop [id]      stop app
+  add [name or id] [css pre-process] [view template engin]e [jsCompiler]  create new app
+  help                          display help
+  list                          show all apps
+  log                           view log
+  live                          show live app
+  remove [app-id]               delete app
+  restart                       restart live app
+  start [app-id]                start app
+  stop                          stop live app
 
-- [app]
-  list [attr]                     show app [attribute]
-  add module [module] [opt]       add module to app
-  remove module [module] [opt]    remove module from app
-  add api [api]                   add api to app
-  remove api [api]                remove api from app
-  set db [type] [url]             update app database
+- marie [app-id]
+  list [attr]                   show app [attribute]
+  add module [module] [opt]     add module to app
+  remove module [module] [opt]  remove module from app
+  add api [api]                 add api to app
+  remove api [api]              remove api from app
+  set db [type] [url]           update app database
 
 - documentation
