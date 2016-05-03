@@ -203,6 +203,15 @@ class Utils
 		return engines
 
 	###
+	Get engine list
+	###
+	storageList: ->
+		engines = []
+		for k, v of @storage
+			engines.push v.name
+		return engines
+
+	###
 	Detect if app is coffee
 	@param [App] app app to install apis for
 	###

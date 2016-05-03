@@ -308,6 +308,7 @@ class Marie
 	@param [Boolean] skip 
 	###
 	configureDB: (app, db, url, skip) ->
+		if db then app.storage = db
 		switch app.storage
 			when utils.storage.MONGODB.name then @configureMongoDb url, app, skip
 			when utils.storage.MYSQL.name then @configureMySQL url, app, skip
@@ -725,13 +726,17 @@ class Marie
 					@app = new App data
 					if key.match /db/i
 						if not not opt
-							if opt.toLowerCase() == 'disk'
-								@configureDB @app, opt, null, true
-							else
-								if not not value
-									@configureDB @app, opt, value, true
+							if utils.storage[opt.toUpperCase()]
+								if opt.toLowerCase() == 'disk'
+									@configureDB @app, opt, null, true
 								else
-									@missingArgHandler()
+									if not not value
+										@configureDB @app, opt, value, true
+									else
+										@missingArgHandler()
+							else
+								ui.error 'Invalid storage argument.'
+								ui.notice "Supported databases: #{utils.storageList().join(', ')}"
 						else
 							@missingArgHandler()
 					else
