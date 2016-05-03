@@ -14,7 +14,6 @@ class Utils
 	exe: require('child_process').execFile
 	fs: require 'fs'
 	path: require 'path'
-	prompt: require 'prompt'
 	root: __dirname.replace '/marie/lib', '/marie'
 	spawn: require('child_process').spawn
 	spawnSync: require('child_process').spawnSync
@@ -100,9 +99,11 @@ class Utils
 	###
 	constructor: ->
 		@configureProcess()
-		@configurePrompt()
 		@configureFs()
 
+	###
+	configure process
+	###
 	configureProcess: ->
 		process.on 'uncaughtException', (err) ->
 			console.log err.stack
@@ -120,12 +121,6 @@ class Utils
 	###
 	configureFs: ->
 		@fs = require 'fs-extra'
-
-	###
-	Configure the prompt module
-	###
-	configurePrompt: ->
-		@prompt.message = null
 
 	###
 	Configure system default error handler

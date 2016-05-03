@@ -144,7 +144,7 @@ class Marie
 				if isSails
 					utils.exe 'sails', ['generate', 'new', @app.id], (error, stdout, stderr) =>
 						if error
-							utils.throwError error
+							@throwFatalError error
 						else
 							ui.ok 'Sails configuration done.'
 							process.chdir @app.path
@@ -165,7 +165,7 @@ class Marie
 	configureTasManager: (app) ->
 		ui.write 'Configuring Grunt...'
 		App.configureTasManager app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			if app 
 				ui.ok 'Grunt configuration done.'
 				@configureJsCompiler app
@@ -185,7 +185,7 @@ class Marie
 	configureCoffeeScript: (app) =>
 		ui.write 'Configuring CoffeeScript...'
 		App.configureCoffeeScript app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else 
 				ui.ok 'CoffeeScript configuration done.'
 				@configureViewEngine app
@@ -208,7 +208,7 @@ class Marie
 	configureJade: (app) =>
 		ui.write 'Configuring Jade...'
 		App.configureJade app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else 
 				ui.ok 'Jade configuration done.'
 				@configureCssPreProcessor app
@@ -221,7 +221,7 @@ class Marie
 	configureEJS: (app) =>
 		ui.write 'Configuring EJs...'
 		App.configureEJS app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else 
 				ui.ok 'EJs configuration done.'
 				@configureCssPreProcessor app
@@ -234,7 +234,7 @@ class Marie
 	configureHandlerbars: (app) =>
 		ui.write 'Configuring Handlebars...'
 		App.configureHandlebars app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else 
 				ui.ok 'Handlebars configuration done.'
 				@configureCssPreProcessor app
@@ -256,7 +256,7 @@ class Marie
 	configureLess:(app) =>
 		ui.write 'Configuring Less...'
 		App.configureLess app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else
 				ui.ok 'Less configuration done.'
 				@configureBundles app
@@ -268,7 +268,7 @@ class Marie
 	configureScss:(app) =>
 		ui.write 'Configuring Sass...'
 		App.configureScss app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else
 				ui.ok 'Sass configuration done.'
 				@configureBundles app
@@ -280,7 +280,7 @@ class Marie
 	configureStylus:(app) =>
 		ui.write 'Configuring Stylus...'
 		App.configureStylus app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else
 				ui.ok 'Stylus configuration done.'
 				@configureBundles app
@@ -293,7 +293,7 @@ class Marie
 	configureBundles: (app, skip) ->
 		ui.ok "configure bundles"
 		App.configureBundles app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else
 				ui.ok 'Frontend configuration done.'
 				if not not skip
@@ -399,7 +399,8 @@ class Marie
 	save: (app, skip) ->
 		if not not skip
 			app.save (err, app) =>
-				@restart()
+				if err then utils.throwError err 
+				else @restart()
 			return false
 		else
 			app.add (err, app) =>
