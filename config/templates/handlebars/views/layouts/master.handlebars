@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {{#if title}}
+    <title>{{title}}</title>
+    {{else}}
+    <title>$APP_NAME</title>
+    {{/if}}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {{!-- head --}}
+    {{!-- topStyles --}}
+    {{stylesheet '/styles/bundles/default.css'}}
+    {{!-- topSripts --}}
+  </head>
+
+  <body>
+    {{{ body }}}
+    {{!-- bottomScript --}}
+    {{script '/js/dependencies/sails.io.js, /js/app.js'}}
+  </body>
+</html>

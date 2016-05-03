@@ -66,7 +66,13 @@ class Marie
 	route: ->
 		len = @args.length - 1
 		route = @args[2]
-		if @routes[route]?
+		if route == 'add'
+			name = @args[3]
+			cssPreProcessor = @args[4]
+			viewEngine = @args[5]
+			jsCompiler = @args[6]
+			@add name, cssPreProcessor, viewEngine, jsCompiler
+		else if @routes[route]?
 			arg = @args[3] or null
 			opt = @args[4] or null
 			@routes[route] arg, opt
@@ -83,143 +89,211 @@ class Marie
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
-	@param [String] app app name
+	@param [String] name app name
+	@param [String] cssPreProcessor app cssPreProcessor
+	@param [String] viewEngine app viewEngine
+	@param [String] jsCompiler app compiler
 	###
-	new: (app) ->
-		path = utils.path.join @root, app
-		utils.fs.stat path, (err, stats) =>
+	new: (name, cssPreProcessor, viewEngine, jsCompiler) ->
+		id = utils.configureId name
+		config =
+			id: id
+			name: name
+			path: utils.path.join @root, id
+			jsCompiler: jsCompiler
+			cssPreProcessor: cssPreProcessor
+			viewEngine: viewEngine
+			live: 0
+			storage: utils.storage.DISK.name
+			created: utils.now()
+			lastActive: null
+			pid: null
+		utils.fs.stat config.path, (err, stats) =>
 			if err
-				App.find app, (err, exists) =>
+				App.find config.id, (err, exists) =>
 					if not exists
-						ui.header 'Creating', app
-						@app = new App
-							name: app 
-							path: path
-							cssProcessor: 'stylus'
-							templateEngine: 'jade'
-							created: new Date 
-						@generateFiles()
+						ui.header 'Creating', config.name
+						@app = new App config
+						@configureSails()
 					else 
 						ui.notice "#{exists.name} already exists."
 						ui.notice "Path: #{exists.path}"
 						ui.notice "Name Suggestion: #{exists.name}-2"
 			else 
-				ui.notice "#{app} already exists."
-				ui.notice "Path: #{path}"
-				ui.notice "Name Suggestion: #{app}-2"
+				ui.notice "#{config.name} already exists."
+				ui.notice "Path: #{config.path}"
+				ui.notice "Name Suggestion: #{config.name}-2"
 
 	###
 	Confgiure the default express/sails application framework
 	will try to install sails if not already installed. 
-	@exmaple `npm install sails -g`
 	###
-	generateFiles: ->
+	configureSails: ->
 		ui.write 'Configuring Sails...'
-		utils.exe 'sails', ['generate', 'new', @app.name], (error, stdout, stderr) =>
+		utils.exe 'sails', ['--version', @app.id], (error, stdout, stderr) =>
 			if error
-				utils.exe 'npm', ['install', 'sails', '-g'], (error, stdout, stderr) =>
+				utils.exe 'npm', ['install', "sails@#{utils.sailsVersion}", '-g'], (error, stdout, stderr) =>
 					if error 
 						ui.error 'An error occured.'
-						ui.notice "Run `sudo npm install sails -g` then try again."
+						ui.notice "Run `sudo npm install sails@#{utils.sailsVersion} -g` then try again."
 					else
 						@configureSails()
 			else
-				ui.ok 'Sails configuration done.'
-				process.chdir @app.path
-				@configureTasManager @app
+				version = utils.trim stdout
+				isSails = version == utils.sailsVersion
+				if isSails
+					utils.exe 'sails', ['generate', 'new', @app.id], (error, stdout, stderr) =>
+						if error
+							@throwFatalError error
+						else
+							ui.ok 'Sails configuration done.'
+							process.chdir @app.path
+							@configureTasManager @app
+				else
+					utils.exe 'npm', ['uninstall', 'sails', '-g'], (error, stdout, stderr) =>
+						if error 
+							utils.throwError error
+						else
+							@configureSails()
 
 	###
 	Configure grunt as the default task manager
-	Also configure coffee files importer module + setup for assets coffee files in `/assets/js`
+	Also configure coffee files importer module
+	Setup for assets coffee files in `/assets/js`
 	@param [App] 
-	@example #import User
-	@example #import Page.coffee
 	###
 	configureTasManager: (app) ->
 		ui.write 'Configuring Grunt...'
 		App.configureTasManager app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			if app 
 				ui.ok 'Grunt configuration done.'
-				@configureCoffeeScript app
+				@configureJsCompiler app
+
+	###
+	Configure app js Compiler
+	@param [App] 
+	###
+	configureJsCompiler: (app) ->
+		if utils.isCoffee(app) then @configureCoffeeScript app
+		else @configureViewEngine app
 
 	###
 	Configure coffeScript as the default js compiler
 	@param [App] 
 	###
-	configureCoffeeScript: (app) ->
+	configureCoffeeScript: (app) =>
 		ui.write 'Configuring CoffeeScript...'
 		App.configureCoffeeScript app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else 
 				ui.ok 'CoffeeScript configuration done.'
-				@configureJade app
+				@configureViewEngine app
+
+	###
+	Configure app template engine
+	@param [App] 
+	###
+	configureViewEngine: (app) ->
+		switch app.viewEngine
+			when utils.engines.EJS.id then @configureEJS app
+			when utils.engines.HANDLEBARS.id then @configureHandlerbars app
+			else @configureJade app
 
 	###
 	Configure jade as the default view templating engine
 	Disable `ejs` + add the default jade template files
 	@param [App] 
-	@example /views/partials/partial.jade
 	###
-	configureJade: (app) ->
+	configureJade: (app) =>
 		ui.write 'Configuring Jade...'
 		App.configureJade app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else 
 				ui.ok 'Jade configuration done.'
-				@configureStylus app
+				@configureCssPreProcessor app
 
 	###
-	Configure stylus as the default css pre-processor
+	Configure jade as the default view templating engine
+	Disable `ejs` + add the default jade template files
 	@param [App] 
 	###
-	configureStylus:(app) ->
+	configureEJS: (app) =>
+		ui.write 'Configuring EJs...'
+		App.configureEJS app, (err, app) =>
+			if err then @throwFatalError err 
+			else 
+				ui.ok 'EJs configuration done.'
+				@configureCssPreProcessor app
+
+	###
+	Configure jade as the default view templating engine
+	Disable `ejs` + add the default jade template files
+	@param [App] 
+	###
+	configureHandlerbars: (app) =>
+		ui.write 'Configuring Handlebars...'
+		App.configureHandlebars app, (err, app) =>
+			if err then @throwFatalError err 
+			else 
+				ui.ok 'Handlebars configuration done.'
+				@configureCssPreProcessor app
+
+	###
+	Configure css pre-processor
+	@param [App] 
+	###
+	configureCssPreProcessor: (app) ->
+		switch app.cssPreProcessor
+			when utils.processors.SCSS.id then @configureScss app
+			when utils.processors.STYLUS.id then @configureStylus app
+			else @configureLess app
+
+	###
+	Configure less as css pre-processor
+	@param [App] 
+	###
+	configureLess:(app) =>
+		ui.write 'Configuring Less...'
+		App.configureLess app, (err, app) =>
+			if err then @throwFatalError err 
+			else
+				ui.ok 'Less configuration done.'
+				@configureBundles app
+
+	###
+	Configure less as css pre-processor
+	@param [App] 
+	###
+	configureScss:(app) =>
+		ui.write 'Configuring Sass...'
+		App.configureScss app, (err, app) =>
+			if err then @throwFatalError err 
+			else
+				ui.ok 'Sass configuration done.'
+				@configureBundles app
+
+	###
+	Configure stylus as css pre-processor
+	@param [App] 
+	###
+	configureStylus:(app) =>
 		ui.write 'Configuring Stylus...'
 		App.configureStylus app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else
 				ui.ok 'Stylus configuration done.'
-				@configureFrontendFramework app
-
-	###
-	Frontend framework form prompt configuration
-	Let you choose betwen bootstrap and foundation
-	@param [App] 
-	@example foundation/bootstrap
-	###
-	configureFrontendFramework: (app, skip) ->
-		ui.warn 'Choose your style framework.'
-		utils.prompt.start()
-		ui.line()
-		input = ' Foundation/Bootstrap/None'
-		utils.prompt.get [input], (err, result) =>
-			ui.line()
-			if result[input].match(/^f/i)
-				@configureFramework app, utils.framework.FOUNDATION, skip
-			else if result[input].match(/^b/i)
-				@configureFramework app, utils.framework.BOOTSTRAP, skip
-			else
-				@configureFramework app, null, skip
-			
-	###
-	Configure foundation or bootstrap as the default frontend framewok
-	@param [App] 
-	@param [String] framework bootstrap or foundation
-	###
-	configureFramework: (app, framework, skip) ->
-		App.configureFrontendFramework app, framework, (err, app) =>
-			if err then utils.throwError err 
-			else @configureBundles app, skip
+				@configureBundles app
 
 	###
 	Configure default bundle files
 	@param [App] 
-	@example /assets/styles/bundles/default.styl
-	@example /assets/styles/bundles/admin.styl
+	@param [Boolean] skip 
 	###
 	configureBundles: (app, skip) ->
+		ui.ok "configure bundles"
 		App.configureBundles app, (err, app) =>
-			if err then utils.throwError err 
+			if err then @throwFatalError err 
 			else
 				ui.ok 'Frontend configuration done.'
 				if not not skip
@@ -229,136 +303,91 @@ class Marie
 				else @configureDB app
 
 	###
-	Data storage form prompt configuration
 	Let you choose between localDisk and a mongo database
 	@param [App] 
-	@example localDisk/mongo
+	@param [Boolean] skip 
 	###
-	configureDB: (app, skip) ->
-		ui.warn 'Choose your database.'
-		utils.prompt.start()
-		input = ' Mongo/Disk'
-		ui.line()
-		utils.prompt.get [input], (err, result) =>
-			ui.line()
-			if result[input].match(/^m/i) then @configureMongoDB(app, skip) else @configureNativeDB(app, skip)
+	configureDB: (app, db, url, skip) ->
+		if db then app.storage = db
+		switch app.storage
+			when utils.storage.MONGODB.name then @configureMongoDb url, app, skip
+			when utils.storage.MYSQL.name then @configureMySQL url, app, skip
+			when utils.storage.POSTGRESQL.name then @configurePostgreSQL url, app, skip
+			when utils.storage.REDIS.name then @configureRedis url, app, skip
+			else @configureLocalDisk url, app, skip
 
 	###
 	Configure localDisk as the default data storage
 	@param [App] 
+	@param [Boolean] skip 
 	###
-	configureNativeDB: (app, skip) ->
-		App.configureNativeDB app, (err, app) =>
+	configureLocalDisk: (url, app, skip) =>
+		ui.write "Configuring Local Disk..."
+		@configureStorage null, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureMongoDb: (url, app, skip) =>
+		ui.write "Configuring MongoDb..."
+		@configureStorage url, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureMySQL: (url, app, skip) =>
+		ui.write "Configuring MySQL..."
+		@configureStorage url, app, skip
+	
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configurePostgreSQL: (url, app, skip) =>
+		ui.write "Configuring PostgreSQL..."
+		@configureStorage url, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureRedis: (url, app, skip) =>
+		ui.write "Configuring Redis..."
+		@configureStorage url, app, skip
+
+	###
+	Generic db configuration method
+	@param [String] url 
+	@param [App] app
+	@param [Boolean] skip 
+	###
+	configureStorage:(url, app, skip) =>
+		App.configureStorage app, url, (err, app) =>
 			if err then utils.throwError err 
 			else
-				ui.ok "Local disk database configuration done."
-				@configureAPIs app, skip
+				ui.ok "#{app.storage} database configuration done."
+				@save app, skip
 
 	###
-	Configure mongoDB as the default data storage and choose between local or remote mongo
-	@param [App] 
-	###
-	configureMongoDB: (app, skip) ->
-		ui.warn 'Configure MongoDB database.'
-		input = [' Local/Remote']
-		ui.line()
-		utils.prompt.get input, (err, result) =>
-			ui.line()
-			if result[input].match(/^r/i) then @configureRemoteMongoDB(app, skip) else @configureLocalMongoDB(app, skip)
-
-	###
-	Local mongodb database configuration
-	@param [App] 
-	###
-	configureLocalMongoDB: (app, skip) ->
-		ui.write "Configuring MongoDB..."
-		App.configureLocalMongoDB app, (err, app) =>
-			if err then utils.throwError err 
-			else
-				ui.ok "Local MongoDB database configuration done."
-				@configureAPIs app, skip
-
-	###
-	Remote mongodb database configuration
-	@param [App] 
-	###
-	configureRemoteMongoDB: (app, skip) ->
-		input = [' mongodb uri']
-		utils.prompt.get input, (err, result) =>
-			ui.line()
-			uri = utils.trim result[input]
-			if uri.match(/\:|@/g)
-				ui.write "Configuring MongoDB..."
-				App.configureMongoDB app, uri, (err, app) =>
-					if err then utils.throwError err 
-					else
-						ui.ok "MongoDB database configuration done."
-						@configureAPIs app, skip
-			else
-				@configureRemoteMongoDBWithConfig app, skip
-
-	###
-	Remote mongodb database configuration
-	@param [App] 
-	###
-	configureRemoteMongoDBWithConfig: (app, skip) ->
-		inputs = [' host', ' port', ' user', ' password', ' database']
-		utils.prompt.get inputs, (err, result) =>
-			ui.line()
-			config =
-				host: result[' host'] or ''
-				port: result[' port'] or ''
-				user: result[' user'] or ''
-				password: result[' password'] or ''
-				database: result[' database'] or ''
-			ui.write "Configuring MongoDB..."
-			App.configureMongoDB app, config, (err, app) =>
-				if err then utils.throwError err 
-				else
-					ui.ok "MongoDB database configuration done."
-					@configureAPIs app, skip
-
-	###
-	Configure default app APIs
-	A `user` api will create both a user model and a user conftroller
-	file in the api directory
-	@param [App] 
-	@example user, article, image
-	@example /api/models/User.coffee
-	@example /api/controllers/UserController.coffee
-	###
-	configureAPIs: (app, skip) ->
-		if not not skip
-			app.save (err, app) =>
-				@restart()
-			return false
-		else
-			ui.warn 'Configure APIs.'
-			utils.prompt.start()
-			input = ' APIs'
-			ui.line()
-			utils.prompt.get [input], (err, result) =>
-				ui.line()
-				res = if result[input] then utils.trim(result[input]) else null
-				if not not res and res.length > 0
-					apis = res.split ','
-					App.configureApis app, apis, (err, app) =>
-						if err then utils.throwError err 
-						else 
-							ui.ok 'API configuration done.'
-							@save app
-				else
-					@save app
-
-	###
-	If something goes really bad. Stop everything, remove everything and exit process
+	If something goes really bad. Stop everything
+	Remove everything and exit process
 	@param [Object, String] error 
 	###
 	throwFatalError: (error) ->
 		utils.fs.stat @app.path, (err, stats) =>
 			if not err
 				utils.fs.removeSync @app.path
-				App.remove @app.name
+				App.remove @app.id
 				utils.throwError error
 			else
 				utils.throwError error
@@ -366,71 +395,69 @@ class Marie
 	###
 	Save app to marie database
 	@param [App] 
-	@example marie list some-app
 	###
-	save: (app) ->
-		@endTime = new Date 
-		app.add (err, app) =>
-			if err then @throwFatalError err
-			else
-				ui.ok "#{app.name} was successfully added."
-		total = (@endTime - @app.created) / 1000
-		if total < 60 
-			@initTime = "#{Math.round(total)} seconds" 
+	save: (app, skip) ->
+		if not not skip
+			app.save (err, app) =>
+				if err then utils.throwError err 
+				else @restart()
+			return false
 		else
-			@initTime = "#{Math.round(total / 60)} minutes #{Math.round(total % 60)} seconds"
-		ui.notice "Path: #{app.path}"
-		ui.notice "Creation Time: #{@initTime}"
-		@onSave()
+			app.add (err, app) =>
+				if err then @throwFatalError err
+				else @onSave app
 
 	###
 	App creation callback method
 	Will ask to start newly created app
 	###
-	onSave: ->
-		ui.warn 'Start app?'
-		utils.prompt.start()
-		input = ' Yes/No'
-		ui.line()
-		utils.prompt.get [input], (err, result) =>
-			ui.line()
-			if result[input].match(/^y/i)
-				App.live (err, app) =>
-					if app
-						@stop()
-						@_start @app
-					else
-						return @_start @app
-	
-	###
-	Configure `add` app method. Creates new app
-	@pparam [String] arg or app name
-	@example `marie add dc-web`
-	@example `marie new dc-web`
-	###
-	add: (arg) =>
-		if not not arg then @new arg
-		else
-			ui.warn 'Enter app name.'
-			utils.prompt.start()
-			ui.line()
-			utils.prompt.get ['name'], (error, result) =>
-				if error 
-					ui.error 'An error occured.'
-				else
-					@add result.name
+	onSave: (app) ->
+		ui.notice "#{app.name} was successfully created."
+		ui.notice "app-id: #{app.id}"
+		ui.notice "Run `marie start #{app.id}` to start app."
+		ui.notice "Run `marie list #{app.id}` to view app."
+		# ui.notice "Id: #{app.id}"
+		# ui.notice "Path: #{app.path}"
+		# ui.notice "Done."
 
 	###
-	Configure `list` app command handler. Retrive and List all apps or single app method
+	Configure `add` app method. Creates new app
+	@param [String] name app name
+	@param [String] cssPreProcessor app cssPreProcessor
+	@param [String] viewEngine app viewEngine
+	@param [String] jsCompiler app compiler
+	###	
+	add: (name, cssPreProcessor, viewEngine, jsCompiler) ->
+		valid = true
+		if not name
+			ui.error 'Missing field: app name.'
+			valid = false
+		if cssPreProcessor and not utils.getProcessor cssPreProcessor
+			ui.error 'Invalid css pre-processor argument.'
+			ui.notice "Supported pre-processors: #{utils.processorList().join(', ')}"
+			valid = false
+		if viewEngine and not utils.getEngine viewEngine
+			ui.error 'Invalid view engine argument.'
+			ui.notice "Supported engines: #{utils.engineList().join(', ')}"
+			valid = false
+		if jsCompiler and not utils.getCompiler jsCompiler
+			ui.error 'Invalid JS compiler argument.'
+			ui.notice "Supported compilers: #{utils.compilerList().join(', ')}"
+			valid = false
+		preocessor = utils.getProcessor(cssPreProcessor).id or utils.processors.LESS.id
+		engine = utils.getEngine(viewEngine).id or utils.engines.JADE.id
+		compiler = utils.getCompiler(jsCompiler).name or utils.compilers.NATIVE.name
+		if valid then @new name, preocessor, engine, compiler
+
+	###
+	Configure `list` app command handler. 
+	Retrive and List all apps or single app method
 	@param [String] arg 
 	@param [String] key
 	@param [String] opt
-	@example `marie list`
-	@example `marie list dc-web`
-	@returns [Array<App>, App] apps return apps or app
 	###
 	list: (arg, key, opt) =>
-		App.find arg, (err, apps) =>
+		App.find arg, (err, data) =>
 			if err then utils.throwError err
 			else
 				if not not key
@@ -438,15 +465,14 @@ class Marie
 					else if key is 'module' then @listModules arg, opt
 					else if key is 'config' then @listConfig arg, opt
 					else
-						for k of apps
-							_k = k.toLowerCase()
-							if key is _k then ui.notice apps[k]
-				else console.log apps
+						app = new App data
+						for k of app
+							if k.toLowerCase() == key.toLowerCase() then ui.notice app[k]
+				else console.log data
 
 	###
 	Configure `live` app command handler. Get all live app
 	@example `marie live`
-	@returns [App] app return live app
 	###
 	live: =>
 		App.live (err, app) =>
@@ -468,70 +494,63 @@ class Marie
 
 	###
 	Configure `remove` app command handler. Remove app from system
-	@example `marie remove dc-web`
 	###
 	remove: (arg, opt) =>
+		# if not not arg then @_remove arg
+		# else @missingArgHandler()
 		if not not arg
-			if not not opt and opt.match /\-f/ then @_remove arg
-			else 
-				ui.warn 'Are you sure?'
-				utils.prompt.start()
-				input = ' Yes/No'
-				ui.line()
-				utils.prompt.get [input], (err, result) =>
-					ui.line()
-					if result[input].match(/^y/i) then @_remove arg
-		else
-			@missingArgHandler()
-	###
-	remove
-	###
-	_remove: (arg) =>
-		App.remove arg, (err, success) =>
-			if err then utils.throwError err
-			else ui.ok success
+			if arg == '--reset'
+				App.reset (err, success) =>
+					if err then utils.throwError err
+					else ui.ok success
+			else
+				App.remove arg, (err, success) =>
+					if err then utils.throwError err
+					else ui.ok success
+		else @missingArgHandler()
 
 	###
 	Configure `start` app command handler. start app
-	@example `marie start dc-web`
+	@param [String] arg app id
 	###
-	start: (arg) =>
-		App.live (err, app) =>
+	start: (id) =>
+		App.live (err, data) =>
 			if err then utils.throwError err
-			else if app
-				@stop()
-				@_run 'start', arg
+			else if data
+				@stop null, =>
+					@_run 'start', id
 			else
-				return @_run 'start', arg
+				return @_run 'start', id
 
 	###
 	Configure `stop` app command handler. Stops app or stop all apps
-	@example `marie stop dc-web`
-	@example `marie stop`
+	@param [String?] arg optional app id
 	###
-	stop: (arg) =>
-		App.live (err, app) =>
+	stop: (id, cb) =>
+		App.live (err, data) =>
 			if err then utils.throwError err
-			else if app then @_stop app
-			else return @_run 'stop', arg
+			else if data 
+				app = new App data
+				@_stop app, cb
+			else return @_run 'stop', id, cb
 
 	###
 	Configure `restart` app command handler. Restarts current live app
-	@example `marie restart`
+	@param [String?] arg optional app id
 	###
 	restart: (arg) =>
-		App.live (err, app) =>
+		App.live (err, data) =>
 			if err then utils.throwError err
-			else if app
-				@_stop app
-				@_start app
+			else if data
+				app = new App data
+				@_stop app, =>
+					@_start app
 			else
 				if not arg then ui.notice 'No app is live.'
 
 	###
 	Configure system start app method
 	@param [App] app app to start
-	@example `_start app`
 	###
 	_start: (app) ->
 		App.start app, (err, app) =>
@@ -550,31 +569,34 @@ class Marie
 	@param [App] app app to stop
 	@example `_stop app`
 	###
-	_stop: (app) ->
+	_stop: (app, cb) ->
 		ui.write "Stopping #{app.name}..."
 		App.stop app, (err, app) =>
-			if err then utils.throwError err else ui.ok "#{app.name} stopped."
+			if err then utils.throwError err 
+			else 
+				ui.ok "#{app.name} stopped."
+				if cb then cb()
 
 	###
 	Configure system run app method.
 	@param [String] arg 
 	@param [String] cmd command sart/stop/restart
 	###
-	_run: (cmd, arg) ->
+	_run: (cmd, arg, cb) ->
 		if not not arg
-			App.find arg, (err, app) =>
+			App.find arg, (err, data) =>
 				if err then utils.throwError err
-				if app
+				if data
+					app = new App data
 					if cmd.match /^stop/i
-						@_stop app
-						app.stop()
+						@_stop app, =>
+							app.stop()
+							if cb then cb()
 					else if cmd.match /^start/i
-						@_stop app
 						@_start app
 					else if cmd.match /^restart/i
-						@_stop app
-						@_start app
-
+						@_stop app, =>
+							@_start app
 		else
 			if cmd.match /^stop/i
 				ui.notice 'No app is live.'
@@ -585,7 +607,6 @@ class Marie
 	Configure add api method
 	@param [String] arg 
 	@param [String] api api to add
-	@example `marie dc-web add api user`
 	###
 	addApi: (arg, api) =>
 		if not not api 
@@ -601,7 +622,6 @@ class Marie
 	Configure remove api method
 	@param [String] arg 
 	@param [String] api api to remove
-	@example `marie dc-web remove api user`
 	###
 	removeApi: (arg, api) =>
 		if not not api 
@@ -618,7 +638,6 @@ class Marie
 	@param [String] arg 
 	@param [String] pkg module to remove
 	@param [String] opt
-	@example `marie dc-web add module bower`
 	###
 	addModule: (arg, pkg, opt) =>
 		if not not pkg
@@ -636,7 +655,6 @@ class Marie
 	@param [String] arg 
 	@param [String] pkg module to remove
 	@param [String] opt
-	@example `marie dc-web remove module bower`
 	###
 	removeModule: (arg, pkg, opt) =>
 		if not not pkg
@@ -653,7 +671,6 @@ class Marie
 	Configure list module method
 	@param [String] arg 
 	@param [String] key
-	@example `marie dc-web remove module bower`
 	###
 	listConfig: (arg, key) =>
 		App.getConfig arg, key, (err, config) =>
@@ -666,7 +683,6 @@ class Marie
 	Configure list module method
 	@param [String] arg 
 	@param [String] opt
-	@example `marie dc-web remove module bower`
 	###
 	listModules: (arg, opt) =>
 		App.getModules arg, opt, (err, config) =>
@@ -678,7 +694,6 @@ class Marie
 	###
 	Configure list module method
 	@param [String] arg 
-	@example `marie dc-web remove module bower`
 	###
 	listApis: (arg) =>
 		App.getApis arg, (err, config) =>
@@ -709,17 +724,31 @@ class Marie
 	@param [String] key
 	@param [String] opt
 	###
-	configureMore: (arg, key, opt) =>
-		App.find arg, (error, app) =>
-			if error then utils.throwError error
-			else if app 
-				@app = app
-				if key.match /storage/i
-					@configureDB app, true
-				else if key.match /frontend/
-					@configureFrontendFramework app, true
-				else
-					@missingArgHandler()
+	configureMore: (arg, key, opt, value) =>
+		if not not key
+			App.find arg, (error, data) =>
+				if error then utils.throwError error
+				else if data
+					@app = new App data
+					if key.match /db/i
+						if not not opt
+							if utils.storage[opt.toUpperCase()]
+								if opt.toLowerCase() == 'disk'
+									@configureDB @app, opt, null, true
+								else
+									if not not value
+										@configureDB @app, opt, value, true
+									else
+										@missingArgHandler()
+							else
+								ui.error 'Invalid storage argument.'
+								ui.notice "Supported databases: #{utils.storageList().join(', ')}"
+						else
+							@missingArgHandler()
+					else
+						@missingArgHandler()
+		else
+			@missingArgHandler()
 
 	###
 	configure missing/invalid arg handler

@@ -3,10 +3,10 @@
 @include marie.query
 @property [String] name app name
 @property [String] path app path
-@property [String] cssProcessor app css processor
-@property [String] frontendFramework  app frontEnd framework
+@property [String] cssPreProcessor app css processor
+@property [String] id app id
 @property [String] storage  app storage
-@property [String] templateEngine app template Engine
+@property [String] viewEngine app template Engine
 @property [Bool] live boolean showing if app is running
 @property [String] created app creation date
 @property [String, Date] lastActive app last active date
@@ -23,15 +23,15 @@ storage = utils.configureStorage()
 
 class App
 	@created
-	@cssProcessor
-	@frontendFramework 
+	@cssPreProcessor
+	@id
 	@lastActive
 	@live
 	@name
 	@path
 	@pid
 	@storage
-	@templateEngine
+	@viewEngine
 
 	db: new storage.Database utils.path.join process.env.HOME, '.marie_db'
 	query: query
@@ -40,16 +40,16 @@ class App
 	Construct App
 	@param [String] name app name
 	@param [String] path app path
-	@param [String] cssProcessor app css processor
-	@param [String] frontendFramework  app frontEnd framework
+	@param [String] jsCompiler app js compiler
+	@param [String] cssPreProcessor app css processor
 	@param [String] storage  app storage
-	@param [String] templateEngine app template Engine
+	@param [String] viewEngine app template Engine
 	@param [Bool] live boolean showing if app is running
 	@param [String] created app creation date
 	@param [String, Date] lastActive app last active date
 	@param [Number] pid app pid
 	###
-	constructor: ({@name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid}) ->
+	constructor: ({@id, @name, @path, @jsCompiler, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid}) ->
 
 	###
 	Add app shim method 
@@ -75,10 +75,10 @@ class App
 			@db.run @.query.INIT
 			if cmd.match /save/
 				stmt = @db.prepare @.query.SAVE
-				stmt.run @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid, @name 
+				stmt.run @path, @jsCompiler, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid, @id 
 			else
 				stmt = @db.prepare @.query.ADD
-				stmt.run @name, @path, @cssProcessor, @frontendFramework, @storage, @templateEngine, @live, @created, @lastActive, @pid
+				stmt.run @id, @name, @path, @jsCompiler, @cssPreProcessor, @storage, @viewEngine, @live, @created, @lastActive, @pid
 			stmt.finalize()
 			if cb then cb null, @
 
@@ -101,7 +101,7 @@ class App
 	###
 	stop: ->
 		@live = false
-		@lastActive = new Date().getTime()
+		@lastActive = utils.now()
 		@pid = 0
 
 	###
@@ -110,7 +110,7 @@ class App
 	###
 	start: (pid) ->
 		@live = true
-		@lastActive = new Date().getTime()
+		@lastActive = utils.now()
 		@pid = pid
 
 	###
@@ -121,24 +121,23 @@ class App
 		@::db.serialize =>
 			@::db.all @::query.LIVE, (err, rows) =>
 				if cb and rows and rows.length > 0
-					app = new @ rows[0]
-					cb err, app
+					cb err, rows[0]
 				else
 					cb err, null
 
 	###
-	Find app by name in db or get all apps from db
-	@param [String] name app id name
+	Find app by id in db or get all apps from db
+	@param [String] id app id
 	@param [Function] cb callback function
 	###
-	@find: (name, cb) ->
+	@find: (id, cb) ->
 		@::db.serialize =>
 			@::db.run @::query.INIT
-			if not not name
-				@::db.all @::query.FIND_ONE, name, (err, row) =>
+			if not not id
+				@::db.all @::query.FIND_ONE, id, (err, rows) =>
 					if err then utils.throwError err 
-					else if not not row.length
-						if cb then cb err, new @ row[0]
+					else if not not rows.length
+						cb err, rows[0]
 					else
 						if cb then cb err, null
 			else
@@ -146,34 +145,45 @@ class App
 					if err then utils.throwError err 
 					else if cb and rows
 						apps = []
-						apps.push new @ row for row in rows
+						apps.push row for row in rows
 						cb err, apps
 					else if cb and not rows
 						cb err, null
 
 	###
-	Remove app by name from db
-	@param [String] name app id name
+	Reset database. Remove all apps
 	@param [Function] cb callback function
 	###
-	@remove:(name, cb) ->
-		@find name, (err, row) =>
+	@reset:(cb) ->
+		@find null, (err, rows) =>
+			if err then utils.throwError err 
+			else if rows
+				for row in rows
+					@remove row.id, cb
+
+	###
+	Remove app by id from db
+	@param [String] id app id
+	@param [Function] cb callback function
+	###
+	@remove:(id, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			else if row
 				app = new @ row
 				remove = =>
-					@::db.run @::query.REMOVE, app.name, (err, success) =>
+					@::db.run @::query.REMOVE, app.id, (err, success) =>
 						if not err
 							utils.fs.removeSync app.path
-							if cb then cb null, "#{name} was successfully removed."
+							if cb then cb null, "#{app.name} was successfully removed."
 						else
-							if cb then cb "#{name} was not removed.", null
+							if cb then cb "#{app.name} was not removed.", null
 				if not not app.pid
 					@stop app, (err, app) ->
 						remove()
 				else  remove()
 			else
-				if cb then cb "#{name} was not removed.", null
+				if cb then cb "#{id} was not removed.", null
 
 	###
 	Start app method
@@ -209,42 +219,43 @@ class App
 
 	###
 	Add api to app
-	@param [String] name app id name
+	@param [String] id app id
 	@param [String] api api name to add
 	@param [Function] cb callback function
 	###
-	@addApi: (name, api, cb) ->
-		@find name, (err, row) =>
+	@addApi: (id, api, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new @ row
 				app.cwd()
-				utils.installApi api, (error, stdout, stderr) ->
+				utils.installApi api, app, (error, stdout, stderr) ->
 					cb error, app
 
 	###
 	Remove api to app
-	@param [String] name app id name
+	@param [String] id app id
 	@param [String] api api name to add
 	@param [Function] cb callback function
 	###
-	@removeApi: (name, api, cb) ->
-		@find name, (err, row) =>
+	@removeApi: (id, api, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new @ row
+				app.cwd()
 				utils.uninstallApi api, app, (error, stdout, stderr) ->
 					cb error, app
 
 	###
 	Add package to app
-	@param [String] name app id name
+	@param [String] id app id
 	@param [String] pkg packge name to add
 	@param [String] opt
 	@param [Function] cb callback function
 	###
-	@addModule: (name, pkg, opt, cb) ->
-		@find name, (err, row) =>
+	@addModule: (id, pkg, opt, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new @ row
@@ -258,13 +269,13 @@ class App
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [String] id app id
 	@param [String] pkg packge name to add
 	@param [String] opt
 	@param [Function] cb callback function
 	###
-	@removeModule: (name, pkg, opt, cb) ->
-		@find name, (err, row) =>
+	@removeModule: (id, pkg, opt, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new @ row
@@ -277,13 +288,13 @@ class App
 					cb error, app
 
 	###
-	Remove package to app
-	@param [String] name app id name
+	Get app config
+	@param [String] id app id
 	@param [String] key to get
 	@param [Function] cb callback function
 	###
-	@getConfig: (name, key, cb) ->
-		@find name, (err, row) =>
+	@getConfig: (id, key, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new @ row
@@ -293,13 +304,13 @@ class App
 				cb null, config
 
 	###
-	Remove package to app
+	Get app modules
 	@param [String] name app id name
 	@param [String] key to get
 	@param [Function] cb callback function
 	###
-	@getModules: (name, key, cb) ->
-		@find name, (err, row) =>
+	@getModules: (id, key, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			if row
 				app = new @ row
@@ -322,11 +333,11 @@ class App
 				cb null, modules
 
 	###
-	@param [String] name app id name
+	@param [String] id app id
 	@param [Function] cb callback function
 	###
-	@getApis: (name, cb) ->
-		@find name, (err, row) =>
+	@getApis: (id, cb) ->
+		@find id, (err, row) =>
 			if err then cb err, row
 			else if row
 				app = new @ row
@@ -335,13 +346,16 @@ class App
 				ctrls = utils.fs.readdirSync file
 				for ctrl in ctrls
 					if not ctrl.match /^\./
-						api = (ctrl.replace /controller|\.coffee/gi, '').toLowerCase()
+						if utils.isCoffee(app)
+							api = (ctrl.replace /controller|\.coffee/gi, '').toLowerCase()
+						else
+							api = (ctrl.replace /controller|\.js/gi, '').toLowerCase()
 						apis.push api
 				cb null, apis
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [String] app
 	@param [Function] cb callback function
 	###
 	@configureTasManager: (app, cb) ->
@@ -350,7 +364,7 @@ class App
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [String] app
 	@param [Function] cb callback function
 	###
 	@configureCoffeeScript: (app, cb) ->
@@ -359,7 +373,16 @@ class App
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [String] app
+	@param [Function] cb callback function
+	###
+	@configureEJS: (app, cb) ->
+		app.cwd()
+		utils.configureEJSFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
 	@param [Function] cb callback function
 	###
 	@configureJade: (app, cb) ->
@@ -368,7 +391,34 @@ class App
 
 	###
 	Remove package to app
-	@param [String] name app id name
+	@param [String] app
+	@param [Function] cb callback function
+	###
+	@configureHandlebars: (app, cb) ->
+		app.cwd()
+		utils.configureHandlebarsFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
+	@param [Function] cb callback function
+	###
+	@configureLess: (app, cb) ->
+		app.cwd()
+		utils.configureLessFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
+	@param [Function] cb callback function
+	###
+	@configureScss: (app, cb) ->
+		app.cwd()
+		utils.configureScssFor app, cb
+
+	###
+	Remove package to app
+	@param [String] app
 	@param [Function] cb callback function
 	###
 	@configureStylus: (app, cb) ->
@@ -377,63 +427,22 @@ class App
 
 	###
 	Remove package to app
-	@param [String] name app id name
-	@param [String] framework
-	@param [Function] cb callback function
-	###
-	@configureFrontendFramework: (app, framework, cb) ->
-		app.frontendFramework = framework
-		utils.configureFrontendFrameworkFor app, cb
-
-	###
-	Remove package to app
-	@param [String] name app id name
+	@param [String] app
 	@param [Function] cb callback function
 	###
 	@configureBundles: (app, cb) ->
+		app.cwd()
 		utils.configureBundlesFor app, cb
 
 	###
 	Remove package to app
-	@param [String] name app id name
-	@param [Function] cb callback function
-	###
-	@configureNativeDB: (app, cb) ->
-		app.storage = utils.storageType.DISK
-		utils.setupDBWithConfigFor app, null, cb
-
-	###
-	Remove package to app
-	@param [String] name app id name
+	@param [String] app
 	@param [Object, String] config
 	@param [Function] cb callback function
 	###
-	@configureMongoDB: (app, config, cb) ->
+	@configureStorage: (app, url, cb) ->
 		app.cwd()
-		if config.constructor == String 
-			utils.configureRemoteMongoDBWithURIFor app, config, cb
-		else 
-			utils.configureRemoteMongoDBWithConfigFor app, config, cb
+		utils.configureStorageFor app, url, cb
 
-	###
-	Remove package to app
-	@param [String] name app id name
-	@param [Function] cb callback function
-	###
-	@configureLocalMongoDB: (app, cb) ->
-		app.cwd()
-		utils.configureLocalMongoDBFor app, cb
-
-	###
-	Remove package to app
-	@param [String] name app id name
-	@param [String,...,String] apis
-	@param [Function] cb callback function
-	###
-	@configureApis: (app, apis, cb) ->
-		app.cwd()
-		utils.installApis apis, @app
-		cb null, app
-			
 # export ap module
 module.exports = App

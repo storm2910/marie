@@ -1,7 +1,7 @@
 {
   "name": "marie",
-  "version": "0.1.220",
-  "description": "A Modern Nodejs Application Management and Boilerplate Tool",
+  "version": "1.0.0",
+  "description": "A Modern Nodejs Application Management and Blueprint Tool",
   "main": "index.js",
   "bin": {
     "marie": "bin/marie"
@@ -12,15 +12,13 @@
   "author": "Dark Codes <teddy.moussignac@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bower": "^1.7.9",
-    "cli-color": "^1.1.0",
-    "coffee-script": "^1.10.0",
-    "fs-extra": "^0.26.6",
-    "prompt": "^1.0.0",
-    "sqlite3": "^3.1.2"
+    "bower": "1.7.9",
+    "coffee-script": "1.10.0",
+    "fs-extra": "0.26.6",
+    "sqlite3": "3.1.2"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0"
+    "coffee-script": "1.10.0"
   },
   "repository": {
     "type": "git",
@@ -28,17 +26,28 @@
   },
   "keywords": [
     "sails",
-    "gulp",
+    "grunt",
     "developement",
     "boilerplate",
+    "blueprint",
     "express",
     "stylus",
-    "coffe-script",
+    "sass",
+    "scss",
+    "less",
+    "jade",
+    "ejs",
+    "handlebars",
+    "coffeScript",
     "importer",
     "include",
     "compile",
     "mongo",
+    "mongodb",
+    "mysql",
+    "postgresql",
+    "redis",
     "socket"
   ],
-  "homepage": "http://teddyproductions.com/marie"
+  "homepage": "https://github.com/storm2910/marie.git"
 }

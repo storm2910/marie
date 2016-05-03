@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= typeof title == 'undefined' ? '$APP_NAME' : title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <%- blocks.head %>
+    <%- blocks.topStyles %>
+    <%- blocks.topScripts %>
+  </head>
+
+  <body>
+    <%- body %>
+    <script type="text/javascript" src="/js/dependencies/sails.io.js"></script>
+    <%- blocks.bottomScripts %>
+  </body>
+</html>
