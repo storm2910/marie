@@ -11,8 +11,6 @@ $ npm install marie -g
 
 [Install Node.js](https://nodejs.org)
 
-[Install Node.js with NVM](https://keymetrics.io/2015/02/03/installing-node-js-and-io-js-with-nvm/)
-
 
 #### Create new App
 
@@ -57,7 +55,6 @@ $ marie remove app-id
 $ marie app-id list
 $ marie app-id list path
 ```
-
 
 ### Show app config
 ```bash
@@ -138,10 +135,12 @@ $ marie app-id remove api post
 ```
 
 
+
 #### Configure database storage
+
 Supported Databases: [MongoDb](https://www.mongodb.org), [MySql](https://www.mysql.com), [PostgreSql](http://www.postgresql.org) and [Redis](http://redis.io)
 
-Sails/Waterline Adapters: [MongoDb](https://github.com/balderdashy/sails-mongo), [MySql](https://github.com/balderdashy/sails-mysql), [PostgreSql](https://github.com/balderdashy/sails-postgresql) and [Redis](https://github.com/balderdashy/sails-redis)
+Sails/Waterline Adapters: [sails-mongo](https://github.com/balderdashy/sails-mongo), [sails-mySql](https://github.com/balderdashy/sails-mysql), [sails-postgreSql](https://github.com/balderdashy/sails-postgresql) and [sails-redis](https://github.com/balderdashy/sails-redis)
 
 ```bash
 $ marie app-id set db disk
@@ -214,6 +213,22 @@ $ marie log clear
 ```bash
 $ marie help
 ```
+
+
+## Other Docs & Examples 
+
+[Sails docs](http://sailsjs.org/documentation/concepts/)
+[Waterline docs](https://github.com/balderdashy/waterline-docs)
+[socket.io docs](http://socket.io/docs/)
+[Grunt plugins](http://gruntjs.com/plugins/contrib)
+[Bower packages](http://bower.io/search/)
+[Less examples](http://lesscss.org/features/)
+[SCSS examples](http://sass-lang.com/documentation/file.SCSS_FOR_SASS_USERS.html)
+[Stylus examples](http://stylus-lang.com)
+[Jade examples](http://jade-lang.com/reference/attributes/)
+[EJS examples](http://www.embeddedjs.com)
+[Handlebars examples](http://handlebarsjs.com)
+[CoffeeScript examples](http://coffeescript.org)
 
 
 ## GUI Clients
