@@ -237,7 +237,7 @@ Marie is released under the [MIT License](http://www.opensource.org/licenses/MIT
 
 ## Donate
 
-![PayPal][buttonImage][buttonLink]
+[![PayPal][buttonImage]][buttonLink]
 
 [buttonLink]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=HSQK7KQP2CQGU&lc=US&item_name=Marie%20Application%20Management%20and%20Blueprint%20Tool&item_number=marie%2dcli&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 [buttonImage]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif
