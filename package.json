@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "1.0.106",
+  "version": "1.0.107",
   "description": "A Modern Nodejs Application Management and Blueprint Tool",
   "main": "index.js",
   "bin": {
@@ -40,7 +40,7 @@
     "jade",
     "ejs",
     "handlebars",
-    "coffe-script",
+    "coffee-script",
     "importer",
     "include",
     "compile",
