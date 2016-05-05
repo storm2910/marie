@@ -1,6 +1,6 @@
 {
   "name": "marie",
-  "version": "1.0.105",
+  "version": "1.0.106",
   "description": "A Modern Nodejs Application Management and Blueprint Tool",
   "main": "index.js",
   "bin": {
@@ -27,7 +27,9 @@
   "keywords": [
     "sails",
     "grunt",
-    "developement",
+    "bower",
+    "development",
+    "management",
     "boilerplate",
     "blueprint",
     "express",
@@ -38,7 +40,7 @@
     "jade",
     "ejs",
     "handlebars",
-    "coffeScript",
+    "coffe-script",
     "importer",
     "include",
     "compile",
@@ -47,7 +49,8 @@
     "mysql",
     "postgresql",
     "redis",
-    "socket"
+    "socket",
+    "socket.io"
   ],
   "homepage": "https://github.com/storm2910/marie.git"
 }
