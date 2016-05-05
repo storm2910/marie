@@ -236,7 +236,7 @@ Marie is released under the [MIT License](http://www.opensource.org/licenses/MIT
 
 
 ## Donate
-Found Marie useful? Keep it going.
+Found Marie useful? Support.
 
 [![PayPal][buttonImage]][buttonLink]
 
