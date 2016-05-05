@@ -49,7 +49,7 @@
     "mysql",
     "postgresql",
     "redis",
-    "socket"
+    "socket",
     "socket.io"
   ],
   "homepage": "https://github.com/storm2910/marie.git"
